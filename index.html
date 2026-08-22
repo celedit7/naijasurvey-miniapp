@@ -220,7 +220,6 @@ body{
     opacity:1;
     transform:translateY(0);
   }
-
   to{
     opacity:0;
     transform:translateY(-80px);
@@ -292,7 +291,7 @@ body{
     </div>
 
     <div class="user">
-      <div class="avatar" id="avatar">👤</div>
+      <div class="avatar">👤</div>
       <span id="username">User</span>
     </div>
 
@@ -321,9 +320,7 @@ body{
 
     <button class="tap" id="tapButton">
 
-      <div class="coin">
-        🪙
-      </div>
+      <div class="coin">🪙</div>
 
       <div class="tap-text">
         TAP TO EARN
@@ -360,11 +357,7 @@ body{
     </div>
 
     <div class="bar">
-      <div
-        class="fill"
-        id="dailyFill"
-        style="width:0%">
-      </div>
+      <div class="fill" id="dailyFill" style="width:0%"></div>
     </div>
 
   </section>
@@ -426,7 +419,7 @@ body{
 const tg = window.Telegram?.WebApp;
 
 const FUNCTION_URL =
-  "https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/bright-task";
+"https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/bright-task";
 
 const MAX_ENERGY = 500;
 const DAILY_LIMIT = 10000;
@@ -435,12 +428,12 @@ let balance = 0;
 let energy = MAX_ENERGY;
 let dailyEarned = 0;
 
-if (tg) {
+if(tg){
   tg.ready();
   tg.expand();
 }
 
-function updateScreen() {
+function updateScreen(){
 
   document.getElementById("balance").textContent =
     Number(balance).toLocaleString();
@@ -451,7 +444,10 @@ function updateScreen() {
   document.getElementById("energyFill").style.width =
     Math.max(
       0,
-      Math.min(100, (energy / MAX_ENERGY) * 100)
+      Math.min(
+        100,
+        (energy / MAX_ENERGY) * 100
+      )
     ) + "%";
 
   document.getElementById("dailyText").textContent =
@@ -462,11 +458,14 @@ function updateScreen() {
   document.getElementById("dailyFill").style.width =
     Math.max(
       0,
-      Math.min(100, (dailyEarned / DAILY_LIMIT) * 100)
+      Math.min(
+        100,
+        (dailyEarned / DAILY_LIMIT) * 100
+      )
     ) + "%";
 }
 
-function showToast(message) {
+function showToast(message){
 
   const toast =
     document.getElementById("toast");
@@ -477,15 +476,16 @@ function showToast(message) {
 
   setTimeout(() => {
     toast.classList.remove("show");
-  }, 2200);
+  }, 3000);
 }
 
-function showFloatingCoin(event) {
+function showFloatingCoin(event){
 
   const coin =
     document.createElement("div");
 
   coin.className = "floating";
+
   coin.textContent = "+1 🪙";
 
   coin.style.left =
@@ -501,12 +501,12 @@ function showFloatingCoin(event) {
   }, 800);
 }
 
-async function tapCoin(event) {
+async function tapCoin(event){
 
   const button =
     document.getElementById("tapButton");
 
-  if (!tg || !tg.initData) {
+  if(!tg || !tg.initData){
 
     showToast(
       "Open NaijaSurvey from Telegram."
@@ -517,65 +517,88 @@ async function tapCoin(event) {
 
   button.disabled = true;
 
-  try {
+  try{
 
     const response =
-      await fetch(FUNCTION_URL, {
+      await fetch(
+        FUNCTION_URL,
+        {
+          method:"POST",
 
-        method: "POST",
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
 
-        headers: {
-          "Content-Type": "application/json"
-        },
+          body:JSON.stringify({
+            initData:
+              tg.initData
+          })
+        }
+      );
 
-        body: JSON.stringify({
-          initData: tg.initData
-        })
+    let data = {};
 
-      });
+    try{
+      data =
+        await response.json();
+    }catch(e){
+      data = {};
+    }
 
-    const data =
-      await response.json();
+    /*
+      IMPORTANT:
+      Show the real server error instead
+      of hiding it behind "Unable to process tap".
+    */
 
-    if (!response.ok) {
+    if(!response.ok){
 
-      showToast(
+      const message =
         data.error ||
-        "Unable to process tap."
+        data.reason ||
+        `Server error: ${response.status}`;
+
+      showToast(message);
+
+      console.log(
+        "Server response:",
+        data
       );
 
       return;
     }
 
-    if (!data.success) {
+    if(!data.success){
 
-      if (data.reason === "no_energy") {
+      showToast(
+        data.reason ||
+        data.error ||
+        "Tap could not be processed."
+      );
 
-        showToast("⚡ No energy left.");
-
-      } else if (data.reason === "daily_limit") {
-
-        showToast(
-          "🎯 Daily limit reached."
-        );
-
-      } else {
-
-        showToast(
-          "Tap could not be processed."
-        );
+      if(
+        typeof data.balance ===
+        "number"
+      ){
+        balance =
+          data.balance;
       }
 
-      if (typeof data.balance === "number") {
-        balance = data.balance;
+      if(
+        typeof data.energy ===
+        "number"
+      ){
+        energy =
+          data.energy;
       }
 
-      if (typeof data.energy === "number") {
-        energy = data.energy;
-      }
-
-      if (typeof data.daily_earned === "number") {
-        dailyEarned = data.daily_earned;
+      if(
+        typeof data.daily_earned ===
+        "number"
+      ){
+        dailyEarned =
+          data.daily_earned;
       }
 
       updateScreen();
@@ -584,10 +607,16 @@ async function tapCoin(event) {
     }
 
     balance =
-      Number(data.balance ?? balance);
+      Number(
+        data.balance ??
+        balance
+      );
 
     energy =
-      Number(data.energy ?? energy);
+      Number(
+        data.energy ??
+        energy
+      );
 
     dailyEarned =
       Number(
@@ -599,16 +628,17 @@ async function tapCoin(event) {
 
     showFloatingCoin(event);
 
-    if (
+    if(
       tg.HapticFeedback
-    ) {
+    ){
 
       tg.HapticFeedback
-        .impactOccurred("light");
-
+        .impactOccurred(
+          "light"
+        );
     }
 
-  } catch (error) {
+  }catch(error){
 
     console.error(error);
 
@@ -616,10 +646,9 @@ async function tapCoin(event) {
       "Connection error. Try again."
     );
 
-  } finally {
+  }finally{
 
     button.disabled = false;
-
   }
 }
 
@@ -630,11 +659,11 @@ document
     tapCoin
   );
 
-if (
+if(
   tg &&
   tg.initDataUnsafe &&
   tg.initDataUnsafe.user
-) {
+){
 
   const user =
     tg.initDataUnsafe.user;
@@ -642,8 +671,8 @@ if (
   document.getElementById(
     "username"
   ).textContent =
-    user.first_name || "User";
-
+    user.first_name ||
+    "User";
 }
 
 updateScreen();
