@@ -1,1 +1,598 @@
-index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>NaijaSurvey</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7f5;
+  color:#172b24;
+}
+
+.app{
+  min-height:100vh;
+  padding-bottom:85px;
+}
+
+.header{
+  background:linear-gradient(145deg,#087f5b,#045c43);
+  color:white;
+  padding:22px 18px 75px;
+  border-radius:0 0 30px 30px;
+}
+
+.top{
+  max-width:600px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:21px;
+  font-weight:900;
+}
+
+.user{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.avatar{
+  width:35px;
+  height:35px;
+  border-radius:12px;
+  background:rgba(255,255,255,.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.main{
+  max-width:600px;
+  margin:-48px auto 0;
+  padding:0 16px;
+  position:relative;
+}
+
+.card{
+  background:white;
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.balance-card{
+  text-align:center;
+}
+
+.label{
+  color:#667085;
+  font-size:12px;
+}
+
+.balance{
+  margin-top:5px;
+  color:#087f5b;
+  font-size:42px;
+  font-weight:900;
+}
+
+.coin-label{
+  color:#98a2b3;
+  font-size:11px;
+}
+
+.tap-area{
+  display:flex;
+  justify-content:center;
+  margin:25px 0;
+}
+
+.tap{
+  width:205px;
+  height:205px;
+  border-radius:50%;
+  border:12px solid #d8f0e8;
+  background:linear-gradient(145deg,#0a9b6c,#05704f);
+  box-shadow:0 15px 35px rgba(8,127,91,.25);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  touch-action:manipulation;
+  transition:.08s;
+}
+
+.tap:active{
+  transform:scale(.94);
+}
+
+.coin{
+  font-size:55px;
+}
+
+.tap-text{
+  margin-top:5px;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.energy{
+  margin-top:15px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  font-weight:800;
+}
+
+.green{
+  color:#087f5b;
+}
+
+.bar{
+  height:9px;
+  background:#e8eeeb;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.fill{
+  height:100%;
+  background:#087f5b;
+  width:100%;
+}
+
+.daily{
+  margin-top:14px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:14px;
+}
+
+.stat{
+  text-align:center;
+  padding:15px 5px;
+  border-radius:17px;
+  background:white;
+  box-shadow:0 5px 20px rgba(0,0,0,.04);
+}
+
+.icon{
+  font-size:20px;
+}
+
+.value{
+  margin-top:6px;
+  font-size:16px;
+  font-weight:900;
+}
+
+.small{
+  margin-top:4px;
+  color:#98a2b3;
+  font-size:9px;
+}
+
+.floating{
+  position:fixed;
+  pointer-events:none;
+  color:#087f5b;
+  font-size:20px;
+  font-weight:900;
+  animation:up .8s forwards;
+  z-index:9999;
+}
+
+@keyframes up{
+  from{
+    opacity:1;
+    transform:translateY(0);
+  }
+  to{
+    opacity:0;
+    transform:translateY(-80px);
+  }
+}
+
+.nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:70px;
+  background:white;
+  border-top:1px solid #e7ece9;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  z-index:9998;
+}
+
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:#98a2b3;
+  font-size:9px;
+  font-weight:800;
+}
+
+.nav-item.active{
+  color:#087f5b;
+}
+
+.nav-icon{
+  font-size:19px;
+  margin-bottom:3px;
+}
+
+.toast{
+  position:fixed;
+  left:20px;
+  right:20px;
+  bottom:85px;
+  padding:13px;
+  background:#172b24;
+  color:white;
+  border-radius:12px;
+  text-align:center;
+  font-size:12px;
+  display:none;
+  z-index:10000;
+}
+
+.toast.show{
+  display:block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+  <div class="top">
+
+    <div class="logo">
+      NAIJASURVEY
+    </div>
+
+    <div class="user">
+      <div class="avatar" id="avatar">👤</div>
+      <span id="username">User</span>
+    </div>
+
+  </div>
+</header>
+
+<main class="main">
+
+  <section class="card balance-card">
+
+    <div class="label">
+      Your Balance
+    </div>
+
+    <div class="balance" id="balance">
+      0
+    </div>
+
+    <div class="coin-label">
+      NAIJA COINS 🪙
+    </div>
+
+  </section>
+
+  <div class="tap-area">
+
+    <button class="tap" id="tapButton">
+
+      <div class="coin">
+        🪙
+      </div>
+
+      <div class="tap-text">
+        TAP TO EARN
+      </div>
+
+    </button>
+
+  </div>
+
+  <section class="card energy">
+
+    <div class="row">
+
+      <span>⚡ Energy</span>
+
+      <span class="green" id="energyText">
+        500 / 500
+      </span>
+
+    </div>
+
+    <div class="bar">
+
+      <div
+        class="fill"
+        id="energyFill">
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="card daily">
+
+    <div class="row">
+
+      <span>📅 Daily Progress</span>
+
+      <span class="green" id="dailyText">
+        0 / 10,000
+      </span>
+
+    </div>
+
+    <div class="bar">
+
+      <div
+        class="fill"
+        id="dailyFill"
+        style="width:0%">
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="stats">
+
+    <div class="stat">
+
+      <div class="icon">🔥</div>
+
+      <div class="value">0</div>
+
+      <div class="small">STREAK</div>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="icon">👥</div>
+
+      <div class="value">0</div>
+
+      <div class="small">FRIENDS</div>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="icon">⭐</div>
+
+      <div class="value">1</div>
+
+      <div class="small">LEVEL</div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<nav class="nav">
+
+  <div class="nav-item active">
+    <div class="nav-icon">🏠</div>
+    Home
+  </div>
+
+  <div class="nav-item">
+    <div class="nav-icon">🪙</div>
+    Earn
+  </div>
+
+  <div class="nav-item">
+    <div class="nav-icon">👥</div>
+    Friends
+  </div>
+
+  <div class="nav-item">
+    <div class="nav-icon">👤</div>
+    Profile
+  </div>
+
+</nav>
+
+<div class="toast" id="toast"></div>
+
+</div>
+
+<script>
+
+const tg =
+  window.Telegram &&
+  window.Telegram.WebApp;
+
+if(tg){
+
+  tg.ready();
+  tg.expand();
+
+}
+
+let balance =
+  Number(localStorage.getItem("ns_balance") || 0);
+
+let energy =
+  Number(localStorage.getItem("ns_energy") || 500);
+
+let daily =
+  Number(localStorage.getItem("ns_daily") || 0);
+
+const MAX_ENERGY = 500;
+const DAILY_LIMIT = 10000;
+
+function updateScreen(){
+
+  document.getElementById("balance").textContent =
+    balance.toLocaleString();
+
+  document.getElementById("energyText").textContent =
+    energy + " / " + MAX_ENERGY;
+
+  document.getElementById("energyFill").style.width =
+    (energy / MAX_ENERGY * 100) + "%";
+
+  document.getElementById("dailyText").textContent =
+    daily.toLocaleString() + " / 10,000";
+
+  document.getElementById("dailyFill").style.width =
+    Math.min(daily / DAILY_LIMIT * 100,100) + "%";
+
+}
+
+function save(){
+
+  localStorage.setItem(
+    "ns_balance",
+    balance
+  );
+
+  localStorage.setItem(
+    "ns_energy",
+    energy
+  );
+
+  localStorage.setItem(
+    "ns_daily",
+    daily
+  );
+
+}
+
+document
+.getElementById("tapButton")
+.addEventListener("click",function(event){
+
+  if(energy <= 0){
+
+    showToast("⚡ Energy exhausted.");
+
+    return;
+
+  }
+
+  if(daily >= DAILY_LIMIT){
+
+    showToast("🎯 Daily 10,000 coin limit reached.");
+
+    return;
+
+  }
+
+  balance++;
+  energy--;
+  daily++;
+
+  save();
+  updateScreen();
+
+  const coin =
+    document.createElement("div");
+
+  coin.className = "floating";
+  coin.textContent = "+1 🪙";
+
+  coin.style.left =
+    (event.clientX - 15) + "px";
+
+  coin.style.top =
+    (event.clientY - 20) + "px";
+
+  document.body.appendChild(coin);
+
+  setTimeout(
+    () => coin.remove(),
+    800
+  );
+
+  if(
+    tg &&
+    tg.HapticFeedback
+  ){
+
+    tg.HapticFeedback.impactOccurred(
+      "light"
+    );
+
+  }
+
+});
+
+if(
+  tg &&
+  tg.initDataUnsafe &&
+  tg.initDataUnsafe.user
+){
+
+  const user =
+    tg.initDataUnsafe.user;
+
+  document.getElementById("username").textContent =
+    user.first_name || "User";
+
+}
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  setTimeout(
+    () => toast.classList.remove("show"),
+    2200
+  );
+
+}
+
+updateScreen();
+
+</script>
+
+</body>
+</html>
