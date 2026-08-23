@@ -227,6 +227,103 @@ body{
   }
 }
 
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.friends-title{
+  text-align:center;
+  font-size:25px;
+  font-weight:900;
+  color:#087f5b;
+  margin-bottom:8px;
+}
+
+.friends-subtitle{
+  text-align:center;
+  color:#667085;
+  font-size:12px;
+  line-height:1.5;
+  margin-bottom:20px;
+}
+
+.referral-box{
+  background:#eef9f5;
+  border:1px solid #d5eee5;
+  border-radius:17px;
+  padding:15px;
+  margin-top:15px;
+}
+
+.referral-label{
+  color:#667085;
+  font-size:11px;
+  font-weight:700;
+}
+
+.referral-code{
+  margin-top:8px;
+  font-size:22px;
+  font-weight:900;
+  color:#087f5b;
+  word-break:break-all;
+}
+
+.referral-link{
+  margin-top:10px;
+  padding:11px;
+  background:white;
+  border-radius:10px;
+  color:#667085;
+  font-size:10px;
+  word-break:break-all;
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.action{
+  border:0;
+  border-radius:13px;
+  padding:13px 8px;
+  font-weight:900;
+  color:white;
+  background:#087f5b;
+  cursor:pointer;
+}
+
+.action.secondary{
+  background:#172b24;
+}
+
+.friend-count{
+  text-align:center;
+  margin-top:18px;
+  font-size:35px;
+  font-weight:900;
+  color:#087f5b;
+}
+
+.friend-label{
+  text-align:center;
+  color:#667085;
+  font-size:11px;
+}
+
+.coming{
+  text-align:center;
+  padding:35px 10px;
+  color:#667085;
+}
+
 .nav{
   position:fixed;
   bottom:0;
@@ -248,6 +345,7 @@ body{
   color:#98a2b3;
   font-size:9px;
   font-weight:800;
+  cursor:pointer;
 }
 
 .nav-item.active{
@@ -309,6 +407,10 @@ body{
 </header>
 
 <main class="main">
+
+<!-- HOME -->
+
+<section id="homePage" class="page active">
 
 <section class="card balance-card">
 
@@ -417,7 +519,7 @@ body{
       👥
     </div>
 
-    <div class="value">
+    <div class="value" id="homeFriendCount">
       0
     </div>
 
@@ -445,11 +547,154 @@ body{
 
 </section>
 
+</section>
+
+
+<!-- EARN -->
+
+<section id="earnPage" class="page">
+
+  <section class="card">
+
+    <div class="friends-title">
+      Earn 🪙
+    </div>
+
+    <div class="friends-subtitle">
+      Complete available tasks to earn more Naija Coins.
+    </div>
+
+    <div class="coming">
+      🎯 More earning tasks coming soon.
+      <br><br>
+      Social videos, surveys and micro-work will appear here.
+    </div>
+
+  </section>
+
+</section>
+
+
+<!-- FRIENDS -->
+
+<section id="friendsPage" class="page">
+
+  <section class="card">
+
+    <div class="friends-title">
+      Invite Friends 👥
+    </div>
+
+    <div class="friends-subtitle">
+      Invite friends to NaijaSurvey and track your referrals.
+    </div>
+
+    <div class="referral-box">
+
+      <div class="referral-label">
+        YOUR REFERRAL CODE
+      </div>
+
+      <div
+        class="referral-code"
+        id="referralCode">
+        Loading...
+      </div>
+
+    </div>
+
+    <div class="referral-box">
+
+      <div class="referral-label">
+        YOUR REFERRAL LINK
+      </div>
+
+      <div
+        class="referral-link"
+        id="referralLink">
+        Loading...
+      </div>
+
+      <div class="buttons">
+
+        <button
+          class="action"
+          id="copyReferral">
+          📋 Copy
+        </button>
+
+        <button
+          class="action secondary"
+          id="shareReferral">
+          📤 Share
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="friend-count"
+         id="friendCount">
+      0
+    </div>
+
+    <div class="friend-label">
+      FRIENDS INVITED
+    </div>
+
+  </section>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profilePage" class="page">
+
+  <section class="card">
+
+    <div class="friends-title">
+      Profile 👤
+    </div>
+
+    <div class="friends-subtitle">
+      Your NaijaSurvey account.
+    </div>
+
+    <div class="referral-box">
+
+      <div class="row">
+        <span>Username</span>
+        <span class="green" id="profileUsername">
+          User
+        </span>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <span>Balance</span>
+        <span class="green" id="profileBalance">
+          0
+        </span>
+      </div>
+
+    </div>
+
+  </section>
+
+</section>
+
 </main>
+
+
+<!-- NAVIGATION -->
 
 <nav class="nav">
 
-  <div class="nav-item active">
+  <div
+    class="nav-item active"
+    data-page="homePage">
 
     <div class="nav-icon">
       🏠
@@ -459,7 +704,9 @@ body{
 
   </div>
 
-  <div class="nav-item">
+  <div
+    class="nav-item"
+    data-page="earnPage">
 
     <div class="nav-icon">
       🪙
@@ -469,7 +716,9 @@ body{
 
   </div>
 
-  <div class="nav-item">
+  <div
+    class="nav-item"
+    data-page="friendsPage">
 
     <div class="nav-icon">
       👥
@@ -479,7 +728,9 @@ body{
 
   </div>
 
-  <div class="nav-item">
+  <div
+    class="nav-item"
+    data-page="profilePage">
 
     <div class="nav-icon">
       👤
@@ -491,6 +742,7 @@ body{
 
 </nav>
 
+
 <div
   class="toast"
   id="toast">
@@ -498,20 +750,29 @@ body{
 
 </div>
 
+
 <script>
 
 const tg =
   window.Telegram?.WebApp;
 
+
 const FUNCTION_URL =
   "https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/bright-task";
+
 
 const PROFILE_URL =
   "https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/profile";
 
+
+const REFERRAL_URL =
+  "https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/referral";
+
+
 const MAX_ENERGY = 500;
 
 const DAILY_LIMIT = 10000;
+
 
 let balance = 0;
 
@@ -537,12 +798,14 @@ function updateScreen(){
     Number(balance)
       .toLocaleString();
 
+
   document.getElementById(
     "energyText"
   ).textContent =
     energy +
     " / " +
     MAX_ENERGY;
+
 
   document.getElementById(
     "energyFill"
@@ -555,6 +818,7 @@ function updateScreen(){
       )
     ) + "%";
 
+
   document.getElementById(
     "dailyText"
   ).textContent =
@@ -562,6 +826,7 @@ function updateScreen(){
       .toLocaleString() +
     " / " +
     DAILY_LIMIT;
+
 
   document.getElementById(
     "dailyFill"
@@ -573,6 +838,20 @@ function updateScreen(){
         (dailyEarned / DAILY_LIMIT) * 100
       )
     ) + "%";
+
+
+  const profileBalance =
+    document.getElementById(
+      "profileBalance"
+    );
+
+  if(profileBalance){
+
+    profileBalance.textContent =
+      Number(balance)
+        .toLocaleString();
+
+  }
 
 }
 
@@ -591,11 +870,14 @@ function showToast(message){
     "show"
   );
 
+
   setTimeout(
     () => {
+
       toast.classList.remove(
         "show"
       );
+
     },
     3000
   );
@@ -616,21 +898,27 @@ function showFloatingCoin(event){
   coin.textContent =
     "+1 🪙";
 
+
   coin.style.left =
     (event.clientX - 15) +
     "px";
+
 
   coin.style.top =
     (event.clientY - 20) +
     "px";
 
+
   document.body.appendChild(
     coin
   );
 
+
   setTimeout(
     () => {
+
       coin.remove();
+
     },
     800
   );
@@ -638,7 +926,7 @@ function showFloatingCoin(event){
 }
 
 
-/* LOAD SAVED PROFILE */
+/* LOAD PROFILE */
 
 async function loadProfile(){
 
@@ -650,6 +938,7 @@ async function loadProfile(){
     return;
 
   }
+
 
   try{
 
@@ -668,11 +957,14 @@ async function loadProfile(){
             initData:
               tg.initData
           })
+
         }
       );
 
+
     const data =
       await response.json();
+
 
     if(!response.ok){
 
@@ -685,6 +977,7 @@ async function loadProfile(){
 
     }
 
+
     if(
       data.success &&
       data.profile
@@ -696,17 +989,20 @@ async function loadProfile(){
           0
         );
 
+
       energy =
         Number(
           data.profile.energy ??
           MAX_ENERGY
         );
 
+
       dailyEarned =
         Number(
           data.profile.daily_earned ??
           0
         );
+
 
       updateScreen();
 
@@ -724,7 +1020,124 @@ async function loadProfile(){
 }
 
 
-/* TAP COIN */
+/* LOAD REFERRAL */
+
+async function loadReferral(){
+
+  if(
+    !tg ||
+    !tg.initData
+  ){
+
+    return;
+
+  }
+
+
+  try{
+
+    const response =
+      await fetch(
+        REFERRAL_URL,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+            initData:
+              tg.initData
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(!response.ok){
+
+      console.log(
+        "Referral error:",
+        data
+      );
+
+      return;
+
+    }
+
+
+    if(data.success){
+
+      const code =
+        data.referral_code;
+
+
+      const count =
+        Number(
+          data.referral_count ||
+          0
+        );
+
+
+      document.getElementById(
+        "referralCode"
+      ).textContent =
+        code;
+
+
+      document.getElementById(
+        "friendCount"
+      ).textContent =
+        count;
+
+
+      document.getElementById(
+        "homeFriendCount"
+      ).textContent =
+        count;
+
+
+      if(tg && tg.initDataUnsafe){
+
+        const botUsername =
+          "YOUR_BOT_USERNAME";
+
+
+        const link =
+          "https://t.me/" +
+          botUsername +
+          "?startapp=" +
+          encodeURIComponent(code);
+
+
+        document.getElementById(
+          "referralLink"
+        ).textContent =
+          link;
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Referral loading error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* TAP TO EARN */
 
 async function tapCoin(event){
 
@@ -732,6 +1145,7 @@ async function tapCoin(event){
     document.getElementById(
       "tapButton"
     );
+
 
   if(
     !tg ||
@@ -746,7 +1160,9 @@ async function tapCoin(event){
 
   }
 
+
   button.disabled = true;
+
 
   try{
 
@@ -765,10 +1181,13 @@ async function tapCoin(event){
             initData:
               tg.initData
           })
+
         }
       );
 
+
     let data = {};
+
 
     try{
 
@@ -790,10 +1209,12 @@ async function tapCoin(event){
         `Server error: ${response.status}`
       );
 
+
       console.log(
         "Server response:",
         data
       );
+
 
       return;
 
@@ -808,6 +1229,7 @@ async function tapCoin(event){
         "Tap could not be processed."
       );
 
+
       if(
         typeof data.balance ===
         "number"
@@ -817,6 +1239,7 @@ async function tapCoin(event){
           data.balance;
 
       }
+
 
       if(
         typeof data.energy ===
@@ -828,6 +1251,7 @@ async function tapCoin(event){
 
       }
 
+
       if(
         typeof data.daily_earned ===
         "number"
@@ -837,6 +1261,7 @@ async function tapCoin(event){
           data.daily_earned;
 
       }
+
 
       updateScreen();
 
@@ -851,11 +1276,13 @@ async function tapCoin(event){
         balance
       );
 
+
     energy =
       Number(
         data.energy ??
         energy
       );
+
 
     dailyEarned =
       Number(
@@ -863,7 +1290,9 @@ async function tapCoin(event){
         dailyEarned
       );
 
+
     updateScreen();
+
 
     showFloatingCoin(
       event
@@ -887,13 +1316,15 @@ async function tapCoin(event){
       error
     );
 
+
     showToast(
       "Connection error. Try again."
     );
 
   }finally{
 
-    button.disabled = false;
+    button.disabled =
+      false;
 
   }
 
@@ -910,6 +1341,8 @@ document
   );
 
 
+/* USER NAME */
+
 if(
   tg &&
   tg.initDataUnsafe &&
@@ -919,22 +1352,217 @@ if(
   const user =
     tg.initDataUnsafe.user;
 
-  document.getElementById(
-    "username"
-  ).textContent =
+
+  const name =
     user.first_name ||
     "User";
 
+
+  document.getElementById(
+    "username"
+  ).textContent =
+    name;
+
+
+  document.getElementById(
+    "profileUsername"
+  ).textContent =
+    name;
+
 }
+
+
+/* NAVIGATION */
+
+document
+  .querySelectorAll(
+    ".nav-item"
+  )
+  .forEach(
+    item => {
+
+      item.addEventListener(
+        "click",
+        () => {
+
+          const pageId =
+            item.dataset.page;
+
+
+          document
+            .querySelectorAll(
+              ".page"
+            )
+            .forEach(
+              page => {
+
+                page.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+
+          document
+            .getElementById(
+              pageId
+            )
+            .classList.add(
+              "active"
+            );
+
+
+          document
+            .querySelectorAll(
+              ".nav-item"
+            )
+            .forEach(
+              nav => {
+
+                nav.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+
+          item.classList.add(
+            "active"
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+/* COPY REFERRAL */
+
+document
+  .getElementById(
+    "copyReferral"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      const link =
+        document.getElementById(
+          "referralLink"
+        ).textContent;
+
+
+      if(
+        !link ||
+        link === "Loading..."
+      ){
+
+        showToast(
+          "Referral link is not ready."
+        );
+
+        return;
+
+      }
+
+
+      try{
+
+        await navigator.clipboard
+          .writeText(link);
+
+
+        showToast(
+          "Referral link copied! 📋"
+        );
+
+      }catch(error){
+
+        showToast(
+          "Could not copy link."
+        );
+
+      }
+
+    }
+  );
+
+
+/* SHARE REFERRAL */
+
+document
+  .getElementById(
+    "shareReferral"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      const link =
+        document.getElementById(
+          "referralLink"
+        ).textContent;
+
+
+      if(
+        !link ||
+        link === "Loading..."
+      ){
+
+        showToast(
+          "Referral link is not ready."
+        );
+
+        return;
+
+      }
+
+
+      const text =
+        "Join me on NaijaSurvey and earn Naija Coins! 🪙";
+
+
+      if(
+        tg &&
+        tg.openTelegramLink
+      ){
+
+        tg.openTelegramLink(
+          "https://t.me/share/url?url=" +
+          encodeURIComponent(link) +
+          "&text=" +
+          encodeURIComponent(text)
+        );
+
+      }else{
+
+        window.open(
+          "https://t.me/share/url?url=" +
+          encodeURIComponent(link) +
+          "&text=" +
+          encodeURIComponent(text),
+          "_blank"
+        );
+
+      }
+
+    }
+  );
 
 
 /* INITIAL DISPLAY */
 
 updateScreen();
 
-/* LOAD SAVED BALANCE */
+
+/* LOAD SAVED DATA */
 
 loadProfile();
+
+loadReferral();
 
 </script>
 
