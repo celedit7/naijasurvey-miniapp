@@ -3,378 +3,337 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
 <title>NaijaSurvey</title>
-
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f4f7f5;
-  color:#172b24;
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f7f5;
+color:#172b24
 }
 
 .app{
-  min-height:100vh;
-  padding-bottom:85px;
+min-height:100vh;
+padding-bottom:85px
 }
 
 .header{
-  background:linear-gradient(145deg,#087f5b,#045c43);
-  color:white;
-  padding:22px 18px 75px;
-  border-radius:0 0 30px 30px;
+background:linear-gradient(145deg,#087f5b,#045c43);
+color:white;
+padding:22px 18px 75px;
+border-radius:0 0 30px 30px
 }
 
 .top{
-  max-width:600px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+max-width:600px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center
 }
 
 .logo{
-  font-size:21px;
-  font-weight:900;
+font-size:21px;
+font-weight:900
 }
 
 .user{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  font-size:12px;
-  font-weight:700;
+display:flex;
+align-items:center;
+gap:7px;
+font-size:12px;
+font-weight:700
 }
 
 .avatar{
-  width:35px;
-  height:35px;
-  border-radius:12px;
-  background:rgba(255,255,255,.2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+width:35px;
+height:35px;
+border-radius:12px;
+background:rgba(255,255,255,.2);
+display:flex;
+align-items:center;
+justify-content:center
 }
 
 .main{
-  max-width:600px;
-  margin:-48px auto 0;
-  padding:0 16px;
-  position:relative;
+max-width:600px;
+margin:-48px auto 0;
+padding:0 16px;
+position:relative
 }
 
 .card{
-  background:white;
-  border-radius:22px;
-  padding:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+background:white;
+border-radius:22px;
+padding:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.08)
 }
 
-.balance-card{
-  text-align:center;
-}
+.page{display:none}
+.page.active{display:block}
+
+.balance-card{text-align:center}
 
 .label{
-  color:#667085;
-  font-size:12px;
+color:#667085;
+font-size:12px
 }
 
 .balance{
-  margin-top:5px;
-  color:#087f5b;
-  font-size:42px;
-  font-weight:900;
+margin-top:5px;
+color:#087f5b;
+font-size:42px;
+font-weight:900
 }
 
 .coin-label{
-  color:#98a2b3;
-  font-size:11px;
+color:#98a2b3;
+font-size:11px
 }
 
 .tap-area{
-  display:flex;
-  justify-content:center;
-  margin:25px 0;
+display:flex;
+justify-content:center;
+margin:25px 0
 }
 
 .tap{
-  width:205px;
-  height:205px;
-  border-radius:50%;
-  border:12px solid #d8f0e8;
-  background:linear-gradient(145deg,#0a9b6c,#05704f);
-  box-shadow:0 15px 35px rgba(8,127,91,.25);
-  color:white;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  touch-action:manipulation;
-  transition:.08s;
+width:205px;
+height:205px;
+border-radius:50%;
+border:12px solid #d8f0e8;
+background:linear-gradient(145deg,#0a9b6c,#05704f);
+box-shadow:0 15px 35px rgba(8,127,91,.25);
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+touch-action:manipulation;
+transition:.08s
 }
 
-.tap:active{
-  transform:scale(.94);
-}
+.tap:active{transform:scale(.94)}
+.tap:disabled{opacity:.6}
 
-.tap:disabled{
-  opacity:.6;
-}
-
-.coin{
-  font-size:55px;
-}
+.coin{font-size:55px}
 
 .tap-text{
-  margin-top:5px;
-  font-size:13px;
-  font-weight:900;
-  letter-spacing:1px;
+margin-top:5px;
+font-size:13px;
+font-weight:900;
+letter-spacing:1px
 }
 
-.energy{
-  margin-top:15px;
-}
+.energy{margin-top:15px}
+.daily{margin-top:14px}
 
 .row{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  font-weight:800;
+display:flex;
+justify-content:space-between;
+font-size:12px;
+font-weight:800
 }
 
-.green{
-  color:#087f5b;
-}
+.green{color:#087f5b}
 
 .bar{
-  height:9px;
-  background:#e8eeeb;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:10px;
+height:9px;
+background:#e8eeeb;
+border-radius:20px;
+overflow:hidden;
+margin-top:10px
 }
 
 .fill{
-  height:100%;
-  background:#087f5b;
-  width:100%;
-  transition:.2s;
-}
-
-.daily{
-  margin-top:14px;
+height:100%;
+background:#087f5b;
+width:100%;
+transition:.2s
 }
 
 .stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-top:14px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-top:14px
 }
 
 .stat{
-  text-align:center;
-  padding:15px 5px;
-  border-radius:17px;
-  background:white;
-  box-shadow:0 5px 20px rgba(0,0,0,.04);
+text-align:center;
+padding:15px 5px;
+border-radius:17px;
+background:white;
+box-shadow:0 5px 20px rgba(0,0,0,.04)
 }
 
-.icon{
-  font-size:20px;
-}
+.icon{font-size:20px}
 
 .value{
-  margin-top:6px;
-  font-size:16px;
-  font-weight:900;
+margin-top:6px;
+font-size:16px;
+font-weight:900
 }
 
 .small{
-  margin-top:4px;
-  color:#98a2b3;
-  font-size:9px;
+margin-top:4px;
+color:#98a2b3;
+font-size:9px
 }
 
 .floating{
-  position:fixed;
-  pointer-events:none;
-  color:#087f5b;
-  font-size:20px;
-  font-weight:900;
-  animation:up .8s forwards;
-  z-index:9999;
+position:fixed;
+pointer-events:none;
+color:#087f5b;
+font-size:20px;
+font-weight:900;
+animation:up .8s forwards;
+z-index:9999
 }
 
 @keyframes up{
-  from{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-  to{
-    opacity:0;
-    transform:translateY(-80px);
-  }
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
+from{opacity:1;transform:translateY(0)}
+to{opacity:0;transform:translateY(-80px)}
 }
 
 .friends-title{
-  text-align:center;
-  font-size:25px;
-  font-weight:900;
-  color:#087f5b;
-  margin-bottom:8px;
+text-align:center;
+font-size:25px;
+font-weight:900;
+color:#087f5b;
+margin-bottom:8px
 }
 
 .friends-subtitle{
-  text-align:center;
-  color:#667085;
-  font-size:12px;
-  line-height:1.5;
-  margin-bottom:20px;
+text-align:center;
+color:#667085;
+font-size:12px;
+line-height:1.5;
+margin-bottom:20px
 }
 
 .referral-box{
-  background:#eef9f5;
-  border:1px solid #d5eee5;
-  border-radius:17px;
-  padding:15px;
-  margin-top:15px;
+background:#eef9f5;
+border:1px solid #d5eee5;
+border-radius:17px;
+padding:15px;
+margin-top:15px
 }
 
 .referral-label{
-  color:#667085;
-  font-size:11px;
-  font-weight:700;
+color:#667085;
+font-size:11px;
+font-weight:700
 }
 
 .referral-code{
-  margin-top:8px;
-  font-size:22px;
-  font-weight:900;
-  color:#087f5b;
-  word-break:break-all;
+margin-top:8px;
+font-size:22px;
+font-weight:900;
+color:#087f5b;
+word-break:break-all
 }
 
 .referral-link{
-  margin-top:10px;
-  padding:11px;
-  background:white;
-  border-radius:10px;
-  color:#667085;
-  font-size:10px;
-  word-break:break-all;
+margin-top:10px;
+padding:11px;
+background:white;
+border-radius:10px;
+color:#667085;
+font-size:10px;
+word-break:break-all
 }
 
 .buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:12px
 }
 
 .action{
-  border:0;
-  border-radius:13px;
-  padding:13px 8px;
-  font-weight:900;
-  color:white;
-  background:#087f5b;
-  cursor:pointer;
+border:0;
+border-radius:13px;
+padding:13px 8px;
+font-weight:900;
+color:white;
+background:#087f5b;
+cursor:pointer
 }
 
-.action.secondary{
-  background:#172b24;
-}
+.action.secondary{background:#172b24}
 
 .friend-count{
-  text-align:center;
-  margin-top:18px;
-  font-size:35px;
-  font-weight:900;
-  color:#087f5b;
+text-align:center;
+margin-top:18px;
+font-size:35px;
+font-weight:900;
+color:#087f5b
 }
 
 .friend-label{
-  text-align:center;
-  color:#667085;
-  font-size:11px;
+text-align:center;
+color:#667085;
+font-size:11px
 }
 
 .coming{
-  text-align:center;
-  padding:35px 10px;
-  color:#667085;
+text-align:center;
+padding:35px 10px;
+color:#667085
 }
 
 .nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:70px;
-  background:white;
-  border-top:1px solid #e7ece9;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  z-index:9998;
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:70px;
+background:white;
+border-top:1px solid #e7ece9;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+z-index:9998
 }
 
 .nav-item{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  color:#98a2b3;
-  font-size:9px;
-  font-weight:800;
-  cursor:pointer;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:#98a2b3;
+font-size:9px;
+font-weight:800;
+cursor:pointer
 }
 
-.nav-item.active{
-  color:#087f5b;
-}
+.nav-item.active{color:#087f5b}
 
 .nav-icon{
-  font-size:19px;
-  margin-bottom:3px;
+font-size:19px;
+margin-bottom:3px
 }
 
 .toast{
-  position:fixed;
-  left:20px;
-  right:20px;
-  bottom:85px;
-  padding:13px;
-  background:#172b24;
-  color:white;
-  border-radius:12px;
-  text-align:center;
-  font-size:12px;
-  display:none;
-  z-index:10000;
+position:fixed;
+left:20px;
+right:20px;
+bottom:85px;
+padding:13px;
+background:#172b24;
+color:white;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+display:none;
+z-index:10000
 }
 
-.toast.show{
-  display:block;
-}
+.toast.show{display:block}
 </style>
 </head>
 
@@ -383,27 +342,16 @@ body{
 <div class="app">
 
 <header class="header">
+<div class="top">
 
-  <div class="top">
+<div class="logo">NAIJASURVEY</div>
 
-    <div class="logo">
-      NAIJASURVEY
-    </div>
+<div class="user">
+<div class="avatar">👤</div>
+<span id="username">User</span>
+</div>
 
-    <div class="user">
-
-      <div class="avatar">
-        👤
-      </div>
-
-      <span id="username">
-        User
-      </span>
-
-    </div>
-
-  </div>
-
+</div>
 </header>
 
 <main class="main">
@@ -414,17 +362,11 @@ body{
 
 <section class="card balance-card">
 
-  <div class="label">
-    Your Balance
-  </div>
+<div class="label">Your Balance</div>
 
-  <div class="balance" id="balance">
-    0
-  </div>
+<div class="balance" id="balance">0</div>
 
-  <div class="coin-label">
-    NAIJA COINS 🪙
-  </div>
+<div class="coin-label">NAIJA COINS 🪙</div>
 
 </section>
 
@@ -432,13 +374,11 @@ body{
 
 <button class="tap" id="tapButton">
 
-  <div class="coin">
-    🪙
-  </div>
+<div class="coin">🪙</div>
 
-  <div class="tap-text">
-    TAP TO EARN
-  </div>
+<div class="tap-text">
+TAP TO EARN
+</div>
 
 </button>
 
@@ -446,104 +386,71 @@ body{
 
 <section class="card energy">
 
-  <div class="row">
+<div class="row">
 
-    <span>
-      ⚡ Energy
-    </span>
+<span>⚡ Energy</span>
 
-    <span class="green" id="energyText">
-      500 / 500
-    </span>
+<span class="green" id="energyText">
+500 / 500
+</span>
 
-  </div>
+</div>
 
-  <div class="bar">
-
-    <div
-      class="fill"
-      id="energyFill">
-    </div>
-
-  </div>
+<div class="bar">
+<div class="fill" id="energyFill"></div>
+</div>
 
 </section>
 
 <section class="card daily">
 
-  <div class="row">
+<div class="row">
 
-    <span>
-      📅 Daily Progress
-    </span>
+<span>📅 Daily Progress</span>
 
-    <span class="green" id="dailyText">
-      0 / 10,000
-    </span>
+<span class="green" id="dailyText">
+0 / 10,000
+</span>
 
-  </div>
+</div>
 
-  <div class="bar">
-
-    <div
-      class="fill"
-      id="dailyFill"
-      style="width:0%">
-    </div>
-
-  </div>
+<div class="bar">
+<div class="fill" id="dailyFill" style="width:0%"></div>
+</div>
 
 </section>
 
 <section class="stats">
 
-  <div class="stat">
+<div class="stat">
 
-    <div class="icon">
-      🔥
-    </div>
+<div class="icon">🔥</div>
 
-    <div class="value">
-      0
-    </div>
+<div class="value">0</div>
 
-    <div class="small">
-      STREAK
-    </div>
+<div class="small">STREAK</div>
 
-  </div>
+</div>
 
-  <div class="stat">
+<div class="stat">
 
-    <div class="icon">
-      👥
-    </div>
+<div class="icon">👥</div>
 
-    <div class="value" id="homeFriendCount">
-      0
-    </div>
+<div class="value" id="homeFriendCount">0</div>
 
-    <div class="small">
-      FRIENDS
-    </div>
+<div class="small">FRIENDS</div>
 
-  </div>
+</div>
 
-  <div class="stat">
+<div class="stat">
 
-    <div class="icon">
-      ⭐
-    </div>
+<div class="icon">⭐</div>
 
-    <div class="value">
-      1
-    </div>
+<div class="value">1</div>
 
-    <div class="small">
-      LEVEL
-    </div>
+<div class="small">LEVEL</div>
 
-  </div>
+</div>
 
 </section>
 
@@ -554,23 +461,27 @@ body{
 
 <section id="earnPage" class="page">
 
-  <section class="card">
+<section class="card">
 
-    <div class="friends-title">
-      Earn 🪙
-    </div>
+<div class="friends-title">
+Earn 🪙
+</div>
 
-    <div class="friends-subtitle">
-      Complete available tasks to earn more Naija Coins.
-    </div>
+<div class="friends-subtitle">
+Complete available tasks to earn more Naija Coins.
+</div>
 
-    <div class="coming">
-      🎯 More earning tasks coming soon.
-      <br><br>
-      Social videos, surveys and micro-work will appear here.
-    </div>
+<div class="coming">
 
-  </section>
+🎯 More earning tasks coming soon.
+
+<br><br>
+
+Social videos, surveys and micro-work will appear here.
+
+</div>
+
+</section>
 
 </section>
 
@@ -579,70 +490,61 @@ body{
 
 <section id="friendsPage" class="page">
 
-  <section class="card">
+<section class="card">
 
-    <div class="friends-title">
-      Invite Friends 👥
-    </div>
+<div class="friends-title">
+Invite Friends 👥
+</div>
 
-    <div class="friends-subtitle">
-      Invite friends to NaijaSurvey and track your referrals.
-    </div>
+<div class="friends-subtitle">
+Invite friends to NaijaSurvey and track your referrals.
+</div>
 
-    <div class="referral-box">
+<div class="referral-box">
 
-      <div class="referral-label">
-        YOUR REFERRAL CODE
-      </div>
+<div class="referral-label">
+YOUR REFERRAL CODE
+</div>
 
-      <div
-        class="referral-code"
-        id="referralCode">
-        Loading...
-      </div>
+<div class="referral-code" id="referralCode">
+Loading...
+</div>
 
-    </div>
+</div>
 
-    <div class="referral-box">
+<div class="referral-box">
 
-      <div class="referral-label">
-        YOUR REFERRAL LINK
-      </div>
+<div class="referral-label">
+YOUR REFERRAL LINK
+</div>
 
-      <div
-        class="referral-link"
-        id="referralLink">
-        Loading...
-      </div>
+<div class="referral-link" id="referralLink">
+Loading...
+</div>
 
-      <div class="buttons">
+<div class="buttons">
 
-        <button
-          class="action"
-          id="copyReferral">
-          📋 Copy
-        </button>
+<button class="action" id="copyReferral">
+📋 Copy
+</button>
 
-        <button
-          class="action secondary"
-          id="shareReferral">
-          📤 Share
-        </button>
+<button class="action secondary" id="shareReferral">
+📤 Share
+</button>
 
-      </div>
+</div>
 
-    </div>
+</div>
 
-    <div class="friend-count"
-         id="friendCount">
-      0
-    </div>
+<div class="friend-count" id="friendCount">
+0
+</div>
 
-    <div class="friend-label">
-      FRIENDS INVITED
-    </div>
+<div class="friend-label">
+FRIENDS INVITED
+</div>
 
-  </section>
+</section>
 
 </section>
 
@@ -651,37 +553,43 @@ body{
 
 <section id="profilePage" class="page">
 
-  <section class="card">
+<section class="card">
 
-    <div class="friends-title">
-      Profile 👤
-    </div>
+<div class="friends-title">
+Profile 👤
+</div>
 
-    <div class="friends-subtitle">
-      Your NaijaSurvey account.
-    </div>
+<div class="friends-subtitle">
+Your NaijaSurvey account.
+</div>
 
-    <div class="referral-box">
+<div class="referral-box">
 
-      <div class="row">
-        <span>Username</span>
-        <span class="green" id="profileUsername">
-          User
-        </span>
-      </div>
+<div class="row">
 
-      <br>
+<span>Username</span>
 
-      <div class="row">
-        <span>Balance</span>
-        <span class="green" id="profileBalance">
-          0
-        </span>
-      </div>
+<span class="green" id="profileUsername">
+User
+</span>
 
-    </div>
+</div>
 
-  </section>
+<br>
+
+<div class="row">
+
+<span>Balance</span>
+
+<span class="green" id="profileBalance">
+0
+</span>
+
+</div>
+
+</div>
+
+</section>
 
 </section>
 
@@ -692,61 +600,42 @@ body{
 
 <nav class="nav">
 
-  <div
-    class="nav-item active"
-    data-page="homePage">
+<div class="nav-item active" data-page="homePage">
 
-    <div class="nav-icon">
-      🏠
-    </div>
+<div class="nav-icon">🏠</div>
 
-    Home
+Home
 
-  </div>
+</div>
 
-  <div
-    class="nav-item"
-    data-page="earnPage">
+<div class="nav-item" data-page="earnPage">
 
-    <div class="nav-icon">
-      🪙
-    </div>
+<div class="nav-icon">🪙</div>
 
-    Earn
+Earn
 
-  </div>
+</div>
 
-  <div
-    class="nav-item"
-    data-page="friendsPage">
+<div class="nav-item" data-page="friendsPage">
 
-    <div class="nav-icon">
-      👥
-    </div>
+<div class="nav-icon">👥</div>
 
-    Friends
+Friends
 
-  </div>
+</div>
 
-  <div
-    class="nav-item"
-    data-page="profilePage">
+<div class="nav-item" data-page="profilePage">
 
-    <div class="nav-icon">
-      👤
-    </div>
+<div class="nav-icon">👤</div>
 
-    Profile
+Profile
 
-  </div>
+</div>
 
 </nav>
 
 
-<div
-  class="toast"
-  id="toast">
-</div>
+<div class="toast" id="toast"></div>
 
 </div>
 
@@ -754,19 +643,23 @@ body{
 <script>
 
 const tg =
-  window.Telegram?.WebApp;
+window.Telegram?.WebApp;
 
 
 const FUNCTION_URL =
-  "https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/bright-task";
+"https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/bright-task";
 
 
 const PROFILE_URL =
-  "https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/profile";
+"https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/profile";
 
 
 const REFERRAL_URL =
-  "https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/referral";
+"https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/referral";
+
+
+const BOT_USERNAME =
+"NaijaSurveyEarnBot";
 
 
 const MAX_ENERGY = 500;
@@ -783,591 +676,516 @@ let dailyEarned = 0;
 
 if(tg){
 
-  tg.ready();
+tg.ready();
 
-  tg.expand();
+tg.expand();
 
 }
 
 
 function updateScreen(){
 
-  document.getElementById(
-    "balance"
-  ).textContent =
-    Number(balance)
-      .toLocaleString();
+document.getElementById("balance").textContent =
+Number(balance).toLocaleString();
 
 
-  document.getElementById(
-    "energyText"
-  ).textContent =
-    energy +
-    " / " +
-    MAX_ENERGY;
+document.getElementById("energyText").textContent =
+energy + " / " + MAX_ENERGY;
 
 
-  document.getElementById(
-    "energyFill"
-  ).style.width =
-    Math.max(
-      0,
-      Math.min(
-        100,
-        (energy / MAX_ENERGY) * 100
-      )
-    ) + "%";
+document.getElementById("energyFill").style.width =
+Math.max(
+0,
+Math.min(
+100,
+(energy / MAX_ENERGY) * 100
+)
+) + "%";
 
 
-  document.getElementById(
-    "dailyText"
-  ).textContent =
-    Number(dailyEarned)
-      .toLocaleString() +
-    " / " +
-    DAILY_LIMIT;
+document.getElementById("dailyText").textContent =
+Number(dailyEarned).toLocaleString() +
+" / " +
+DAILY_LIMIT;
 
 
-  document.getElementById(
-    "dailyFill"
-  ).style.width =
-    Math.max(
-      0,
-      Math.min(
-        100,
-        (dailyEarned / DAILY_LIMIT) * 100
-      )
-    ) + "%";
+document.getElementById("dailyFill").style.width =
+Math.max(
+0,
+Math.min(
+100,
+(dailyEarned / DAILY_LIMIT) * 100
+)
+) + "%";
 
 
-  const profileBalance =
-    document.getElementById(
-      "profileBalance"
-    );
+const profileBalance =
+document.getElementById("profileBalance");
 
-  if(profileBalance){
 
-    profileBalance.textContent =
-      Number(balance)
-        .toLocaleString();
+if(profileBalance){
 
-  }
+profileBalance.textContent =
+Number(balance).toLocaleString();
+
+}
 
 }
 
 
 function showToast(message){
 
-  const toast =
-    document.getElementById(
-      "toast"
-    );
+const toast =
+document.getElementById("toast");
 
-  toast.textContent =
-    message;
+toast.textContent =
+message;
 
-  toast.classList.add(
-    "show"
-  );
+toast.classList.add("show");
 
 
-  setTimeout(
-    () => {
-
-      toast.classList.remove(
-        "show"
-      );
-
-    },
-    3000
-  );
+setTimeout(
+() => toast.classList.remove("show"),
+3000
+);
 
 }
 
 
 function showFloatingCoin(event){
 
-  const coin =
-    document.createElement(
-      "div"
-    );
+const coin =
+document.createElement("div");
 
-  coin.className =
-    "floating";
+coin.className =
+"floating";
 
-  coin.textContent =
-    "+1 🪙";
+coin.textContent =
+"+1 🪙";
 
+coin.style.left =
+(event.clientX - 15) + "px";
 
-  coin.style.left =
-    (event.clientX - 15) +
-    "px";
+coin.style.top =
+(event.clientY - 20) + "px";
 
-
-  coin.style.top =
-    (event.clientY - 20) +
-    "px";
+document.body.appendChild(coin);
 
 
-  document.body.appendChild(
-    coin
-  );
-
-
-  setTimeout(
-    () => {
-
-      coin.remove();
-
-    },
-    800
-  );
+setTimeout(
+() => coin.remove(),
+800
+);
 
 }
 
 
-/* LOAD PROFILE */
+/* PROFILE */
 
 async function loadProfile(){
 
-  if(
-    !tg ||
-    !tg.initData
-  ){
+if(!tg || !tg.initData){
 
-    return;
-
-  }
-
-
-  try{
-
-    const response =
-      await fetch(
-        PROFILE_URL,
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:JSON.stringify({
-            initData:
-              tg.initData
-          })
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(!response.ok){
-
-      console.log(
-        "Profile error:",
-        data
-      );
-
-      return;
-
-    }
-
-
-    if(
-      data.success &&
-      data.profile
-    ){
-
-      balance =
-        Number(
-          data.profile.balance ??
-          0
-        );
-
-
-      energy =
-        Number(
-          data.profile.energy ??
-          MAX_ENERGY
-        );
-
-
-      dailyEarned =
-        Number(
-          data.profile.daily_earned ??
-          0
-        );
-
-
-      updateScreen();
-
-    }
-
-  }catch(error){
-
-    console.error(
-      "Profile loading error:",
-      error
-    );
-
-  }
+return;
 
 }
 
 
-/* LOAD REFERRAL */
+try{
+
+const response =
+await fetch(
+PROFILE_URL,
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+initData:tg.initData
+})
+
+}
+);
+
+
+const data =
+await response.json();
+
+
+if(!response.ok){
+
+console.log(
+"Profile error:",
+data
+);
+
+return;
+
+}
+
+
+if(
+data.success &&
+data.profile
+){
+
+balance =
+Number(
+data.profile.balance ?? 0
+);
+
+energy =
+Number(
+data.profile.energy ?? MAX_ENERGY
+);
+
+dailyEarned =
+Number(
+data.profile.daily_earned ?? 0
+);
+
+updateScreen();
+
+}
+
+}catch(error){
+
+console.error(
+"Profile loading error:",
+error
+);
+
+}
+
+}
+
+
+/* REFERRAL */
 
 async function loadReferral(){
 
-  if(
-    !tg ||
-    !tg.initData
-  ){
+if(!tg || !tg.initData){
 
-    return;
-
-  }
-
-
-  try{
-
-    const response =
-      await fetch(
-        REFERRAL_URL,
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:JSON.stringify({
-            initData:
-              tg.initData
-          })
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(!response.ok){
-
-      console.log(
-        "Referral error:",
-        data
-      );
-
-      return;
-
-    }
-
-
-    if(data.success){
-
-      const code =
-        data.referral_code;
-
-
-      const count =
-        Number(
-          data.referral_count ||
-          0
-        );
-
-
-      document.getElementById(
-        "referralCode"
-      ).textContent =
-        code;
-
-
-      document.getElementById(
-        "friendCount"
-      ).textContent =
-        count;
-
-
-      document.getElementById(
-        "homeFriendCount"
-      ).textContent =
-        count;
-
-
-      if(tg && tg.initDataUnsafe){
-
-        const botUsername =
-          "YOUR_BOT_USERNAME";
-
-
-        const link =
-          "https://t.me/" +
-          botUsername +
-          "?startapp=" +
-          encodeURIComponent(code);
-
-
-        document.getElementById(
-          "referralLink"
-        ).textContent =
-          link;
-
-      }
-
-    }
-
-  }catch(error){
-
-    console.error(
-      "Referral loading error:",
-      error
-    );
-
-  }
+return;
 
 }
 
 
-/* TAP TO EARN */
+try{
+
+const response =
+await fetch(
+REFERRAL_URL,
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+initData:tg.initData
+})
+
+}
+);
+
+
+const data =
+await response.json();
+
+
+if(!response.ok){
+
+console.log(
+"Referral error:",
+data
+);
+
+return;
+
+}
+
+
+if(data.success){
+
+const code =
+data.referral_code;
+
+
+const count =
+Number(
+data.referral_count || 0
+);
+
+
+document.getElementById(
+"referralCode"
+).textContent =
+code;
+
+
+document.getElementById(
+"friendCount"
+).textContent =
+count;
+
+
+document.getElementById(
+"homeFriendCount"
+).textContent =
+count;
+
+
+const link =
+"https://t.me/" +
+BOT_USERNAME +
+"?startapp=" +
+encodeURIComponent(code);
+
+
+document.getElementById(
+"referralLink"
+).textContent =
+link;
+
+}
+
+}catch(error){
+
+console.error(
+"Referral loading error:",
+error
+);
+
+}
+
+}
+
+
+/* TAP */
 
 async function tapCoin(event){
 
-  const button =
-    document.getElementById(
-      "tapButton"
-    );
+const button =
+document.getElementById(
+"tapButton"
+);
 
 
-  if(
-    !tg ||
-    !tg.initData
-  ){
+if(!tg || !tg.initData){
 
-    showToast(
-      "Open NaijaSurvey from Telegram."
-    );
+showToast(
+"Open NaijaSurvey from Telegram."
+);
 
-    return;
+return;
 
-  }
+}
 
 
-  button.disabled = true;
+button.disabled = true;
 
 
-  try{
+try{
 
-    const response =
-      await fetch(
-        FUNCTION_URL,
-        {
-          method:"POST",
+const response =
+await fetch(
+FUNCTION_URL,
+{
+method:"POST",
 
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
+headers:{
+"Content-Type":
+"application/json"
+},
 
-          body:JSON.stringify({
-            initData:
-              tg.initData
-          })
+body:JSON.stringify({
+initData:tg.initData
+})
 
-        }
-      );
+}
+);
 
 
-    let data = {};
+let data = {};
 
 
-    try{
+try{
 
-      data =
-        await response.json();
+data =
+await response.json();
 
-    }catch(e){
+}catch(e){
 
-      data = {};
+data = {};
 
-    }
+}
 
 
-    if(!response.ok){
+if(!response.ok){
 
-      showToast(
-        data.error ||
-        data.reason ||
-        `Server error: ${response.status}`
-      );
+showToast(
+data.error ||
+data.reason ||
+`Server error: ${response.status}`
+);
 
+console.log(
+"Server response:",
+data
+);
 
-      console.log(
-        "Server response:",
-        data
-      );
+return;
 
+}
 
-      return;
 
-    }
+if(!data.success){
 
+showToast(
+data.reason ||
+data.error ||
+"Tap could not be processed."
+);
 
-    if(!data.success){
 
-      showToast(
-        data.reason ||
-        data.error ||
-        "Tap could not be processed."
-      );
+if(
+typeof data.balance ===
+"number"
+){
 
+balance =
+data.balance;
 
-      if(
-        typeof data.balance ===
-        "number"
-      ){
+}
 
-        balance =
-          data.balance;
 
-      }
+if(
+typeof data.energy ===
+"number"
+){
 
+energy =
+data.energy;
 
-      if(
-        typeof data.energy ===
-        "number"
-      ){
+}
 
-        energy =
-          data.energy;
 
-      }
+if(
+typeof data.daily_earned ===
+"number"
+){
 
+dailyEarned =
+data.daily_earned;
 
-      if(
-        typeof data.daily_earned ===
-        "number"
-      ){
+}
 
-        dailyEarned =
-          data.daily_earned;
 
-      }
+updateScreen();
 
+return;
 
-      updateScreen();
+}
 
-      return;
 
-    }
+balance =
+Number(
+data.balance ??
+balance
+);
 
 
-    balance =
-      Number(
-        data.balance ??
-        balance
-      );
+energy =
+Number(
+data.energy ??
+energy
+);
 
 
-    energy =
-      Number(
-        data.energy ??
-        energy
-      );
+dailyEarned =
+Number(
+data.daily_earned ??
+dailyEarned
+);
 
 
-    dailyEarned =
-      Number(
-        data.daily_earned ??
-        dailyEarned
-      );
+updateScreen();
 
 
-    updateScreen();
+showFloatingCoin(
+event
+);
 
 
-    showFloatingCoin(
-      event
-    );
+if(tg.HapticFeedback){
 
+tg.HapticFeedback
+.impactOccurred(
+"light"
+);
 
-    if(
-      tg.HapticFeedback
-    ){
+}
 
-      tg.HapticFeedback
-        .impactOccurred(
-          "light"
-        );
+}catch(error){
 
-    }
+console.error(error);
 
-  }catch(error){
+showToast(
+"Connection error. Try again."
+);
 
-    console.error(
-      error
-    );
+}finally{
 
+button.disabled =
+false;
 
-    showToast(
-      "Connection error. Try again."
-    );
-
-  }finally{
-
-    button.disabled =
-      false;
-
-  }
+}
 
 }
 
 
 document
-  .getElementById(
-    "tapButton"
-  )
-  .addEventListener(
-    "click",
-    tapCoin
-  );
+.getElementById("tapButton")
+.addEventListener(
+"click",
+tapCoin
+);
 
 
-/* USER NAME */
+/* USER */
 
 if(
-  tg &&
-  tg.initDataUnsafe &&
-  tg.initDataUnsafe.user
+tg &&
+tg.initDataUnsafe &&
+tg.initDataUnsafe.user
 ){
 
-  const user =
-    tg.initDataUnsafe.user;
+const user =
+tg.initDataUnsafe.user;
 
 
-  const name =
-    user.first_name ||
-    "User";
+const name =
+user.first_name ||
+"User";
 
 
-  document.getElementById(
-    "username"
-  ).textContent =
-    name;
+document.getElementById(
+"username"
+).textContent =
+name;
 
 
-  document.getElementById(
-    "profileUsername"
-  ).textContent =
-    name;
+document.getElementById(
+"profileUsername"
+).textContent =
+name;
 
 }
 
@@ -1375,190 +1193,169 @@ if(
 /* NAVIGATION */
 
 document
-  .querySelectorAll(
-    ".nav-item"
-  )
-  .forEach(
-    item => {
+.querySelectorAll(".nav-item")
+.forEach(
+item => {
 
-      item.addEventListener(
-        "click",
-        () => {
+item.addEventListener(
+"click",
+() => {
 
-          const pageId =
-            item.dataset.page;
+const pageId =
+item.dataset.page;
 
-
-          document
-            .querySelectorAll(
-              ".page"
-            )
-            .forEach(
-              page => {
-
-                page.classList.remove(
-                  "active"
-                );
-
-              }
-            );
-
-
-          document
-            .getElementById(
-              pageId
-            )
-            .classList.add(
-              "active"
-            );
-
-
-          document
-            .querySelectorAll(
-              ".nav-item"
-            )
-            .forEach(
-              nav => {
-
-                nav.classList.remove(
-                  "active"
-                );
-
-              }
-            );
-
-
-          item.classList.add(
-            "active"
-          );
-
-        }
-      );
-
-    }
-  );
-
-
-/* COPY REFERRAL */
 
 document
-  .getElementById(
-    "copyReferral"
-  )
-  .addEventListener(
-    "click",
-    async () => {
+.querySelectorAll(".page")
+.forEach(
+page =>
+page.classList.remove(
+"active"
+)
+);
 
-      const link =
-        document.getElementById(
-          "referralLink"
-        ).textContent;
-
-
-      if(
-        !link ||
-        link === "Loading..."
-      ){
-
-        showToast(
-          "Referral link is not ready."
-        );
-
-        return;
-
-      }
-
-
-      try{
-
-        await navigator.clipboard
-          .writeText(link);
-
-
-        showToast(
-          "Referral link copied! 📋"
-        );
-
-      }catch(error){
-
-        showToast(
-          "Could not copy link."
-        );
-
-      }
-
-    }
-  );
-
-
-/* SHARE REFERRAL */
 
 document
-  .getElementById(
-    "shareReferral"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      const link =
-        document.getElementById(
-          "referralLink"
-        ).textContent;
+.getElementById(pageId)
+.classList.add(
+"active"
+);
 
 
-      if(
-        !link ||
-        link === "Loading..."
-      ){
-
-        showToast(
-          "Referral link is not ready."
-        );
-
-        return;
-
-      }
+document
+.querySelectorAll(".nav-item")
+.forEach(
+nav =>
+nav.classList.remove(
+"active"
+)
+);
 
 
-      const text =
-        "Join me on NaijaSurvey and earn Naija Coins! 🪙";
+item.classList.add(
+"active"
+);
+
+}
+);
+
+}
+);
 
 
-      if(
-        tg &&
-        tg.openTelegramLink
-      ){
+/* COPY */
 
-        tg.openTelegramLink(
-          "https://t.me/share/url?url=" +
-          encodeURIComponent(link) +
-          "&text=" +
-          encodeURIComponent(text)
-        );
+document
+.getElementById("copyReferral")
+.addEventListener(
+"click",
+async () => {
 
-      }else{
-
-        window.open(
-          "https://t.me/share/url?url=" +
-          encodeURIComponent(link) +
-          "&text=" +
-          encodeURIComponent(text),
-          "_blank"
-        );
-
-      }
-
-    }
-  );
+const link =
+document.getElementById(
+"referralLink"
+).textContent;
 
 
-/* INITIAL DISPLAY */
+if(
+!link ||
+link === "Loading..."
+){
+
+showToast(
+"Referral link is not ready."
+);
+
+return;
+
+}
+
+
+try{
+
+await navigator.clipboard
+.writeText(link);
+
+showToast(
+"Referral link copied! 📋"
+);
+
+}catch(error){
+
+showToast(
+"Could not copy link."
+);
+
+}
+
+}
+);
+
+
+/* SHARE */
+
+document
+.getElementById("shareReferral")
+.addEventListener(
+"click",
+() => {
+
+const link =
+document.getElementById(
+"referralLink"
+).textContent;
+
+
+if(
+!link ||
+link === "Loading..."
+){
+
+showToast(
+"Referral link is not ready."
+);
+
+return;
+
+}
+
+
+const text =
+"Join me on NaijaSurvey and earn Naija Coins! 🪙";
+
+
+const shareURL =
+"https://t.me/share/url?url=" +
+encodeURIComponent(link) +
+"&text=" +
+encodeURIComponent(text);
+
+
+if(
+tg &&
+tg.openTelegramLink
+){
+
+tg.openTelegramLink(
+shareURL
+);
+
+}else{
+
+window.open(
+shareURL,
+"_blank"
+);
+
+}
+
+}
+);
+
+
+/* START */
 
 updateScreen();
-
-
-/* LOAD SAVED DATA */
 
 loadProfile();
 
