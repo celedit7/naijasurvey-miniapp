@@ -220,6 +220,7 @@ body{
     opacity:1;
     transform:translateY(0);
   }
+
   to{
     opacity:0;
     transform:translateY(-80px);
@@ -284,6 +285,7 @@ body{
 <div class="app">
 
 <header class="header">
+
   <div class="top">
 
     <div class="logo">
@@ -291,157 +293,260 @@ body{
     </div>
 
     <div class="user">
-      <div class="avatar">👤</div>
-      <span id="username">User</span>
+
+      <div class="avatar">
+        👤
+      </div>
+
+      <span id="username">
+        User
+      </span>
+
     </div>
 
   </div>
+
 </header>
 
 <main class="main">
 
-  <section class="card balance-card">
+<section class="card balance-card">
 
-    <div class="label">
-      Your Balance
-    </div>
+  <div class="label">
+    Your Balance
+  </div>
 
-    <div class="balance" id="balance">
-      0
-    </div>
+  <div class="balance" id="balance">
+    0
+  </div>
 
-    <div class="coin-label">
-      NAIJA COINS 🪙
-    </div>
+  <div class="coin-label">
+    NAIJA COINS 🪙
+  </div>
 
-  </section>
+</section>
 
-  <div class="tap-area">
+<div class="tap-area">
 
-    <button class="tap" id="tapButton">
+<button class="tap" id="tapButton">
 
-      <div class="coin">🪙</div>
+  <div class="coin">
+    🪙
+  </div>
 
-      <div class="tap-text">
-        TAP TO EARN
-      </div>
+  <div class="tap-text">
+    TAP TO EARN
+  </div>
 
-    </button>
+</button>
+
+</div>
+
+<section class="card energy">
+
+  <div class="row">
+
+    <span>
+      ⚡ Energy
+    </span>
+
+    <span class="green" id="energyText">
+      500 / 500
+    </span>
 
   </div>
 
-  <section class="card energy">
+  <div class="bar">
 
-    <div class="row">
-      <span>⚡ Energy</span>
-
-      <span class="green" id="energyText">
-        500 / 500
-      </span>
+    <div
+      class="fill"
+      id="energyFill">
     </div>
 
-    <div class="bar">
-      <div class="fill" id="energyFill"></div>
+  </div>
+
+</section>
+
+<section class="card daily">
+
+  <div class="row">
+
+    <span>
+      📅 Daily Progress
+    </span>
+
+    <span class="green" id="dailyText">
+      0 / 10,000
+    </span>
+
+  </div>
+
+  <div class="bar">
+
+    <div
+      class="fill"
+      id="dailyFill"
+      style="width:0%">
     </div>
 
-  </section>
+  </div>
 
-  <section class="card daily">
+</section>
 
-    <div class="row">
-      <span>📅 Daily Progress</span>
+<section class="stats">
 
-      <span class="green" id="dailyText">
-        0 / 10,000
-      </span>
+  <div class="stat">
+
+    <div class="icon">
+      🔥
     </div>
 
-    <div class="bar">
-      <div class="fill" id="dailyFill" style="width:0%"></div>
+    <div class="value">
+      0
     </div>
 
-  </section>
-
-  <section class="stats">
-
-    <div class="stat">
-      <div class="icon">🔥</div>
-      <div class="value">0</div>
-      <div class="small">STREAK</div>
+    <div class="small">
+      STREAK
     </div>
 
-    <div class="stat">
-      <div class="icon">👥</div>
-      <div class="value">0</div>
-      <div class="small">FRIENDS</div>
+  </div>
+
+  <div class="stat">
+
+    <div class="icon">
+      👥
     </div>
 
-    <div class="stat">
-      <div class="icon">⭐</div>
-      <div class="value">1</div>
-      <div class="small">LEVEL</div>
+    <div class="value">
+      0
     </div>
 
-  </section>
+    <div class="small">
+      FRIENDS
+    </div>
+
+  </div>
+
+  <div class="stat">
+
+    <div class="icon">
+      ⭐
+    </div>
+
+    <div class="value">
+      1
+    </div>
+
+    <div class="small">
+      LEVEL
+    </div>
+
+  </div>
+
+</section>
 
 </main>
 
 <nav class="nav">
 
   <div class="nav-item active">
-    <div class="nav-icon">🏠</div>
+
+    <div class="nav-icon">
+      🏠
+    </div>
+
     Home
+
   </div>
 
   <div class="nav-item">
-    <div class="nav-icon">🪙</div>
+
+    <div class="nav-icon">
+      🪙
+    </div>
+
     Earn
+
   </div>
 
   <div class="nav-item">
-    <div class="nav-icon">👥</div>
+
+    <div class="nav-icon">
+      👥
+    </div>
+
     Friends
+
   </div>
 
   <div class="nav-item">
-    <div class="nav-icon">👤</div>
+
+    <div class="nav-icon">
+      👤
+    </div>
+
     Profile
+
   </div>
 
 </nav>
 
-<div class="toast" id="toast"></div>
+<div
+  class="toast"
+  id="toast">
+</div>
 
 </div>
 
 <script>
 
-const tg = window.Telegram?.WebApp;
+const tg =
+  window.Telegram?.WebApp;
 
 const FUNCTION_URL =
-"https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/bright-task";
+  "https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/bright-task";
+
+const PROFILE_URL =
+  "https://cjupfpjjsqrwtmsdywva.supabase.co/functions/v1/profile";
 
 const MAX_ENERGY = 500;
+
 const DAILY_LIMIT = 10000;
 
 let balance = 0;
+
 let energy = MAX_ENERGY;
+
 let dailyEarned = 0;
 
+
 if(tg){
+
   tg.ready();
+
   tg.expand();
+
 }
+
 
 function updateScreen(){
 
-  document.getElementById("balance").textContent =
-    Number(balance).toLocaleString();
+  document.getElementById(
+    "balance"
+  ).textContent =
+    Number(balance)
+      .toLocaleString();
 
-  document.getElementById("energyText").textContent =
-    energy + " / " + MAX_ENERGY;
+  document.getElementById(
+    "energyText"
+  ).textContent =
+    energy +
+    " / " +
+    MAX_ENERGY;
 
-  document.getElementById("energyFill").style.width =
+  document.getElementById(
+    "energyFill"
+  ).style.width =
     Math.max(
       0,
       Math.min(
@@ -450,12 +555,17 @@ function updateScreen(){
       )
     ) + "%";
 
-  document.getElementById("dailyText").textContent =
-    Number(dailyEarned).toLocaleString() +
+  document.getElementById(
+    "dailyText"
+  ).textContent =
+    Number(dailyEarned)
+      .toLocaleString() +
     " / " +
     DAILY_LIMIT;
 
-  document.getElementById("dailyFill").style.width =
+  document.getElementById(
+    "dailyFill"
+  ).style.width =
     Math.max(
       0,
       Math.min(
@@ -463,56 +573,177 @@ function updateScreen(){
         (dailyEarned / DAILY_LIMIT) * 100
       )
     ) + "%";
+
 }
+
 
 function showToast(message){
 
   const toast =
-    document.getElementById("toast");
+    document.getElementById(
+      "toast"
+    );
 
-  toast.textContent = message;
+  toast.textContent =
+    message;
 
-  toast.classList.add("show");
+  toast.classList.add(
+    "show"
+  );
 
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3000);
+  setTimeout(
+    () => {
+      toast.classList.remove(
+        "show"
+      );
+    },
+    3000
+  );
+
 }
+
 
 function showFloatingCoin(event){
 
   const coin =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
-  coin.className = "floating";
+  coin.className =
+    "floating";
 
-  coin.textContent = "+1 🪙";
+  coin.textContent =
+    "+1 🪙";
 
   coin.style.left =
-    (event.clientX - 15) + "px";
+    (event.clientX - 15) +
+    "px";
 
   coin.style.top =
-    (event.clientY - 20) + "px";
+    (event.clientY - 20) +
+    "px";
 
-  document.body.appendChild(coin);
+  document.body.appendChild(
+    coin
+  );
 
-  setTimeout(() => {
-    coin.remove();
-  }, 800);
+  setTimeout(
+    () => {
+      coin.remove();
+    },
+    800
+  );
+
 }
+
+
+/* LOAD SAVED PROFILE */
+
+async function loadProfile(){
+
+  if(
+    !tg ||
+    !tg.initData
+  ){
+
+    return;
+
+  }
+
+  try{
+
+    const response =
+      await fetch(
+        PROFILE_URL,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+            initData:
+              tg.initData
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      console.log(
+        "Profile error:",
+        data
+      );
+
+      return;
+
+    }
+
+    if(
+      data.success &&
+      data.profile
+    ){
+
+      balance =
+        Number(
+          data.profile.balance ??
+          0
+        );
+
+      energy =
+        Number(
+          data.profile.energy ??
+          MAX_ENERGY
+        );
+
+      dailyEarned =
+        Number(
+          data.profile.daily_earned ??
+          0
+        );
+
+      updateScreen();
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Profile loading error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* TAP COIN */
 
 async function tapCoin(event){
 
   const button =
-    document.getElementById("tapButton");
+    document.getElementById(
+      "tapButton"
+    );
 
-  if(!tg || !tg.initData){
+  if(
+    !tg ||
+    !tg.initData
+  ){
 
     showToast(
       "Open NaijaSurvey from Telegram."
     );
 
     return;
+
   }
 
   button.disabled = true;
@@ -540,26 +771,24 @@ async function tapCoin(event){
     let data = {};
 
     try{
+
       data =
         await response.json();
+
     }catch(e){
+
       data = {};
+
     }
 
-    /*
-      IMPORTANT:
-      Show the real server error instead
-      of hiding it behind "Unable to process tap".
-    */
 
     if(!response.ok){
 
-      const message =
+      showToast(
         data.error ||
         data.reason ||
-        `Server error: ${response.status}`;
-
-      showToast(message);
+        `Server error: ${response.status}`
+      );
 
       console.log(
         "Server response:",
@@ -567,7 +796,9 @@ async function tapCoin(event){
       );
 
       return;
+
     }
+
 
     if(!data.success){
 
@@ -581,30 +812,38 @@ async function tapCoin(event){
         typeof data.balance ===
         "number"
       ){
+
         balance =
           data.balance;
+
       }
 
       if(
         typeof data.energy ===
         "number"
       ){
+
         energy =
           data.energy;
+
       }
 
       if(
         typeof data.daily_earned ===
         "number"
       ){
+
         dailyEarned =
           data.daily_earned;
+
       }
 
       updateScreen();
 
       return;
+
     }
+
 
     balance =
       Number(
@@ -626,7 +865,10 @@ async function tapCoin(event){
 
     updateScreen();
 
-    showFloatingCoin(event);
+    showFloatingCoin(
+      event
+    );
+
 
     if(
       tg.HapticFeedback
@@ -636,11 +878,14 @@ async function tapCoin(event){
         .impactOccurred(
           "light"
         );
+
     }
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
     showToast(
       "Connection error. Try again."
@@ -649,15 +894,21 @@ async function tapCoin(event){
   }finally{
 
     button.disabled = false;
+
   }
+
 }
 
+
 document
-  .getElementById("tapButton")
+  .getElementById(
+    "tapButton"
+  )
   .addEventListener(
     "click",
     tapCoin
   );
+
 
 if(
   tg &&
@@ -673,11 +924,19 @@ if(
   ).textContent =
     user.first_name ||
     "User";
+
 }
 
+
+/* INITIAL DISPLAY */
+
 updateScreen();
+
+/* LOAD SAVED BALANCE */
+
+loadProfile();
 
 </script>
 
 </body>
-</html>
+  </html>
