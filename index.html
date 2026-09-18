@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Spin The Wheel</title>
 
@@ -14,22 +14,30 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-body{
+html,body{
     margin:0;
-    padding:15px;
+    padding:0;
+    min-height:100%;
+}
+
+body{
     background:#080b10;
-    color:white;
-    font-family:Arial,sans-serif;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    transition:background .2s;
 }
 
 .app{
+    width:100%;
     max-width:600px;
     margin:auto;
+    padding:15px;
 }
 
 h1{
     text-align:center;
     margin:5px 0 18px;
+    font-size:28px;
 }
 
 .card{
@@ -46,7 +54,7 @@ textarea{
     border-radius:12px;
     border:1px solid #333;
     background:#080c12;
-    color:white;
+    color:#fff;
     font-size:16px;
     resize:vertical;
     outline:none;
@@ -67,14 +75,19 @@ button{
     border:0;
     border-radius:11px;
     padding:13px 8px;
-    color:white;
+    color:#fff;
     background:#29313d;
     font-weight:bold;
     font-size:14px;
+    cursor:pointer;
 }
 
 button:active{
     transform:scale(.97);
+}
+
+button:disabled{
+    opacity:.5;
 }
 
 .spin{
@@ -104,7 +117,7 @@ button:active{
 }
 
 .setting{
-    margin-bottom:15px;
+    margin-bottom:16px;
 }
 
 .setting label{
@@ -113,15 +126,39 @@ button:active{
     font-weight:bold;
 }
 
+.color-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
 input[type="color"]{
     width:100%;
     height:42px;
     border:0;
     border-radius:8px;
+    background:#222;
 }
 
 input[type="range"]{
     width:100%;
+}
+
+input[type="file"]{
+    width:100%;
+    color:#ddd;
+    font-size:13px;
+}
+
+.check{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.check input{
+    width:20px;
+    height:20px;
 }
 
 #wheelBox{
@@ -149,6 +186,7 @@ canvas{
     border-top:45px solid #ff3b30;
     z-index:5;
     pointer-events:none;
+    filter:drop-shadow(0 3px 4px rgba(0,0,0,.6));
 }
 
 #result{
@@ -169,6 +207,18 @@ canvas{
     font-size:12px;
     margin-top:8px;
 }
+
+.note{
+    color:#999;
+    font-size:12px;
+    line-height:1.4;
+}
+
+hr{
+    border:0;
+    border-top:1px solid #2a313b;
+    margin:18px 0;
+}
 </style>
 </head>
 
@@ -177,6 +227,9 @@ canvas{
 <div class="app">
 
 <h1>🎡 Spin The Wheel</h1>
+
+
+<!-- LIST -->
 
 <div class="card">
 
@@ -215,6 +268,8 @@ Superman"
 </div>
 
 
+<!-- WHEEL -->
+
 <div class="card">
 
 <div id="wheelBox">
@@ -225,7 +280,11 @@ Superman"
 
 </div>
 
-<button id="spin" class="spin">
+<button
+id="spin"
+class="spin"
+type="button"
+>
 🎯 SPIN
 </button>
 
@@ -236,63 +295,348 @@ Add names and spin!
 </div>
 
 
+<!-- SETTINGS -->
+
 <div class="card">
 
-<button id="settingsButton" class="settings">
+<button
+id="settingsButton"
+class="settings"
+type="button"
+>
 ⚙️ Settings
 </button>
 
-<div id="settingsPanel" class="settings-panel">
+
+<div
+id="settingsPanel"
+class="settings-panel"
+>
+
+
+<!-- COLORS -->
 
 <div class="setting">
-<label>Wheel Color 1</label>
-<input type="color" id="c1" value="#ff4757">
+
+<label>🎨 Wheel Colors</label>
+
+<div class="color-grid">
+
+<input
+type="color"
+id="c1"
+value="#ff4757"
+>
+
+<input
+type="color"
+id="c2"
+value="#3742fa"
+>
+
+<input
+type="color"
+id="c3"
+value="#2ed573"
+>
+
+<input
+type="color"
+id="c4"
+value="#ffa502"
+>
+
 </div>
 
-<div class="setting">
-<label>Wheel Color 2</label>
-<input type="color" id="c2" value="#3742fa">
 </div>
 
-<div class="setting">
-<label>Wheel Color 3</label>
-<input type="color" id="c3" value="#2ed573">
-</div>
+
+<!-- WHEEL BACKGROUND -->
 
 <div class="setting">
-<label>Wheel Color 4</label>
-<input type="color" id="c4" value="#ffa502">
+
+<label>🌈 Wheel Background Color</label>
+
+<input
+type="color"
+id="wheelBackground"
+value="#111111"
+>
+
 </div>
 
-<div class="setting">
-<label>Wheel Text Color</label>
-<input type="color" id="textColor" value="#ffffff">
-</div>
+
+<!-- PAGE BACKGROUND -->
 
 <div class="setting">
-<label>Border Color</label>
-<input type="color" id="borderColor" value="#ffffff">
+
+<label>🖥️ Page Background Color</label>
+
+<input
+type="color"
+id="pageBackground"
+value="#080b10"
+>
+
 </div>
 
-<div class="setting">
-<label>Border Width</label>
-<input type="range" id="borderWidth" min="0" max="10" value="3">
-</div>
+
+<!-- TEXT COLOR -->
 
 <div class="setting">
-<label>Text Size</label>
-<input type="range" id="textSize" min="8" max="22" value="16">
+
+<label>🔤 Text Color</label>
+
+<input
+type="color"
+id="textColor"
+value="#ffffff"
+>
+
 </div>
 
-<div class="setting">
-<label>Pointer Color</label>
-<input type="color" id="pointerColor" value="#ff3b30">
-</div>
+
+<!-- TEXT SIZE -->
 
 <div class="setting">
-<label>Spin Duration</label>
-<input type="range" id="duration" min="2" max="10" step=".5" value="5">
+
+<label>🔠 Text Size</label>
+
+<input
+type="range"
+id="textSize"
+min="8"
+max="24"
+value="16"
+>
+
 </div>
+
+
+<!-- BORDER COLOR -->
+
+<div class="setting">
+
+<label>⭕ Border Color</label>
+
+<input
+type="color"
+id="borderColor"
+value="#ffffff"
+>
+
+</div>
+
+
+<!-- BORDER WIDTH -->
+
+<div class="setting">
+
+<label>⭕ Border Width</label>
+
+<input
+type="range"
+id="borderWidth"
+min="0"
+max="10"
+value="3"
+>
+
+</div>
+
+
+<hr>
+
+
+<!-- WHEEL IMAGE -->
+
+<div class="setting">
+
+<label>🖼️ Upload Wheel Background</label>
+
+<input
+type="file"
+id="wheelImage"
+accept="image/*"
+>
+
+<div class="note">
+This image will appear inside the wheel.
+</div>
+
+</div>
+
+
+<!-- REMOVE WHEEL IMAGE -->
+
+<button
+id="removeWheelImage"
+type="button"
+class="danger"
+style="width:100%;"
+>
+🗑️ Remove Wheel Image
+</button>
+
+
+<hr>
+
+
+<!-- POINTER COLOR -->
+
+<div class="setting">
+
+<label>👉 Pointer Color</label>
+
+<input
+type="color"
+id="pointerColor"
+value="#ff3b30"
+>
+
+</div>
+
+
+<!-- POINTER SIZE -->
+
+<div class="setting">
+
+<label>👉 Pointer Size</label>
+
+<input
+type="range"
+id="pointerSize"
+min="25"
+max="70"
+value="45"
+>
+
+</div>
+
+
+<!-- POINTER IMAGE -->
+
+<div class="setting">
+
+<label>👉 Upload Custom Pointer</label>
+
+<input
+type="file"
+id="pointerImage"
+accept="image/*"
+>
+
+<div class="note">
+Upload a transparent PNG if possible for the best result.
+</div>
+
+</div>
+
+
+<button
+id="removePointerImage"
+type="button"
+class="danger"
+style="width:100%;"
+>
+🗑️ Remove Pointer Image
+</button>
+
+
+<hr>
+
+
+<!-- SOUND -->
+
+<div class="setting">
+
+<div class="check">
+
+<input
+type="checkbox"
+id="soundToggle"
+checked
+>
+
+<label
+for="soundToggle"
+style="margin:0;"
+>
+🔊 Sound On
+</label>
+
+</div>
+
+</div>
+
+
+<!-- VOLUME -->
+
+<div class="setting">
+
+<label>🔉 Sound Volume</label>
+
+<input
+type="range"
+id="volume"
+min="0"
+max="1"
+step="0.05"
+value="0.5"
+>
+
+</div>
+
+
+<!-- DURATION -->
+
+<div class="setting">
+
+<label>⏱️ Spin Duration</label>
+
+<input
+type="range"
+id="duration"
+min="2"
+max="10"
+step="0.5"
+value="5"
+>
+
+</div>
+
+
+<hr>
+
+
+<!-- SETTINGS BUTTONS -->
+
+<div class="button-row">
+
+<button
+id="saveSettings"
+type="button"
+>
+💾 Save
+</button>
+
+<button
+id="loadSettings"
+type="button"
+>
+📂 Load
+</button>
+
+<button
+id="resetSettings"
+type="button"
+class="danger"
+>
+🔄 Reset
+</button>
+
+</div>
+
 
 </div>
 
@@ -303,24 +647,35 @@ Add names and spin!
 
 <script>
 
-/* =========================
+/* =====================================================
    TELEGRAM
-========================= */
+===================================================== */
 
-if(
-    window.Telegram &&
-    window.Telegram.WebApp
-){
+try{
 
-    Telegram.WebApp.ready();
-    Telegram.WebApp.expand();
+    if(
+        window.Telegram &&
+        window.Telegram.WebApp
+    ){
+
+        Telegram.WebApp.ready();
+
+        Telegram.WebApp.expand();
+
+    }
+
+}catch(error){
+
+    console.log(
+        "Telegram WebApp not available"
+    );
 
 }
 
 
-/* =========================
+/* =====================================================
    ELEMENTS
-========================= */
+===================================================== */
 
 const canvas =
 document.getElementById("wheel");
@@ -340,6 +695,9 @@ document.getElementById("result");
 const status =
 document.getElementById("status");
 
+const pointer =
+document.querySelector(".pointer");
+
 const settingsButton =
 document.getElementById("settingsButton");
 
@@ -347,33 +705,58 @@ const settingsPanel =
 document.getElementById("settingsPanel");
 
 
-/* =========================
+/* =====================================================
    SETTINGS
-========================= */
+===================================================== */
 
-let colors = [
-    "#ff4757",
-    "#3742fa",
-    "#2ed573",
-    "#ffa502"
-];
+let settings = {
 
-let textColor = "#ffffff";
+    colors:[
+        "#ff4757",
+        "#3742fa",
+        "#2ed573",
+        "#ffa502"
+    ],
 
-let borderColor = "#ffffff";
+    wheelBackground:
+        "#111111",
 
-let borderWidth = 3;
+    pageBackground:
+        "#080b10",
 
-let textSize = 16;
+    textColor:
+        "#ffffff",
 
-let pointerColor = "#ff3b30";
+    textSize:
+        16,
 
-let duration = 5;
+    borderColor:
+        "#ffffff",
+
+    borderWidth:
+        3,
+
+    pointerColor:
+        "#ff3b30",
+
+    pointerSize:
+        45,
+
+    sound:
+        true,
+
+    volume:
+        0.5,
+
+    duration:
+        5
+
+};
 
 
-/* =========================
+/* =====================================================
    STATE
-========================= */
+===================================================== */
 
 let items = [];
 
@@ -381,10 +764,16 @@ let rotation = 0;
 
 let spinning = false;
 
+let wheelImage = null;
 
-/* =========================
+let pointerImage = null;
+
+let audioContext = null;
+
+
+/* =====================================================
    CANVAS
-========================= */
+===================================================== */
 
 function resize(){
 
@@ -398,10 +787,10 @@ function resize(){
         window.devicePixelRatio || 1;
 
     canvas.width =
-        size * dpr;
+        Math.floor(size * dpr);
 
     canvas.height =
-        size * dpr;
+        Math.floor(size * dpr);
 
     canvas.style.width =
         size + "px";
@@ -428,9 +817,9 @@ window.addEventListener(
 );
 
 
-/* =========================
+/* =====================================================
    READ NAMES
-========================= */
+===================================================== */
 
 function readNames(){
 
@@ -451,8 +840,16 @@ function readNames(){
     items =
         text
         .split(/[\n,]+/)
-        .map(x => x.trim())
-        .filter(x => x.length > 0);
+        .map(
+            function(name){
+                return name.trim();
+            }
+        )
+        .filter(
+            function(name){
+                return name.length > 0;
+            }
+        );
 
     items =
         [...new Set(items)];
@@ -464,19 +861,31 @@ function readNames(){
 }
 
 
-/* =========================
-   SHORT TEXT
-========================= */
+/* =====================================================
+   SHORT NAME
+===================================================== */
 
-function shortName(name,count){
+function shortName(
+    name,
+    count
+){
 
     let max = 18;
 
-    if(count > 20) max = 13;
-    if(count > 30) max = 10;
-    if(count > 40) max = 8;
-    if(count > 50) max = 7;
-    if(count > 70) max = 6;
+    if(count > 20)
+        max = 13;
+
+    if(count > 30)
+        max = 10;
+
+    if(count > 40)
+        max = 8;
+
+    if(count > 50)
+        max = 7;
+
+    if(count > 70)
+        max = 6;
 
     if(name.length <= max){
 
@@ -484,14 +893,19 @@ function shortName(name,count){
 
     }
 
-    return name.substring(0,max-1) + "…";
+    return (
+        name.substring(
+            0,
+            max - 1
+        ) + "…"
+    );
 
 }
 
 
-/* =========================
-   DRAW
-========================= */
+/* =====================================================
+   DRAW WHEEL
+===================================================== */
 
 function draw(){
 
@@ -510,6 +924,7 @@ function draw(){
     const radius =
         size / 2 - 8;
 
+
     ctx.clearRect(
         0,
         0,
@@ -518,7 +933,7 @@ function draw(){
     );
 
 
-    /* Empty wheel */
+    /* EMPTY */
 
     if(items.length === 0){
 
@@ -533,20 +948,20 @@ function draw(){
         );
 
         ctx.fillStyle =
-            "#151b23";
+            settings.wheelBackground;
 
         ctx.fill();
 
         ctx.strokeStyle =
-            borderColor;
+            settings.borderColor;
 
         ctx.lineWidth =
-            borderWidth;
+            settings.borderWidth;
 
         ctx.stroke();
 
         ctx.fillStyle =
-            textColor;
+            settings.textColor;
 
         ctx.font =
             "bold 18px Arial";
@@ -569,25 +984,74 @@ function draw(){
 
 
     const slice =
-        Math.PI * 2 / items.length;
+        Math.PI * 2 /
+        items.length;
 
+
+    /*
+       Clip the wheel circle
+    */
+
+    ctx.save();
+
+    ctx.beginPath();
+
+    ctx.arc(
+        center,
+        center,
+        radius,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.clip();
+
+
+    /*
+       Wheel background
+    */
+
+    ctx.fillStyle =
+        settings.wheelBackground;
+
+    ctx.fill();
+
+
+    /*
+       Background image
+    */
+
+    if(wheelImage){
+
+        ctx.drawImage(
+            wheelImage,
+            center - radius,
+            center - radius,
+            radius * 2,
+            radius * 2
+        );
+
+    }
+
+
+    /*
+       Segments
+    */
 
     for(
-        let i=0;
-        i<items.length;
+        let i = 0;
+        i < items.length;
         i++
     ){
 
         const start =
-            -Math.PI/2 +
+            -Math.PI / 2 +
             rotation +
             i * slice;
 
         const end =
             start + slice;
 
-
-        /* Segment */
 
         ctx.beginPath();
 
@@ -606,29 +1070,61 @@ function draw(){
 
         ctx.closePath();
 
-        ctx.fillStyle =
-            colors[
-                i % colors.length
-            ];
+
+        /*
+           If no background image,
+           use normal colors.
+
+           If image exists, use a
+           transparent tint so image
+           remains visible.
+        */
+
+        if(wheelImage){
+
+            ctx.fillStyle =
+                hexToRGBA(
+                    settings.colors[
+                        i %
+                        settings.colors.length
+                    ],
+                    0.28
+                );
+
+        }
+        else{
+
+            ctx.fillStyle =
+                settings.colors[
+                    i %
+                    settings.colors.length
+                ];
+
+        }
 
         ctx.fill();
 
 
-        /* Border */
+        /*
+           Segment border
+        */
 
         ctx.strokeStyle =
-            borderColor;
+            settings.borderColor;
 
         ctx.lineWidth =
-            borderWidth;
+            settings.borderWidth;
 
         ctx.stroke();
 
 
-        /* Text */
+        /*
+           Text
+        */
 
         const middle =
-            start + slice/2;
+            start +
+            slice / 2;
 
         const textRadius =
             radius * .66;
@@ -646,30 +1142,58 @@ function draw(){
 
         ctx.save();
 
-        ctx.translate(x,y);
-
-        ctx.rotate(
-            middle + Math.PI/2
+        ctx.translate(
+            x,
+            y
         );
 
+        ctx.rotate(
+            middle +
+            Math.PI / 2
+        );
+
+
+        let fontSize =
+            settings.textSize;
+
+
+        if(items.length > 30){
+
+            fontSize =
+                Math.min(
+                    fontSize,
+                    13
+                );
+
+        }
+
+        if(items.length > 50){
+
+            fontSize =
+                Math.min(
+                    fontSize,
+                    10
+                );
+
+        }
+
+        if(items.length > 70){
+
+            fontSize =
+                Math.min(
+                    fontSize,
+                    9
+                );
+
+        }
+
+
         ctx.fillStyle =
-            textColor;
-
-        let font =
-            textSize;
-
-        if(items.length > 30)
-            font = Math.min(font,13);
-
-        if(items.length > 50)
-            font = Math.min(font,10);
-
-        if(items.length > 70)
-            font = Math.min(font,9);
+            settings.textColor;
 
         ctx.font =
             "bold " +
-            font +
+            fontSize +
             "px Arial";
 
         ctx.textAlign =
@@ -677,6 +1201,7 @@ function draw(){
 
         ctx.textBaseline =
             "middle";
+
 
         ctx.fillText(
             shortName(
@@ -687,12 +1212,18 @@ function draw(){
             0
         );
 
+
         ctx.restore();
 
     }
 
 
-    /* Outer border */
+    ctx.restore();
+
+
+    /*
+       Outer border
+    */
 
     ctx.beginPath();
 
@@ -701,484 +1232,283 @@ function draw(){
         center,
         radius,
         0,
-        Math.PI*2
+        Math.PI * 2
     );
 
     ctx.strokeStyle =
-        borderColor;
+        settings.borderColor;
 
     ctx.lineWidth =
-        borderWidth;
+        settings.borderWidth;
 
     ctx.stroke();
 
 }
 
 
-/* =========================
-   SETTINGS
-========================= */
+/* =====================================================
+   HEX TO RGBA
+===================================================== */
 
-settingsButton.addEventListener(
-    "click",
-    function(){
+function hexToRGBA(
+    hex,
+    alpha
+){
 
-        settingsPanel.classList.toggle(
-            "show"
+    hex =
+        hex.replace(
+            "#",
+            ""
         );
 
-    }
-);
+    if(hex.length === 3){
 
-
-/* =========================
-   LIVE INPUT
-========================= */
-
-input.addEventListener(
-    "input",
-    function(){
-
-        readNames();
-
-        draw();
-
-        result.textContent =
-            items.length
-            ? items.length + " names ready!"
-            : "Add names and spin!";
+        hex =
+            hex[0]+hex[0]+
+            hex[1]+hex[1]+
+            hex[2]+hex[2];
 
     }
-);
 
-
-/* =========================
-   SAVE
-========================= */
-
-document
-.getElementById("saveList")
-.addEventListener(
-    "click",
-    function(){
-
-        localStorage.setItem(
-            "spinWheelList",
-            input.value
+    const r =
+        parseInt(
+            hex.substring(0,2),
+            16
         );
 
-        result.textContent =
-            "✅ List saved";
+    const g =
+        parseInt(
+            hex.substring(2,4),
+            16
+        );
+
+    const b =
+        parseInt(
+            hex.substring(4,6),
+            16
+        );
+
+    return (
+        "rgba(" +
+        r + "," +
+        g + "," +
+        b + "," +
+        alpha +
+        ")"
+    );
+
+}
+
+
+/* =====================================================
+   POINTER
+===================================================== */
+
+function updatePointer(){
+
+    pointer.style.borderTopColor =
+        settings.pointerColor;
+
+
+    if(pointerImage){
+
+        pointer.style.width =
+            settings.pointerSize +
+            "px";
+
+        pointer.style.height =
+            settings.pointerSize +
+            "px";
+
+        pointer.style.border =
+            "none";
+
+        pointer.style.backgroundImage =
+            "url('" +
+            pointerImage.src +
+            "')";
+
+        pointer.style.backgroundSize =
+            "contain";
+
+        pointer.style.backgroundRepeat =
+            "no-repeat";
+
+        pointer.style.backgroundPosition =
+            "center";
 
     }
-);
+    else{
+
+        pointer.style.width =
+            "0";
+
+        pointer.style.height =
+            "0";
+
+        pointer.style.backgroundImage =
+            "none";
+
+        pointer.style.borderLeft =
+            (
+                settings.pointerSize *
+                .49
+            ) +
+            "px solid transparent";
+
+        pointer.style.borderRight =
+            (
+                settings.pointerSize *
+                .49
+            ) +
+            "px solid transparent";
+
+        pointer.style.borderTop =
+            settings.pointerSize +
+            "px solid " +
+            settings.pointerColor;
+
+    }
+
+}
 
 
-/* =========================
-   LOAD
-========================= */
+/* =====================================================
+   AUDIO
+===================================================== */
 
-document
-.getElementById("loadList")
-.addEventListener(
-    "click",
-    function(){
+function getAudio(){
 
-        const saved =
-            localStorage.getItem(
-                "spinWheelList"
-            );
+    if(!audioContext){
 
-        if(saved){
+        const Audio =
+            window.AudioContext ||
+            window.webkitAudioContext;
 
-            input.value =
-                saved;
+        if(!Audio){
 
-            readNames();
-
-            draw();
-
-            result.textContent =
-                "📂 List loaded";
+            return null;
 
         }
-        else{
 
-            result.textContent =
-                "No saved list";
-
-        }
+        audioContext =
+            new Audio();
 
     }
-);
+
+    return audioContext;
+
+}
 
 
-/* =========================
-   CLEAR
-========================= */
+/* =====================================================
+   TICK SOUND
+===================================================== */
 
-document
-.getElementById("clearList")
-.addEventListener(
-    "click",
-    function(){
+function tickSound(){
 
-        input.value = "";
+    if(!settings.sound){
 
-        items = [];
-
-        draw();
-
-        status.textContent =
-            "0 names loaded";
-
-        result.textContent =
-            "Add names and spin!";
+        return;
 
     }
-);
 
+    try{
 
-/* =========================
-   SPIN
-========================= */
+        const audio =
+            getAudio();
 
-spinButton.addEventListener(
-    "click",
-    function(){
-
-        if(spinning){
+        if(!audio){
 
             return;
 
         }
 
-        readNames();
+        if(audio.state === "suspended"){
 
-        if(items.length < 2){
+            audio.resume();
 
-            result.textContent =
-                "⚠️ Add at least 2 names.";
+        }
+
+
+        const oscillator =
+            audio.createOscillator();
+
+        const gain =
+            audio.createGain();
+
+
+        oscillator.type =
+            "square";
+
+        oscillator.frequency.value =
+            500;
+
+
+        gain.gain.setValueAtTime(
+            settings.volume * .08,
+            audio.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audio.currentTime + .04
+        );
+
+
+        oscillator.connect(
+            gain
+        );
+
+        gain.connect(
+            audio.destination
+        );
+
+
+        oscillator.start();
+
+        oscillator.stop(
+            audio.currentTime +
+            .05
+        );
+
+    }
+    catch(error){}
+
+}
+
+
+/* =====================================================
+   RESULT SOUND
+===================================================== */
+
+function resultSound(){
+
+    if(!settings.sound){
+
+        return;
+
+    }
+
+    try{
+
+        const audio =
+            getAudio();
+
+        if(!audio){
 
             return;
 
         }
 
+        if(audio.state === "suspended"){
 
-        spinning = true;
-
-        spinButton.disabled =
-            true;
-
-
-        const winner =
-            Math.floor(
-                Math.random() *
-                items.length
-            );
-
-
-        const slice =
-            Math.PI * 2 /
-            items.length;
-
-
-        /*
-           Pointer is at the TOP.
-
-           Put the center of the
-           selected segment exactly
-           under the pointer.
-        */
-
-        const target =
-            -(winner * slice)
-            - slice/2;
-
-
-        const full =
-            Math.PI * 2;
-
-
-        let current =
-            rotation % full;
-
-
-        if(current < 0){
-
-            current += full;
+            audio.resume();
 
         }
 
 
-        let difference =
-            target - current;
+        const oscillator =
+            audio.createOscillator();
 
-
-        while(
-            difference < 0
-        ){
-
-            difference += full;
-
-        }
-
-
-        const extra =
-            6 +
-            Math.floor(
-                Math.random() * 3
-            );
-
-
-        const finalRotation =
-            rotation +
-            difference +
-            extra * full;
-
-
-        const startRotation =
-            rotation;
-
-
-        const startTime =
-            performance.now();
-
-
-        const totalTime =
-            duration * 1000;
-
-
-        function animate(now){
-
-            const progress =
-                Math.min(
-                    (now-startTime) /
-                    totalTime,
-                    1
-                );
-
-
-            const eased =
-                1 -
-                Math.pow(
-                    1-progress,
-                    4
-                );
-
-
-            rotation =
-                startRotation +
-                (
-                    finalRotation -
-                    startRotation
-                ) * eased;
-
-
-            draw();
-
-
-            if(progress < 1){
-
-                requestAnimationFrame(
-                    animate
-                );
-
-            }
-            else{
-
-                rotation =
-                    finalRotation;
-
-                draw();
-
-
-                result.textContent =
-                    "🎉 " +
-                    items[winner];
-
-
-                spinning =
-                    false;
-
-                spinButton.disabled =
-                    false;
-
-            }
-
-        }
-
-
-        requestAnimationFrame(
-            animate
-        );
-
-    }
-);
-
-
-/* =========================
-   SETTINGS INPUTS
-========================= */
-
-document
-.getElementById("c1")
-.addEventListener(
-    "input",
-    function(){
-
-        colors[0] =
-            this.value;
-
-        draw();
-
-    }
-);
-
-document
-.getElementById("c2")
-.addEventListener(
-    "input",
-    function(){
-
-        colors[1] =
-            this.value;
-
-        draw();
-
-    }
-);
-
-document
-.getElementById("c3")
-.addEventListener(
-    "input",
-    function(){
-
-        colors[2] =
-            this.value;
-
-        draw();
-
-    }
-);
-
-document
-.getElementById("c4")
-.addEventListener(
-    "input",
-    function(){
-
-        colors[3] =
-            this.value;
-
-        draw();
-
-    }
-);
-
-document
-.getElementById("textColor")
-.addEventListener(
-    "input",
-    function(){
-
-        textColor =
-            this.value;
-
-        draw();
-
-    }
-);
-
-document
-.getElementById("borderColor")
-.addEventListener(
-    "input",
-    function(){
-
-        borderColor =
-            this.value;
-
-        draw();
-
-    }
-);
-
-document
-.getElementById("borderWidth")
-.addEventListener(
-    "input",
-    function(){
-
-        borderWidth =
-            Number(this.value);
-
-        draw();
-
-    }
-);
-
-document
-.getElementById("textSize")
-.addEventListener(
-    "input",
-    function(){
-
-        textSize =
-            Number(this.value);
-
-        draw();
-
-    }
-);
-
-document
-.getElementById("pointerColor")
-.addEventListener(
-    "input",
-    function(){
-
-        pointerColor =
-            this.value;
-
-        document
-        .querySelector(".pointer")
-        .style.borderTopColor =
-            pointerColor;
-
-    }
-);
-
-document
-.getElementById("duration")
-.addEventListener(
-    "input",
-    function(){
-
-        duration =
-            Number(this.value);
-
-    }
-);
-
-
-/* =========================
-   START
-========================= */
-
-document
-.querySelector(".pointer")
-.style.borderTopColor =
-pointerColor;
-
-resize();
-
-readNames();
-
-draw();
-
-</script>
-
-</body>
-    </html>
+ 
