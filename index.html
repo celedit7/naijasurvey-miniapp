@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+>
 
 <title>Spin The Wheel</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+html,
+body{
   margin:0;
   padding:0;
   width:100%;
@@ -28,11 +35,129 @@ body{
   padding:14px;
 }
 
+button,
+input,
+textarea,
+select{
+  font-family:Arial,sans-serif;
+}
+
+button{
+  touch-action:manipulation;
+  cursor:pointer;
+}
+
 .container{
   width:100%;
   max-width:650px;
   margin:auto;
 }
+
+
+/* =========================
+   SUBSCRIBE SCREEN
+========================= */
+
+.subscribe-screen{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+
+  background:#0b1120;
+}
+
+.subscribe-card{
+  width:100%;
+  max-width:430px;
+
+  background:#1f2937;
+
+  border:1px solid #374151;
+
+  border-radius:20px;
+
+  padding:28px 20px;
+
+  text-align:center;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.45);
+}
+
+.subscribe-icon{
+  font-size:60px;
+  margin-bottom:10px;
+}
+
+.subscribe-title{
+  font-size:25px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.subscribe-text{
+  color:#d1d5db;
+  line-height:1.5;
+  font-size:15px;
+  margin-bottom:20px;
+}
+
+.youtube-button{
+  display:block;
+
+  width:100%;
+
+  padding:14px;
+
+  border-radius:12px;
+
+  background:#ff0000;
+
+  color:#fff;
+
+  text-decoration:none;
+
+  font-size:17px;
+
+  font-weight:bold;
+
+  margin-bottom:12px;
+}
+
+.continue-button{
+  width:100%;
+
+  padding:14px;
+
+  border:0;
+
+  border-radius:12px;
+
+  background:#22c55e;
+
+  color:#fff;
+
+  font-size:17px;
+
+  font-weight:bold;
+}
+
+.subscribe-note{
+  color:#9ca3af;
+  font-size:12px;
+  margin-top:14px;
+}
+
+
+/* =========================
+   MAIN
+========================= */
 
 h1{
   text-align:center;
@@ -43,13 +168,21 @@ h1{
 textarea{
   width:100%;
   min-height:145px;
+
   resize:vertical;
+
   padding:14px;
+
   border-radius:12px;
+
   border:2px solid #374151;
+
   background:#1f2937;
+
   color:#fff;
+
   font-size:16px;
+
   outline:none;
 }
 
@@ -67,10 +200,9 @@ button{
   border:0;
   border-radius:10px;
   padding:12px;
-  font-size:15px;
+
+  font-size:14px;
   font-weight:bold;
-  cursor:pointer;
-  touch-action:manipulation;
 }
 
 .small-btn{
@@ -87,10 +219,15 @@ button{
 
 .example-select{
   flex:1;
+
   padding:11px;
+
   border-radius:10px;
+
   border:1px solid #4b5563;
+
   background:#1f2937;
+
   color:#fff;
 }
 
@@ -99,50 +236,71 @@ button{
   color:#fff;
 }
 
+
+/* =========================
+   WHEEL
+========================= */
+
 .spin-area{
   position:relative;
+
   width:min(90vw,420px);
+
   aspect-ratio:1;
+
   margin:25px auto 10px;
 }
 
 canvas{
   display:block;
+
   width:100%;
   height:100%;
 }
 
 .pointer{
   position:absolute;
+
   top:-2px;
   left:50%;
+
   transform:translateX(-50%);
+
   width:0;
   height:0;
 
   border-left:20px solid transparent;
   border-right:20px solid transparent;
+
   border-top:38px solid #ef4444;
 
   z-index:10;
 
-  filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));
+  filter:
+    drop-shadow(
+      0 2px 3px rgba(0,0,0,.6)
+    );
 }
 
 #spinBtn{
   display:block;
+
   width:82%;
+
   margin:15px auto;
 
-  background:#22c55e;
-  color:#fff;
-
-  font-size:21px;
   padding:15px;
 
   border-radius:14px;
 
-  box-shadow:0 4px 15px rgba(34,197,94,.25);
+  background:#22c55e;
+
+  color:#fff;
+
+  font-size:21px;
+
+  box-shadow:
+    0 4px 15px rgba(34,197,94,.25);
 }
 
 #spinBtn:active{
@@ -155,29 +313,45 @@ canvas{
 
 .result{
   text-align:center;
-  min-height:42px;
+
+  min-height:40px;
+
   font-size:21px;
+
   font-weight:bold;
+
   margin:10px 0 20px;
 }
 
+
+/* =========================
+   WINNER
+========================= */
+
 .winner-box{
   display:none;
+
   text-align:center;
+
   background:#172554;
+
   border:1px solid #3b82f6;
+
   border-radius:15px;
+
   padding:16px;
+
   margin:10px 0 15px;
 }
 
 .winner-box.show{
   display:block;
+
   animation:winnerPop .5s ease;
 }
 
 .winner-emoji{
-  font-size:38px;
+  font-size:40px;
 }
 
 .winner-label{
@@ -194,31 +368,47 @@ canvas{
 }
 
 @keyframes winnerPop{
+
   0%{
     transform:scale(.7);
     opacity:0;
   }
+
   70%{
     transform:scale(1.05);
   }
+
   100%{
     transform:scale(1);
     opacity:1;
   }
+
 }
+
+
+/* =========================
+   SETTINGS
+========================= */
 
 .settings-btn{
   width:100%;
+
   background:#2563eb;
+
   color:#fff;
+
   margin-bottom:10px;
 }
 
 .settings{
   display:none;
+
   background:#1f2937;
+
   border-radius:14px;
+
   padding:15px;
+
   margin-bottom:15px;
 }
 
@@ -232,30 +422,42 @@ canvas{
 
 .setting label{
   display:block;
+
   margin-bottom:6px;
+
   font-size:14px;
+
   color:#d1d5db;
 }
 
 .setting input,
 .setting select{
   width:100%;
+
   padding:10px;
+
   border-radius:8px;
+
   border:1px solid #4b5563;
+
   background:#111827;
+
   color:#fff;
 }
 
 .color-grid{
   display:grid;
+
   grid-template-columns:1fr 1fr;
+
   gap:10px;
 }
 
 .color-box{
   display:flex;
+
   align-items:center;
+
   gap:8px;
 }
 
@@ -267,7 +469,9 @@ canvas{
 
 .range-value{
   float:right;
+
   color:#22c55e;
+
   font-weight:bold;
 }
 
@@ -278,16 +482,23 @@ canvas{
 
 .settings-buttons button{
   flex:1;
+
   background:#374151;
+
   color:#fff;
 }
 
 .toggle-row{
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
   background:#111827;
+
   padding:12px;
+
   border-radius:10px;
 }
 
@@ -298,12 +509,16 @@ canvas{
 .toggle{
   width:48px !important;
   height:24px;
+
   appearance:none;
+
   background:#4b5563 !important;
+
   border-radius:20px !important;
+
   position:relative;
+
   padding:0 !important;
-  cursor:pointer;
 }
 
 .toggle:checked{
@@ -312,13 +527,19 @@ canvas{
 
 .toggle:after{
   content:"";
+
   position:absolute;
+
   width:18px;
   height:18px;
+
   border-radius:50%;
+
   background:#fff;
+
   top:3px;
   left:3px;
+
   transition:.2s;
 }
 
@@ -326,17 +547,28 @@ canvas{
   left:27px;
 }
 
+
+/* =========================
+   HISTORY
+========================= */
+
 .history{
   background:#1f2937;
+
   border-radius:14px;
+
   padding:14px;
+
   margin-top:15px;
 }
 
 .history-header{
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
   margin-bottom:10px;
 }
 
@@ -348,7 +580,9 @@ canvas{
 .clear-history{
   background:#374151;
   color:#fff;
+
   padding:8px 11px;
+
   font-size:12px;
 }
 
@@ -359,40 +593,64 @@ canvas{
 
 .history-item{
   display:flex;
+
   gap:10px;
+
   align-items:center;
+
   padding:9px 5px;
+
   border-bottom:1px solid #374151;
 }
 
 .history-number{
   min-width:25px;
+
   height:25px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
+
   border-radius:50%;
+
   background:#2563eb;
+
   font-size:12px;
 }
 
 .history-name{
   flex:1;
+
   word-break:break-word;
 }
 
 .empty-history{
   text-align:center;
+
   color:#9ca3af;
+
   padding:10px;
 }
 
+
+/* =========================
+   SUPPORT
+========================= */
+
 .support-card{
   margin:22px 0 18px;
+
   padding:20px 15px;
+
   text-align:center;
+
   border-radius:16px;
+
   background:#1f2937;
+
   border:1px solid #374151;
 }
 
@@ -409,81 +667,185 @@ canvas{
 
 .support-text{
   color:#d1d5db;
+
   font-size:14px;
+
   margin-bottom:15px;
 }
 
 .support-button{
   display:inline-block;
+
   padding:12px 20px;
+
   border-radius:10px;
+
   background:#ef4444;
+
   color:#fff;
+
   text-decoration:none;
+
   font-size:15px;
+
   font-weight:bold;
 }
 
-.ad-area{
-  width:100%;
-  margin-top:15px;
-  text-align:center;
-  overflow:hidden;
+
+/* HIDE MAIN UNTIL SUBSCRIBE */
+
+#mainApp{
+  display:none;
 }
 
-.notice{
-  display:none;
-  padding:10px;
-  margin-top:10px;
-  border-radius:10px;
-  background:#3f1d1d;
-  color:#fecaca;
-  text-align:center;
-  font-size:13px;
-}
 </style>
 </head>
 
 <body>
 
-<div class="container">
 
-<h1>🎡 Spin The Wheel</h1>
+<!-- =========================
+     SUBSCRIBE SCREEN
+========================= -->
 
-<textarea id="items" placeholder="Enter one item per line...">Red
+<div
+  class="subscribe-screen"
+  id="subscribeScreen"
+>
+
+  <div class="subscribe-card">
+
+    <div class="subscribe-icon">
+      ❤️
+    </div>
+
+    <div class="subscribe-title">
+      Support ULTRON-S
+    </div>
+
+    <div class="subscribe-text">
+      Before using Spin The Wheel, please subscribe to my YouTube channel.
+      Tap the button below to visit the channel.
+    </div>
+
+    <a
+      class="youtube-button"
+      href="https://youtube.com/@ultron-cel?si=Ml33eKON3n2Xc-TT"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      ▶️ Subscribe on YouTube
+    </a>
+
+    <button
+      class="continue-button"
+      id="continueButton"
+    >
+      ✅ I've Subscribed — Continue
+    </button>
+
+    <div class="subscribe-note">
+      Subscription status cannot be automatically verified here.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MAIN APP
+========================= -->
+
+<div
+  class="container"
+  id="mainApp"
+>
+
+<h1>
+  🎡 Spin The Wheel
+</h1>
+
+
+<textarea
+  id="items"
+  placeholder="Enter one item per line..."
+>Red
 Blue
 Green
 Yellow</textarea>
 
+
 <div class="buttons">
 
-<button class="small-btn" id="saveList">💾 Save</button>
+<button
+  class="small-btn"
+  id="saveList"
+>
+💾 Save
+</button>
 
-<button class="small-btn" id="loadList">📂 Load</button>
+<button
+  class="small-btn"
+  id="loadList"
+>
+📂 Load
+</button>
 
-<button class="small-btn" id="clearList">🗑️ Clear</button>
+<button
+  class="small-btn"
+  id="clearList"
+>
+🗑️ Clear
+</button>
+
+<button
+  class="small-btn"
+  id="shuffleBtn"
+>
+🔀 Shuffle
+</button>
 
 </div>
 
+
 <div class="example-row">
 
-<select class="example-select" id="exampleSelect">
+<select
+  class="example-select"
+  id="exampleSelect"
+>
 
-<option value="">📋 Example Lists</option>
+<option value="">
+📋 Example Lists
+</option>
 
-<option value="numbers">Numbers</option>
+<option value="numbers">
+Numbers
+</option>
 
-<option value="football">Football Teams</option>
+<option value="football">
+Football Teams
+</option>
 
-<option value="superheroes">Superheroes</option>
+<option value="superheroes">
+Superheroes
+</option>
 
-<option value="countries">Countries</option>
+<option value="countries">
+Countries
+</option>
 
-<option value="yesno">Yes / No</option>
+<option value="yesno">
+Yes / No
+</option>
 
 </select>
 
-<button class="load-example" id="loadExample">
+<button
+  class="load-example"
+  id="loadExample"
+>
 Load
 </button>
 
@@ -494,7 +856,10 @@ Load
 
 <canvas id="wheel"></canvas>
 
-<div class="pointer" id="pointer"></div>
+<div
+  class="pointer"
+  id="pointer"
+></div>
 
 </div>
 
@@ -504,86 +869,109 @@ Load
 </button>
 
 
-<div class="result" id="result"></div>
+<div
+  class="result"
+  id="result"
+></div>
 
 
-<div class="winner-box" id="winnerBox">
+<div
+  class="winner-box"
+  id="winnerBox"
+>
 
-<div class="winner-emoji">🏆</div>
+<div class="winner-emoji">
+🏆
+</div>
 
 <div class="winner-label">
 WINNER
 </div>
 
-<div class="winner-name" id="winnerName">
+<div
+  class="winner-name"
+  id="winnerName"
+>
 -
 </div>
 
 </div>
 
 
-<button class="settings-btn" id="settingsBtn">
+<button
+  class="settings-btn"
+  id="settingsBtn"
+>
 ⚙️ Settings
 </button>
 
 
-<div class="settings" id="settings">
+<div
+  class="settings"
+  id="settings"
+>
 
 
 <div class="setting">
 
-<label>Wheel Colors</label>
+<label>
+Wheel Colors
+</label>
 
 <div class="color-grid">
 
 <div class="color-box">
+
 <span>1</span>
-<input type="color" id="color1" value="#ef4444">
+
+<input
+  type="color"
+  id="color1"
+  value="#ef4444"
+>
+
 </div>
 
+
 <div class="color-box">
+
 <span>2</span>
-<input type="color" id="color2" value="#3b82f6">
+
+<input
+  type="color"
+  id="color2"
+  value="#3b82f6"
+>
+
 </div>
 
+
 <div class="color-box">
+
 <span>3</span>
-<input type="color" id="color3" value="#22c55e">
+
+<input
+  type="color"
+  id="color3"
+  value="#22c55e"
+>
+
 </div>
+
 
 <div class="color-box">
+
 <span>4</span>
-<input type="color" id="color4" value="#f59e0b">
-</div>
+
+<input
+  type="color"
+  id="color4"
+  value="#f59e0b"
+>
 
 </div>
 
 </div>
-
-
-<div class="setting">
-
-<label>Wheel Background</label>
-
-<input type="color" id="wheelBg" value="#111827">
-
-</div>
-
-
-<div class="setting">
-
-<label>Page Background</label>
-
-<input type="color" id="pageBg" value="#111827">
-
-</div>
-
-
-<div class="setting">
-
-<label>Text Color</label>
-
-<input type="color" id="textColor" value="#ffffff">
 
 </div>
 
@@ -591,16 +979,69 @@ WINNER
 <div class="setting">
 
 <label>
+Wheel Background
+</label>
+
+<input
+  type="color"
+  id="wheelBg"
+  value="#111827"
+>
+
+</div>
+
+
+<div class="setting">
+
+<label>
+Page Background
+</label>
+
+<input
+  type="color"
+  id="pageBg"
+  value="#111827"
+>
+
+</div>
+
+
+<div class="setting">
+
+<label>
+Text Color
+</label>
+
+<input
+  type="color"
+  id="textColor"
+  value="#ffffff"
+>
+
+</div>
+
+
+<div class="setting">
+
+<label>
+
 Text Size
-<span class="range-value" id="textSizeValue">16</span>
+
+<span
+  class="range-value"
+  id="textSizeValue"
+>
+16
+</span>
+
 </label>
 
 <input
-type="range"
-id="textSize"
-min="10"
-max="30"
-value="16"
+  type="range"
+  id="textSize"
+  min="10"
+  max="30"
+  value="16"
 >
 
 </div>
@@ -608,9 +1049,15 @@ value="16"
 
 <div class="setting">
 
-<label>Border Color</label>
+<label>
+Border Color
+</label>
 
-<input type="color" id="borderColor" value="#ffffff">
+<input
+  type="color"
+  id="borderColor"
+  value="#ffffff"
+>
 
 </div>
 
@@ -618,26 +1065,25 @@ value="16"
 <div class="setting">
 
 <label>
+
 Border Width
-<span class="range-value" id="borderWidthValue">3</span>
+
+<span
+  class="range-value"
+  id="borderWidthValue"
+>
+3
+</span>
+
 </label>
 
 <input
-type="range"
-id="borderWidth"
-min="0"
-max="10"
-value="3"
+  type="range"
+  id="borderWidth"
+  min="0"
+  max="10"
+  value="3"
 >
-
-</div>
-
-
-<div class="setting">
-
-<label>Pointer Color</label>
-
-<input type="color" id="pointerColor" value="#ef4444">
 
 </div>
 
@@ -645,16 +1091,13 @@ value="3"
 <div class="setting">
 
 <label>
-Pointer Size
-<span class="range-value" id="pointerSizeValue">38</span>
+Pointer Color
 </label>
 
 <input
-type="range"
-id="pointerSize"
-min="20"
-max="60"
-value="38"
+  type="color"
+  id="pointerColor"
+  value="#ef4444"
 >
 
 </div>
@@ -662,13 +1105,45 @@ value="38"
 
 <div class="setting">
 
-<label>Sound</label>
+<label>
+
+Pointer Size
+
+<span
+  class="range-value"
+  id="pointerSizeValue"
+>
+38
+</span>
+
+</label>
+
+<input
+  type="range"
+  id="pointerSize"
+  min="20"
+  max="60"
+  value="38"
+>
+
+</div>
+
+
+<div class="setting">
+
+<label>
+Sound
+</label>
 
 <select id="sound">
 
-<option value="on">On</option>
+<option value="on">
+On
+</option>
 
-<option value="off">Off</option>
+<option value="off">
+Off
+</option>
 
 </select>
 
@@ -678,16 +1153,24 @@ value="38"
 <div class="setting">
 
 <label>
+
 Volume
-<span class="range-value" id="volumeValue">50</span>
+
+<span
+  class="range-value"
+  id="volumeValue"
+>
+50
+</span>
+
 </label>
 
 <input
-type="range"
-id="volume"
-min="0"
-max="100"
-value="50"
+  type="range"
+  id="volume"
+  min="0"
+  max="100"
+  value="50"
 >
 
 </div>
@@ -696,16 +1179,24 @@ value="50"
 <div class="setting">
 
 <label>
+
 Spin Duration
-<span class="range-value" id="durationValue">5</span>
+
+<span
+  class="range-value"
+  id="durationValue"
+>
+5
+</span>
+
 </label>
 
 <input
-type="range"
-id="duration"
-min="2"
-max="10"
-value="5"
+  type="range"
+  id="duration"
+  min="2"
+  max="10"
+  value="5"
 >
 
 </div>
@@ -716,17 +1207,21 @@ value="5"
 <div class="toggle-row">
 
 <span>
+
 🎁 Giveaway Mode
+
 <br>
+
 <small style="color:#9ca3af">
 Remove winner after each spin
 </small>
+
 </span>
 
 <input
-type="checkbox"
-class="toggle"
-id="removeWinner"
+  type="checkbox"
+  class="toggle"
+  id="removeWinner"
 >
 
 </div>
@@ -753,7 +1248,9 @@ id="removeWinner"
 </div>
 
 
-<!-- HISTORY -->
+<!-- =========================
+     HISTORY
+========================= -->
 
 <div class="history">
 
@@ -763,13 +1260,20 @@ id="removeWinner"
 🏆 Spin History
 </div>
 
-<button class="clear-history" id="clearHistory">
+<button
+  class="clear-history"
+  id="clearHistory"
+>
 Clear
 </button>
 
 </div>
 
-<div class="history-list" id="historyList">
+
+<div
+  class="history-list"
+  id="historyList"
+>
 
 <div class="empty-history">
 No spins yet.
@@ -780,7 +1284,9 @@ No spins yet.
 </div>
 
 
-<!-- SUPPORT -->
+<!-- =========================
+     SUPPORT
+========================= -->
 
 <div class="support-card">
 
@@ -797,22 +1303,16 @@ Subscribe to my YouTube channel to support me!
 </div>
 
 <a
-class="support-button"
-href="https://youtube.com/@ultron-cel?si=Ml33eKON3n2Xc-TT"
-target="_blank"
-rel="noopener noreferrer"
+  class="support-button"
+  href="https://youtube.com/@ultron-cel?si=Ml33eKON3n2Xc-TT"
+  target="_blank"
+  rel="noopener noreferrer"
 >
 ▶️ Subscribe to Support
 </a>
 
 </div>
 
-
-<!-- ADS -->
-
-<div class="ad-area" id="ads"></div>
-
-<div class="notice" id="notice"></div>
 
 </div>
 
@@ -824,7 +1324,9 @@ rel="noopener noreferrer"
 "use strict";
 
 
-/* TELEGRAM */
+/* =========================
+   TELEGRAM
+========================= */
 
 try{
 
@@ -842,40 +1344,125 @@ window.Telegram.WebApp.expand();
 }catch(e){}
 
 
-/* ELEMENTS */
+/* =========================
+   SUBSCRIBE GATE
+========================= */
+
+const subscribeScreen =
+document.getElementById(
+  "subscribeScreen"
+);
+
+const mainApp =
+document.getElementById(
+  "mainApp"
+);
+
+const continueButton =
+document.getElementById(
+  "continueButton"
+);
+
+
+function showApp(){
+
+subscribeScreen.style.display =
+"none";
+
+mainApp.style.display =
+"block";
+
+}
+
+
+if(
+localStorage.getItem(
+  "ultronSubscribed"
+) === "yes"
+){
+
+showApp();
+
+}
+
+
+continueButton.addEventListener(
+"click",
+function(){
+
+localStorage.setItem(
+  "ultronSubscribed",
+  "yes"
+);
+
+showApp();
+
+setTimeout(
+function(){
+
+resizeCanvas();
+
+},
+100
+);
+
+}
+);
+
+
+/* =========================
+   ELEMENTS
+========================= */
 
 const canvas =
-document.getElementById("wheel");
+document.getElementById(
+  "wheel"
+);
 
 const ctx =
-canvas.getContext("2d");
+canvas.getContext(
+  "2d"
+);
 
 const itemsInput =
-document.getElementById("items");
+document.getElementById(
+  "items"
+);
 
 const spinBtn =
-document.getElementById("spinBtn");
+document.getElementById(
+  "spinBtn"
+);
 
 const result =
-document.getElementById("result");
+document.getElementById(
+  "result"
+);
 
 const pointer =
-document.getElementById("pointer");
+document.getElementById(
+  "pointer"
+);
 
 const winnerBox =
-document.getElementById("winnerBox");
+document.getElementById(
+  "winnerBox"
+);
 
 const winnerName =
-document.getElementById("winnerName");
+document.getElementById(
+  "winnerName"
+);
 
 const historyList =
-document.getElementById("historyList");
+document.getElementById(
+  "historyList"
+);
 
-const notice =
-document.getElementById("notice");
 
-
-/* STATE */
+/* =========================
+   STATE
+========================= */
 
 let rotation = 0;
 
@@ -888,7 +1475,9 @@ let audioContext = null;
 let lastTickIndex = -1;
 
 
-/* DEFAULT SETTINGS */
+/* =========================
+   DEFAULT SETTINGS
+========================= */
 
 const defaultSettings = {
 
@@ -928,16 +1517,19 @@ removeWinner:false
 
 let settings =
 JSON.parse(
-JSON.stringify(defaultSettings)
+  JSON.stringify(
+    defaultSettings
+  )
 );
 
 
-/* EXAMPLE LISTS */
+/* =========================
+   EXAMPLES
+========================= */
 
 const examples = {
 
-numbers:
-[
+numbers:[
 "1",
 "2",
 "3",
@@ -950,8 +1542,7 @@ numbers:
 "10"
 ],
 
-football:
-[
+football:[
 "Real Madrid",
 "Barcelona",
 "Manchester United",
@@ -962,8 +1553,7 @@ football:
 "Bayern Munich"
 ],
 
-superheroes:
-[
+superheroes:[
 "Spider-Man",
 "Iron Man",
 "Thor",
@@ -974,8 +1564,7 @@ superheroes:
 "Flash"
 ],
 
-countries:
-[
+countries:[
 "Nigeria",
 "Ghana",
 "England",
@@ -986,8 +1575,7 @@ countries:
 "Germany"
 ],
 
-yesno:
-[
+yesno:[
 "YES",
 "NO"
 ]
@@ -995,7 +1583,9 @@ yesno:
 };
 
 
-/* ITEMS */
+/* =========================
+   GET ITEMS
+========================= */
 
 function getItems(){
 
@@ -1015,32 +1605,15 @@ return item.length > 0;
 }
 
 
-/* NOTICE */
-
-function showNotice(message){
-
-notice.textContent =
-message;
-
-notice.style.display =
-"block";
-
-setTimeout(function(){
-
-notice.style.display =
-"none";
-
-},2500);
-
-}
-
-
-/* CANVAS */
+/* =========================
+   RESIZE
+========================= */
 
 function resizeCanvas(){
 
 const size =
-canvas.parentElement.clientWidth;
+canvas.parentElement
+.clientWidth;
 
 if(!size)
 return;
@@ -1052,10 +1625,14 @@ window.devicePixelRatio || 1,
 );
 
 canvas.width =
-Math.floor(size * dpr);
+Math.floor(
+size * dpr
+);
 
 canvas.height =
-Math.floor(size * dpr);
+Math.floor(
+size * dpr
+);
 
 canvas.style.width =
 size + "px";
@@ -1077,7 +1654,9 @@ drawWheel();
 }
 
 
-/* DRAW WHEEL */
+/* =========================
+   DRAW WHEEL
+========================= */
 
 function drawWheel(){
 
@@ -1115,7 +1694,9 @@ center,
 center
 );
 
-ctx.rotate(rotation);
+ctx.rotate(
+rotation
+);
 
 
 if(items.length === 0){
@@ -1143,12 +1724,13 @@ return;
 
 
 const slice =
-Math.PI * 2 / items.length;
+Math.PI * 2 /
+items.length;
 
 
 for(
-let i = 0;
-i < items.length;
+let i=0;
+i<items.length;
 i++
 ){
 
@@ -1161,7 +1743,10 @@ start + slice;
 
 ctx.beginPath();
 
-ctx.moveTo(0,0);
+ctx.moveTo(
+0,
+0
+);
 
 ctx.arc(
 0,
@@ -1176,7 +1761,8 @@ ctx.closePath();
 
 ctx.fillStyle =
 settings.colors[
-i % settings.colors.length
+i %
+settings.colors.length
 ];
 
 ctx.fill();
@@ -1196,7 +1782,8 @@ ctx.stroke();
 ctx.save();
 
 ctx.rotate(
-start + slice / 2
+start +
+slice / 2
 );
 
 ctx.textAlign =
@@ -1221,19 +1808,23 @@ items[i];
 const maxChars =
 Math.max(
 6,
-Math.floor(size / 9)
+Math.floor(
+size / 9
+)
 );
 
 
 if(
-text.length > maxChars
+text.length >
+maxChars
 ){
 
 text =
 text.substring(
 0,
 maxChars - 3
-) + "...";
+) +
+"...";
 
 }
 
@@ -1254,7 +1845,9 @@ ctx.restore();
 }
 
 
-/* APPLY SETTINGS */
+/* =========================
+   APPLY SETTINGS
+========================= */
 
 function applySettings(){
 
@@ -1270,13 +1863,20 @@ settings.pointerColor;
 
 
 pointer.style.borderLeftWidth =
-(settings.pointerSize / 2) + "px";
+(
+settings.pointerSize / 2
+) + "px";
+
 
 pointer.style.borderRightWidth =
-(settings.pointerSize / 2) + "px";
+(
+settings.pointerSize / 2
+) + "px";
+
 
 pointer.style.borderTopWidth =
-settings.pointerSize + "px";
+settings.pointerSize +
+"px";
 
 
 drawWheel();
@@ -1284,14 +1884,17 @@ drawWheel();
 }
 
 
-/* SOUND */
+/* =========================
+   SOUND
+========================= */
 
 function playTick(){
 
-if(settings.sound !== "on")
-return;
-
-if(settings.volume <= 0)
+if(
+settings.sound !== "on"
+||
+settings.volume <= 0
+)
 return;
 
 
@@ -1338,17 +1941,23 @@ oscillator.frequency.value =
 
 
 gain.gain.setValueAtTime(
-(settings.volume / 100) * 0.035,
+(
+settings.volume / 100
+) * 0.035,
 audioContext.currentTime
 );
 
+
 gain.gain.exponentialRampToValueAtTime(
 0.001,
-audioContext.currentTime + 0.05
+audioContext.currentTime +
+0.05
 );
 
 
-oscillator.connect(gain);
+oscillator.connect(
+gain
+);
 
 gain.connect(
 audioContext.destination
@@ -1358,20 +1967,26 @@ audioContext.destination
 oscillator.start();
 
 oscillator.stop(
-audioContext.currentTime + 0.05
+audioContext.currentTime +
+0.05
 );
-
 
 }catch(e){}
 
 }
 
 
-/* WINNER SOUND */
+/* =========================
+   WINNER SOUND
+========================= */
 
 function playWinnerSound(){
 
-if(settings.sound !== "on")
+if(
+settings.sound !== "on"
+||
+settings.volume <= 0
+)
 return;
 
 
@@ -1380,460 +1995,3 @@ try{
 const Audio =
 window.AudioContext ||
 window.webkitAudioContext;
-
-if(!Audio)
-return;
-
-
-if(!audioContext){
-
-audioContext =
-new Audio();
-
-}
-
-
-if(
-audioContext.state ===
-"suspended"
-){
-
-audioContext.resume();
-
-}
-
-
-const notes =
-[523,659,784];
-
-
-notes.forEach(function(freq,index){
-
-const oscillator =
-audioContext.createOscillator();
-
-const gain =
-audioContext.createGain();
-
-
-oscillator.frequency.value =
-freq;
-
-oscillator.type =
-"sine";
-
-
-const start =
-audioContext.currentTime +
-index * 0.12;
-
-
-gain.gain.setValueAtTime(
-0,
-start
-);
-
-gain.gain.linearRampToValueAtTime(
-(settings.volume / 100) * 0.07,
-start + 0.02
-);
-
-gain.gain.exponentialRampToValueAtTime(
-0.001,
-start + 0.18
-);
-
-
-oscillator.connect(gain);
-
-gain.connect(
-audioContext.destination
-);
-
-
-oscillator.start(start);
-
-oscillator.stop(
-start + 0.2
-);
-
-});
-
-}catch(e){}
-
-}
-
-
-/* HISTORY */
-
-function getHistory(){
-
-try{
-
-return JSON.parse(
-localStorage.getItem(
-"spinWheelHistory"
-)
-) || [];
-
-}catch(e){
-
-return [];
-
-}
-
-}
-
-
-function saveHistory(history){
-
-localStorage.setItem(
-"spinWheelHistory",
-JSON.stringify(history)
-);
-
-}
-
-
-function addHistory(name){
-
-const history =
-getHistory();
-
-history.unshift({
-name:name,
-time:Date.now()
-});
-
-
-if(history.length > 20){
-
-history.length = 20;
-
-}
-
-
-saveHistory(history);
-
-renderHistory();
-
-}
-
-
-function renderHistory(){
-
-const history =
-getHistory();
-
-
-if(history.length === 0){
-
-historyList.innerHTML =
-'<div class="empty-history">No spins yet.</div>';
-
-return;
-
-}
-
-
-historyList.innerHTML =
-"";
-
-
-history.forEach(
-function(item,index){
-
-const row =
-document.createElement("div");
-
-row.className =
-"history-item";
-
-
-const number =
-document.createElement("div");
-
-number.className =
-"history-number";
-
-number.textContent =
-index + 1;
-
-
-const name =
-document.createElement("div");
-
-name.className =
-"history-name";
-
-name.textContent =
-item.name;
-
-
-row.appendChild(number);
-
-row.appendChild(name);
-
-historyList.appendChild(row);
-
-}
-);
-
-}
-
-
-/* CLEAR HISTORY */
-
-document.getElementById(
-"clearHistory"
-).addEventListener(
-"click",
-function(){
-
-localStorage.removeItem(
-"spinWheelHistory"
-);
-
-renderHistory();
-
-result.textContent =
-"History cleared.";
-
-}
-);
-
-
-/* SHOW WINNER */
-
-function showWinner(name){
-
-winnerName.textContent =
-name;
-
-winnerBox.classList.remove(
-"show"
-);
-
-
-/*
-Force animation restart.
-*/
-
-void winnerBox.offsetWidth;
-
-winnerBox.classList.add(
-"show"
-);
-
-}
-
-
-/* REMOVE WINNER */
-
-function removeWinnerFromList(name){
-
-const items =
-getItems();
-
-const index =
-items.indexOf(name);
-
-if(index === -1)
-return;
-
-items.splice(
-index,
-1
-);
-
-itemsInput.value =
-items.join("\n");
-
-drawWheel();
-
-}
-
-
-/* SPIN */
-
-function spin(){
-
-if(spinning)
-return;
-
-
-const items =
-getItems();
-
-
-if(items.length < 2){
-
-result.textContent =
-"Add at least 2 items.";
-
-return;
-
-}
-
-
-spinning = true;
-
-spinBtn.disabled =
-true;
-
-winnerBox.classList.remove(
-"show"
-);
-
-result.textContent =
-"Spinning...";
-
-
-lastTickIndex =
--1;
-
-
-const winner =
-Math.floor(
-Math.random() * items.length
-);
-
-
-const slice =
-Math.PI * 2 / items.length;
-
-
-/*
-Pointer is at the top.
-
-Top = -PI/2.
-
-Place the center of the
-winning slice exactly there.
-*/
-
-const targetRotation =
--Math.PI / 2
-- winner * slice
-- slice / 2;
-
-
-const startRotation =
-rotation;
-
-
-let current =
-rotation %
-(Math.PI * 2);
-
-if(current < 0){
-
-current +=
-Math.PI * 2;
-
-}
-
-
-let target =
-targetRotation;
-
-
-/*
-Move target forward until
-it is ahead of current.
-*/
-
-while(target <= current){
-
-target +=
-Math.PI * 2;
-
-}
-
-
-/*
-Extra rotations.
-*/
-
-target +=
-(5 + Math.floor(
-Math.random() * 3
-)) * Math.PI * 2;
-
-
-const change =
-target - startRotation;
-
-
-const duration =
-settings.duration * 1000;
-
-const startTime =
-performance.now();
-
-
-function animate(now){
-
-const progress =
-Math.min(
-1,
-(now - startTime) /
-duration
-);
-
-
-/*
-Smooth deceleration.
-*/
-
-const eased =
-1 - Math.pow(
-1 - progress,
-4
-);
-
-
-rotation =
-startRotation +
-change * eased;
-
-
-drawWheel();
-
-
-/*
-Tick only when the wheel
-passes another slice.
-*/
-
-if(settings.sound === "on"){
-
-const currentSlice =
-Math.floor(
-(
-rotation +
-Math.PI / 2
-) /
-slice
-);
-
-
-if(
-currentSlice !==
-lastTickIndex
-){
-
-lastTickIndex =
-currentSlice;
-
-playTick();
-
-}
-
-}
-
-
-if(progress < 1){
-
-animationFrame =
-requestAnimatio
