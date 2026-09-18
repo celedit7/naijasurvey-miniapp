@@ -3,1334 +3,1148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ULTRON-S Spin The Wheel</title>
+
+<title>Spin The Wheel</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  min-height:100%;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#101010;
-  color:#fff;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 body{
-  overflow-x:hidden;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#10131a;
+    color:#fff;
+    min-height:100vh;
+    overflow-x:hidden;
 }
 
-button,
-a,
-select,
-textarea,
-input{
-  font-family:inherit;
-}
-
-button{
-  cursor:pointer;
-  touch-action:manipulation;
-}
-
-/* ================= SUBSCRIBE SCREEN ================= */
-
-.subscribe-screen{
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:linear-gradient(135deg,#080808,#171717);
-}
-
-.subscribe-card{
-  width:100%;
-  max-width:420px;
-  padding:30px 22px;
-  border-radius:24px;
-  text-align:center;
-  background:#1d1d1d;
-  border:1px solid #333;
-  box-shadow:0 20px 60px rgba(0,0,0,.5);
-}
-
-.subscribe-icon{
-  font-size:55px;
-  margin-bottom:10px;
-}
-
-.subscribe-title{
-  font-size:25px;
-  font-weight:800;
-  margin-bottom:12px;
-}
-
-.subscribe-text{
-  color:#cfcfcf;
-  line-height:1.6;
-  font-size:14px;
-  margin-bottom:22px;
-}
-
-.youtube-button,
-.continue-button{
-  display:block;
-  width:100%;
-  min-height:52px;
-  border:none;
-  border-radius:14px;
-  font-size:16px;
-  font-weight:700;
-  text-decoration:none;
-  padding:15px;
-  margin-top:12px;
-}
-
-.youtube-button{
-  background:#ff0000;
-  color:#fff;
-}
-
-.continue-button{
-  background:#19c463;
-  color:#fff;
-}
-
-.youtube-button:active,
-.continue-button:active{
-  transform:scale(.98);
-}
-
-.subscribe-note{
-  margin-top:16px;
-  font-size:11px;
-  color:#888;
-  line-height:1.5;
-}
-
-/* ================= MAIN APP ================= */
-
-#mainApp{
-  display:none;
-  width:100%;
-  max-width:700px;
-  margin:auto;
-  padding:16px;
+.app{
+    width:100%;
+    max-width:1000px;
+    margin:auto;
+    padding:15px;
 }
 
 .header{
-  text-align:center;
-  margin-bottom:18px;
+    text-align:center;
+    margin-bottom:15px;
 }
 
 .header h1{
-  margin:5px 0;
-  font-size:28px;
+    margin:5px 0;
+    font-size:30px;
 }
 
 .header p{
-  margin:5px 0 0;
-  color:#999;
-  font-size:13px;
+    margin:5px 0;
+    color:#aaa;
+    font-size:14px;
 }
 
-/* ================= INPUT ================= */
-
-.section{
-  background:#191919;
-  border:1px solid #303030;
-  border-radius:18px;
-  padding:14px;
-  margin-bottom:15px;
+.card{
+    background:#191e27;
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.25);
 }
 
-.section-title{
-  font-size:15px;
-  font-weight:700;
-  margin-bottom:10px;
+.card-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:12px;
 }
 
 textarea{
-  width:100%;
-  min-height:125px;
-  resize:vertical;
-  border:1px solid #3a3a3a;
-  border-radius:12px;
-  background:#0f0f0f;
-  color:#fff;
-  padding:12px;
-  font-size:15px;
-  outline:none;
+    width:100%;
+    min-height:170px;
+    resize:vertical;
+    border:1px solid #363d4b;
+    border-radius:12px;
+    background:#0d1016;
+    color:#fff;
+    padding:13px;
+    font-size:15px;
+    outline:none;
 }
 
 textarea:focus{
-  border-color:#19c463;
+    border-color:#6d7cff;
 }
 
-.button-row{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:10px;
+button{
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.main-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
 }
 
 .btn{
-  min-height:43px;
-  border:none;
-  border-radius:11px;
-  padding:9px;
-  font-size:13px;
-  font-weight:700;
-  color:#fff;
-  background:#303030;
+    flex:1;
+    padding:14px;
+    border-radius:12px;
+    font-size:16px;
+    background:#303746;
+    color:#fff;
 }
 
-.btn:active{
-  transform:scale(.97);
+.btn.primary{
+    background:#5865f2;
 }
 
-.btn.green{
-  background:#19a957;
+.btn.danger{
+    background:#c83d4d;
 }
 
-.btn.red{
-  background:#c83232;
+.wheel-card{
+    text-align:center;
+    position:relative;
 }
 
-.btn.blue{
-  background:#246bd6;
+.wheel-wrap{
+    width:min(92vw,700px);
+    aspect-ratio:1;
+    margin:10px auto 20px;
+    position:relative;
 }
 
-select{
-  width:100%;
-  min-height:45px;
-  border-radius:11px;
-  border:1px solid #444;
-  background:#101010;
-  color:#fff;
-  padding:0 12px;
-  outline:none;
-  margin-bottom:9px;
-}
-
-/* ================= WHEEL ================= */
-
-.wheel-area{
-  position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:10px 0 20px;
-}
-
-#wheel{
-  width:min(88vw,520px);
-  height:min(88vw,520px);
-  max-width:520px;
-  max-height:520px;
-  border-radius:50%;
-  display:block;
-  background:#fff;
-  box-shadow:0 10px 35px rgba(0,0,0,.45);
+canvas{
+    width:100%;
+    height:100%;
+    display:block;
 }
 
 .pointer{
-  position:absolute;
-  top:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:0;
-  height:0;
-  border-left:18px solid transparent;
-  border-right:18px solid transparent;
-  border-top:36px solid #ff3333;
-  z-index:10;
-  filter:drop-shadow(0 3px 3px rgba(0,0,0,.5));
+    position:absolute;
+    top:-2px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:10;
+    width:0;
+    height:0;
+    border-left:25px solid transparent;
+    border-right:25px solid transparent;
+    border-top:55px solid #ff3b3b;
+    filter:drop-shadow(0 3px 4px rgba(0,0,0,.5));
 }
 
-.spin-button{
-  display:block;
-  width:100%;
-  min-height:58px;
-  border:none;
-  border-radius:17px;
-  background:#19c463;
-  color:#fff;
-  font-size:21px;
-  font-weight:900;
-  margin:0 auto 15px;
-  box-shadow:0 6px 18px rgba(25,196,99,.22);
+.pointer.custom{
+    width:70px;
+    height:70px;
+    border:none;
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+    filter:drop-shadow(0 3px 4px rgba(0,0,0,.5));
 }
 
-.spin-button:active{
-  transform:scale(.98);
+.spin-btn{
+    width:100%;
+    max-width:500px;
+    padding:18px;
+    border-radius:15px;
+    background:#5865f2;
+    color:#fff;
+    font-size:22px;
+    margin:auto;
+    display:block;
 }
 
-.spin-button:disabled{
-  opacity:.55;
+.spin-btn:disabled{
+    opacity:.5;
 }
-
-/* ================= RESULT ================= */
 
 .result{
-  text-align:center;
-  min-height:22px;
-  color:#aaa;
-  font-size:14px;
-  margin-bottom:10px;
+    margin-top:15px;
+    padding:15px;
+    border-radius:13px;
+    background:#0d1016;
+    min-height:55px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:bold;
+    text-align:center;
 }
 
-.winner-box{
-  display:none;
-  text-align:center;
-  background:linear-gradient(135deg,#202020,#151515);
-  border:1px solid #3d3d3d;
-  border-radius:20px;
-  padding:20px;
-  margin-bottom:15px;
+.settings-section{
+    margin-top:10px;
 }
 
-.winner-label{
-  color:#aaa;
-  font-size:13px;
-  margin-bottom:7px;
-}
-
-#winnerName{
-  font-size:30px;
-  font-weight:900;
-  word-break:break-word;
-}
-
-/* ================= HISTORY ================= */
-
-.history-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:10px;
-}
-
-.history-header span{
-  font-weight:700;
-}
-
-.history-list{
-  max-height:260px;
-  overflow-y:auto;
-}
-
-.history-item{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  padding:10px 0;
-  border-bottom:1px solid #292929;
-  font-size:13px;
-}
-
-.history-item:last-child{
-  border-bottom:none;
-}
-
-.history-number{
-  color:#19c463;
-  font-weight:700;
-}
-
-.history-name{
-  flex:1;
-  word-break:break-word;
-}
-
-.history-time{
-  color:#777;
-  white-space:nowrap;
-}
-
-/* ================= SETTINGS ================= */
-
-.settings{
-  display:none;
+.settings-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
 }
 
 .setting{
-  margin-bottom:14px;
+    background:#11151c;
+    padding:12px;
+    border-radius:12px;
+}
+
+.setting.full{
+    grid-column:1/-1;
 }
 
 .setting label{
-  display:block;
-  color:#ccc;
-  font-size:13px;
-  margin-bottom:7px;
+    display:block;
+    font-size:13px;
+    color:#aaa;
+    margin-bottom:7px;
 }
 
-.setting input[type="color"]{
-  width:100%;
-  height:43px;
-  border:none;
-  background:none;
+input[type="color"]{
+    width:100%;
+    height:42px;
+    border:none;
+    background:none;
+    padding:0;
 }
 
-.setting input[type="range"]{
-  width:100%;
+input[type="range"]{
+    width:100%;
 }
 
-.setting-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+input[type="file"]{
+    width:100%;
+    color:#aaa;
+    font-size:12px;
 }
 
-.check-row{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  font-size:14px;
-  color:#ddd;
+.value{
+    float:right;
+    color:#fff;
 }
 
-.check-row input{
-  width:18px;
-  height:18px;
+.switch{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 }
 
-/* ================= SUPPORT ================= */
-
-.support-card{
-  text-align:center;
-  padding:22px 16px;
-  margin:15px 0 10px;
-  background:#191919;
-  border:1px solid #303030;
-  border-radius:18px;
+.switch input{
+    width:20px;
+    height:20px;
 }
 
-.support-icon{
-  font-size:32px;
+.settings-buttons{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-top:12px;
 }
 
-.support-title{
-  font-weight:800;
-  font-size:17px;
-  margin:7px 0;
+.settings-buttons button{
+    padding:11px 5px;
+    border-radius:10px;
+    background:#303746;
+    color:#fff;
 }
 
-.support-text{
-  color:#999;
-  font-size:13px;
-  line-height:1.5;
-  margin-bottom:13px;
+.ad-card{
+    text-align:center;
 }
 
-.support-button{
-  display:inline-block;
-  padding:12px 20px;
-  border-radius:12px;
-  background:#ff0000;
-  color:#fff;
-  text-decoration:none;
-  font-weight:700;
-  font-size:14px;
+.ad-title{
+    color:#aaa;
+    font-size:12px;
+    margin-bottom:8px;
 }
 
-/* ================= SMALL DEVICES ================= */
+#nativeAd{
+    width:100%;
+    min-height:50px;
+    overflow:hidden;
+}
 
-@media(max-width:380px){
-  #mainApp{
-    padding:10px;
-  }
+@media(max-width:600px){
+    .settings-grid{
+        grid-template-columns:1fr;
+    }
 
-  .header h1{
-    font-size:24px;
-  }
+    .settings-buttons{
+        grid-template-columns:1fr;
+    }
 
-  .button-row{
-    grid-template-columns:1fr;
-  }
+    .header h1{
+        font-size:25px;
+    }
 
-  #winnerName{
-    font-size:25px;
-  }
+    .pointer{
+        border-left-width:19px;
+        border-right-width:19px;
+        border-top-width:43px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= SUBSCRIBE SCREEN ================= -->
+<div class="app">
 
-<div class="subscribe-screen" id="subscribeScreen">
-
-  <div class="subscribe-card">
-
-    <div class="subscribe-icon">❤️</div>
-
-    <div class="subscribe-title">
-      Support ULTRON-S
+    <div class="header">
+        <h1>🎡 Spin The Wheel</h1>
+        <p>Enter anything and let the wheel choose.</p>
     </div>
 
-    <div class="subscribe-text">
-      Before using Spin The Wheel, please subscribe to my YouTube channel.
-      Tap the button below to visit the channel.
+    <!-- ITEMS -->
+    <div class="card">
+        <div class="card-title">📝 Your List</div>
+
+        <textarea id="itemsInput"
+        placeholder="Enter one item per line...
+
+Spider-Man
+Iron Man
+Thor
+Hulk
+Batman
+Superman"></textarea>
+
+        <div class="main-buttons">
+            <button class="btn primary" onclick="loadItems()">Load List</button>
+            <button class="btn danger" onclick="clearItems()">Clear</button>
+        </div>
     </div>
 
-    <a
-      class="youtube-button"
-      href="https://youtube.com/@ultron-cel?si=Ml33eKON3n2Xc-TT"
-      target="_blank"
-      rel="noopener noreferrer"
-      id="youtubeButton"
-    >
-      ▶️ Subscribe on YouTube
-    </a>
+    <!-- WHEEL -->
+    <div class="card wheel-card">
 
-    <button
-      type="button"
-      class="continue-button"
-      id="continueButton"
-    >
-      ✅ I've Subscribed — Continue
-    </button>
+        <div class="wheel-wrap">
 
-    <div class="subscribe-note">
-      After subscribing, tap the green button above to continue.
-      Subscription status cannot be automatically verified here.
+            <div id="pointer" class="pointer"></div>
+
+            <canvas id="wheel" width="1000" height="1000"></canvas>
+
+        </div>
+
+        <button id="spinButton" class="spin-btn" onclick="spinWheel()">
+            🎯 SPIN
+        </button>
+
+        <div id="result" class="result">
+            Enter your list and spin!
+        </div>
+
     </div>
 
-  </div>
+    <!-- ADS -->
+    <div class="card ad-card">
+
+        <div class="ad-title">ADVERTISEMENT</div>
+
+        <div id="nativeAd">
+            <script async="async"
+                data-cfasync="false"
+                src="https://tightslybella.com/4b056cbeb341057fc1515bfa7767e1a0/invoke.js">
+            </script>
+
+            <div id="container-4b056cbeb341057fc1515bfa7767e1a0"></div>
+        </div>
+
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="card settings-section">
+
+        <div class="card-title">⚙️ Settings</div>
+
+        <div class="settings-grid">
+
+            <div class="setting">
+                <label>Wheel Color 1</label>
+                <input type="color" id="color1" value="#5865f2">
+            </div>
+
+            <div class="setting">
+                <label>Wheel Color 2</label>
+                <input type="color" id="color2" value="#ed4245">
+            </div>
+
+            <div class="setting">
+                <label>Wheel Color 3</label>
+                <input type="color" id="color3" value="#57f287">
+            </div>
+
+            <div class="setting">
+                <label>Wheel Color 4</label>
+                <input type="color" id="color4" value="#fee75c">
+            </div>
+
+            <div class="setting">
+                <label>Wheel Background</label>
+                <input type="color" id="wheelBackground" value="#171a21">
+            </div>
+
+            <div class="setting">
+                <label>Page Background</label>
+                <input type="color" id="pageBackground" value="#10131a">
+            </div>
+
+            <div class="setting">
+                <label>Text Color</label>
+                <input type="color" id="textColor" value="#ffffff">
+            </div>
+
+            <div class="setting">
+                <label>Border Color</label>
+                <input type="color" id="borderColor" value="#ffffff">
+            </div>
+
+            <div class="setting">
+                <label>Text Size <span class="value" id="textSizeValue">20px</span></label>
+                <input type="range" id="textSize" min="8" max="40" value="20">
+            </div>
+
+            <div class="setting">
+                <label>Border Width <span class="value" id="borderWidthValue">3px</span></label>
+                <input type="range" id="borderWidth" min="0" max="15" value="3">
+            </div>
+
+            <div class="setting">
+                <label>Pointer Color</label>
+                <input type="color" id="pointerColor" value="#ff3b3b">
+            </div>
+
+            <div class="setting">
+                <label>Pointer Size <span class="value" id="pointerSizeValue">55px</span></label>
+                <input type="range" id="pointerSize" min="30" max="100" value="55">
+            </div>
+
+            <div class="setting full">
+                <label>Wheel Background Image</label>
+                <input type="file" id="wheelImage" accept="image/*">
+            </div>
+
+            <div class="setting full">
+                <label>Custom Pointer Image</label>
+                <input type="file" id="pointerImage" accept="image/*">
+            </div>
+
+            <div class="setting">
+                <div class="switch">
+                    <label>🔊 Sound</label>
+                    <input type="checkbox" id="soundEnabled" checked>
+                </div>
+            </div>
+
+            <div class="setting">
+                <label>Volume <span class="value" id="volumeValue">50%</span></label>
+                <input type="range" id="volume" min="0" max="100" value="50">
+            </div>
+
+            <div class="setting full">
+                <label>Spin Duration <span class="value" id="durationValue">5 sec</span></label>
+                <input type="range" id="duration" min="2" max="12" value="5">
+            </div>
+
+        </div>
+
+        <div class="settings-buttons">
+            <button onclick="saveSettings()">💾 Save</button>
+            <button onclick="loadSettings()">📂 Load</button>
+            <button onclick="resetSettings()">♻️ Reset</button>
+        </div>
+
+    </div>
 
 </div>
 
 
-<!-- ================= MAIN APP ================= -->
-
-<div id="mainApp">
-
-  <div class="header">
-    <h1>🎡 Spin The Wheel</h1>
-    <p>Created by ULTRON-S</p>
-  </div>
-
-
-  <!-- ITEMS -->
-
-  <div class="section">
-
-    <div class="section-title">
-      Enter your items
-    </div>
-
-    <textarea
-      id="items"
-      placeholder="Enter one item per line..."
-    ></textarea>
-
-    <div class="button-row">
-
-      <button
-        type="button"
-        class="btn green"
-        id="saveList"
-      >
-        💾 Save
-      </button>
-
-      <button
-        type="button"
-        class="btn blue"
-        id="loadList"
-      >
-        📂 Load
-      </button>
-
-      <button
-        type="button"
-        class="btn red"
-        id="clearList"
-      >
-        🗑️ Clear
-      </button>
-
-    </div>
-
-    <div class="button-row">
-
-      <button
-        type="button"
-        class="btn"
-        id="shuffleBtn"
-      >
-        🔀 Shuffle
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- EXAMPLES -->
-
-  <div class="section">
-
-    <div class="section-title">
-      Quick Example
-    </div>
-
-    <select id="exampleSelect">
-
-      <option value="numbers">
-        Numbers
-      </option>
-
-      <option value="football">
-        Football Teams
-      </option>
-
-      <option value="superheroes">
-        Superheroes
-      </option>
-
-      <option value="countries">
-        Countries
-      </option>
-
-      <option value="yesno">
-        Yes / No
-      </option>
-
-    </select>
-
-    <button
-      type="button"
-      class="btn green"
-      id="loadExample"
-      style="width:100%;"
-    >
-      📋 Load Example
-    </button>
-
-  </div>
-
-
-  <!-- WHEEL -->
-
-  <div class="section">
-
-    <div class="wheel-area">
-
-      <canvas
-        id="wheel"
-        width="700"
-        height="700"
-      ></canvas>
-
-      <div
-        class="pointer"
-        id="pointer"
-      ></div>
-
-    </div>
-
-    <button
-      type="button"
-      class="spin-button"
-      id="spinBtn"
-    >
-      🎯 SPIN
-    </button>
-
-    <div
-      class="result"
-      id="result"
-    >
-    </div>
-
-  </div>
-
-
-  <!-- WINNER -->
-
-  <div
-    class="winner-box"
-    id="winnerBox"
-  >
-
-    <div class="winner-label">
-      🎉 WINNER
-    </div>
-
-    <div id="winnerName">
-      -
-    </div>
-
-  </div>
-
-
-  <!-- SETTINGS -->
-
-  <div class="section">
-
-    <button
-      type="button"
-      class="btn blue"
-      id="settingsBtn"
-      style="width:100%;"
-    >
-      ⚙️ Settings
-    </button>
-
-    <div
-      class="settings"
-      id="settingsPanel"
-      style="margin-top:15px;"
-    >
-
-      <div class="setting">
-        <label>Wheel Color 1</label>
-        <input type="color" id="color1" value="#ff595e">
-      </div>
-
-      <div class="setting">
-        <label>Wheel Color 2</label>
-        <input type="color" id="color2" value="#1982c4">
-      </div>
-
-      <div class="setting">
-        <label>Wheel Color 3</label>
-        <input type="color" id="color3" value="#8ac926">
-      </div>
-
-      <div class="setting">
-        <label>Wheel Color 4</label>
-        <input type="color" id="color4" value="#ffca3a">
-      </div>
-
-      <div class="setting-row">
-
-        <div class="setting">
-          <label>Wheel Background</label>
-          <input type="color" id="wheelBg" value="#ffffff">
-        </div>
-
-        <div class="setting">
-          <label>Page Background</label>
-          <input type="color" id="pageBg" value="#101010">
-        </div>
-
-      </div>
-
-      <div class="setting">
-
-        <label>
-          Text Color
-        </label>
-
-        <input
-          type="color"
-          id="textColor"
-          value="#ffffff"
-        >
-
-      </div>
-
-      <div class="setting">
-
-        <label>
-          Text Size:
-          <span id="textSizeValue">16</span>px
-        </label>
-
-        <input
-          type="range"
-          id="textSize"
-          min="10"
-          max="28"
-          value="16"
-        >
-
-      </div>
-
-      <div class="setting-row">
-
-        <div class="setting">
-
-          <label>
-            Border Color
-          </label>
-
-          <input
-            type="color"
-            id="borderColor"
-            value="#ffffff"
-          >
-
-        </div>
-
-        <div class="setting">
-
-          <label>
-            Pointer Color
-          </label>
-
-          <input
-            type="color"
-            id="pointerColor"
-            value="#ff3333"
-          >
-
-        </div>
-
-      </div>
-
-      <div class="setting">
-
-        <label>
-          Border Width:
-          <span id="borderWidthValue">3</span>px
-        </label>
-
-        <input
-          type="range"
-          id="borderWidth"
-          min="0"
-          max="10"
-          value="3"
-        >
-
-      </div>
-
-      <div class="setting">
-
-        <label>
-          Pointer Size:
-          <span id="pointerSizeValue">18</span>px
-        </label>
-
-        <input
-          type="range"
-          id="pointerSize"
-          min="8"
-          max="30"
-          value="18"
-        >
-
-      </div>
-
-      <div class="setting">
-
-        <label class="check-row">
-
-          <input
-            type="checkbox"
-            id="sound"
-            checked
-          >
-
-          🔊 Sound
-
-        </label>
-
-      </div>
-
-      <div class="setting">
-
-        <label>
-          Volume:
-          <span id="volumeValue">50</span>%
-        </label>
-
-        <input
-          type="range"
-          id="volume"
-          min="0"
-          max="100"
-          value="50"
-        >
-
-      </div>
-
-      <div class="setting">
-
-        <label>
-          Spin Duration:
-          <span id="durationValue">5</span>s
-        </label>
-
-        <input
-          type="range"
-          id="duration"
-          min="2"
-          max="12"
-          value="5"
-        >
-
-      </div>
-
-      <div class="setting">
-
-        <label class="check-row">
-
-          <input
-            type="checkbox"
-            id="removeWinner"
-          >
-
-          🎁 Giveaway Mode — Remove winner after spin
-
-        </label>
-
-      </div>
-
-      <div class="button-row">
-
-        <button
-          type="button"
-          class="btn green"
-          id="saveSettings"
-        >
-          💾 Save
-        </button>
-
-        <button
-          type="button"
-          class="btn blue"
-          id="loadSettings"
-        >
-          📂 Load
-        </button>
-
-        <button
-          type="button"
-          class="btn red"
-          id="resetSettings"
-        >
-          ♻️ Reset
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- HISTORY -->
-
-  <div class="section">
-
-    <div class="history-header">
-
-      <span>
-        📜 Spin History
-      </span>
-
-      <button
-        type="button"
-        class="btn red"
-        id="clearHistory"
-      >
-        Clear
-      </button>
-
-    </div>
-
-    <div
-      class="history-list"
-      id="historyList"
-    >
-      <div style="color:#777;font-size:13px;">
-        No spins yet.
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- SUPPORT -->
-
-  <div class="support-card">
-
-    <div class="support-icon">
-      ❤️
-    </div>
-
-    <div class="support-title">
-      Enjoying Spin The Wheel?
-    </div>
-
-    <div class="support-text">
-      Subscribe to my YouTube channel to support ULTRON-S!
-    </div>
-
-    <a
-      class="support-button"
-      href="https://youtube.com/@ultron-cel?si=Ml33eKON3n2Xc-TT"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      ▶️ Subscribe to Support
-    </a>
-
-  </div>
-
-</div>
+<!-- ADSTERRA SOCIAL BAR -->
+<script src="https://tightslybella.com/7b/7e/f6/7b7ef61df13d8a32a4af12d958d7c561.js"></script>
+
+<!-- ADSTERRA POPUNDER -->
+<script src="https://tightslybella.com/bf/bf/3b/bfbf3b56bcf6e906d88c5dfe27f22bfe.js"></script>
 
 
 <script>
 
-/* =========================================================
-   TELEGRAM
-========================================================= */
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
 
-const tg =
-  window.Telegram &&
-  window.Telegram.WebApp
-    ? window.Telegram.WebApp
-    : null;
+const itemsInput = document.getElementById("itemsInput");
+const result = document.getElementById("result");
+const spinButton = document.getElementById("spinButton");
+const pointer = document.getElementById("pointer");
 
-if(tg){
+let items = [];
+let rotation = 0;
+let spinning = false;
 
-  try{
-    tg.ready();
-    tg.expand();
-  }catch(e){}
+let wheelImage = null;
+let pointerImage = null;
 
-}
+let colors = [
+    "#5865f2",
+    "#ed4245",
+    "#57f287",
+    "#fee75c"
+];
 
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const subscribeScreen =
-  document.getElementById("subscribeScreen");
-
-const continueButton =
-  document.getElementById("continueButton");
-
-const mainApp =
-  document.getElementById("mainApp");
-
-const itemsInput =
-  document.getElementById("items");
-
-const wheel =
-  document.getElementById("wheel");
-
-const ctx =
-  wheel.getContext("2d");
-
-const spinBtn =
-  document.getElementById("spinBtn");
-
-const result =
-  document.getElementById("result");
-
-const winnerBox =
-  document.getElementById("winnerBox");
-
-const winnerName =
-  document.getElementById("winnerName");
-
-const settingsPanel =
-  document.getElementById("settingsPanel");
-
-const pointer =
-  document.getElementById("pointer");
-
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-const defaultSettings = {
-
-  colors:[
-    "#ff595e",
-    "#1982c4",
-    "#8ac926",
-    "#ffca3a"
-  ],
-
-  wheelBg:"#ffffff",
-
-  pageBg:"#101010",
-
-  textColor:"#ffffff",
-
-  textSize:16,
-
-  borderColor:"#ffffff",
-
-  borderWidth:3,
-
-  pointerColor:"#ff3333",
-
-  pointerSize:18,
-
-  sound:true,
-
-  volume:50,
-
-  duration:5,
-
-  removeWinner:false
-
+let settings = {
+    textSize:20,
+    borderWidth:3,
+    wheelBackground:"#171a21",
+    pageBackground:"#10131a",
+    textColor:"#ffffff",
+    borderColor:"#ffffff",
+    pointerColor:"#ff3b3b",
+    pointerSize:55,
+    soundEnabled:true,
+    volume:50,
+    duration:5
 };
 
 
-let settings =
-  JSON.parse(
-    localStorage.getItem("spinWheelSettings") || "null"
-  ) || JSON.parse(JSON.stringify(defaultSettings));
+/* TELEGRAM */
+
+if(window.Telegram && Telegram.WebApp){
+
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
+
+}
 
 
-/* =========================================================
-   AUDIO
-========================================================= */
+/* INPUT */
 
-let audioContext = null;
+function parseItems(){
 
-function getAudio(){
+    let text = itemsInput.value.trim();
 
-  if(!audioContext){
+    if(!text) return [];
 
-    try{
+    let list = text
+        .split(/[\n,]+/)
+        .map(x => x.trim())
+        .filter(x => x.length > 0);
 
-      audioContext =
-        new (
-          window.AudioContext ||
-          window.webkitAudioContext
-        )();
+    return [...new Set(list)];
+}
 
-    }catch(e){
 
-      audioContext = null;
+function loadItems(){
+
+    items = parseItems();
+
+    if(items.length < 2){
+
+        result.textContent = "Enter at least 2 items.";
+
+        return;
 
     }
 
-  }
+    drawWheel();
 
-  return audioContext;
+    result.textContent =
+        items.length + " items loaded. Spin the wheel!";
+
 }
 
 
-function playTone(
-  frequency,
-  duration,
-  volume
-){
+function clearItems(){
 
-  if(!settings.sound) return;
+    itemsInput.value = "";
 
-  const ac = getAudio();
+    items = [];
 
-  if(!ac) return;
+    result.textContent = "Enter your list and spin!";
 
-  try{
+    drawWheel();
 
-    if(ac.state === "suspended"){
-      ac.resume();
+}
+
+
+/* TEXT SHORTENING */
+
+/*
+This is the important fix for large lists.
+
+The full name stays inside "items".
+Only the visual label is shortened.
+*/
+
+function visualLabel(text, index){
+
+    let count = items.length;
+
+    let maxChars;
+
+    if(count <= 10){
+        maxChars = 18;
+    }
+    else if(count <= 20){
+        maxChars = 14;
+    }
+    else if(count <= 30){
+        maxChars = 11;
+    }
+    else if(count <= 40){
+        maxChars = 9;
+    }
+    else if(count <= 50){
+        maxChars = 8;
+    }
+    else if(count <= 70){
+        maxChars = 7;
+    }
+    else{
+        maxChars = 6;
     }
 
-    const oscillator =
-      ac.createOscillator();
-
-    const gain =
-      ac.createGain();
-
-    oscillator.frequency.value =
-      frequency;
-
-    oscillator.type =
-      "sine";
-
-    gain.gain.setValueAtTime(
-      0,
-      ac.currentTime
-    );
-
-    gain.gain.linearRampToValueAtTime(
-      volume,
-      ac.currentTime + .01
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-      .001,
-      ac.currentTime + duration
-    );
-
-    oscillator.connect(gain);
-    gain.connect(ac.destination);
-
-    oscillator.start();
-
-    oscillator.stop(
-      ac.currentTime + duration
-    );
-
-  }catch(e){}
-
-}
-
-
-function tickSound(){
-
-  playTone(
-    120,
-    .035,
-    (settings.volume / 100) * .07
-  );
-
-}
-
-
-function winnerSound(){
-
-  if(!settings.sound) return;
-
-  const notes =
-    [523,659,784];
-
-  notes.forEach(
-    function(note,index){
-
-      setTimeout(
-        function(){
-
-          playTone(
-            note,
-            .15,
-            (settings.volume / 100) * .12
-          );
-
-        },
-        index * 130
-      );
-
+    if(text.length <= maxChars){
+        return text;
     }
-  );
 
+    return text.substring(0,maxChars - 1) + "…";
 }
 
 
-/* =========================================================
-   ITEMS
-========================================================= */
+/* DYNAMIC FONT */
 
-function getItems(){
+function getDynamicFontSize(){
 
-  return itemsInput.value
-    .split("\n")
-    .map(function(item){
-      return item.trim();
-    })
-    .filter(function(item){
-      return item.length > 0;
-    });
+    let count = items.length;
 
+    let base = Number(settings.textSize);
+
+    if(count <= 10) return base;
+
+    if(count <= 20) return Math.min(base,17);
+
+    if(count <= 30) return Math.min(base,15);
+
+    if(count <= 40) return Math.min(base,13);
+
+    if(count <= 50) return Math.min(base,11);
+
+    if(count <= 70) return Math.min(base,10);
+
+    return Math.min(base,9);
 }
 
 
-/* =========================================================
-   DRAW WHEEL
-========================================================= */
-
-let rotation = 0;
-
+/* DRAW WHEEL */
 
 function drawWheel(){
 
-  const items =
-    getItems();
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  const width =
-    wheel.width;
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
 
-  const height =
-    wheel.height;
+    const radius = Math.min(cx,cy) - 18;
 
-  const centerX =
-    width / 2;
+    if(items.length < 2){
 
-  const centerY =
-    height / 2;
+        ctx.beginPath();
 
-  const radius =
-    Math.min(width,height) / 2 - 10;
+        ctx.arc(cx,cy,radius,0,Math.PI*2);
 
+        ctx.fillStyle = settings.wheelBackground;
 
-  ctx.clearRect(
-    0,
-    0,
-    width,
-    height
-  );
+        ctx.fill();
 
+        ctx.strokeStyle = settings.borderColor;
 
-  ctx.save();
+        ctx.lineWidth = settings.borderWidth;
 
-  ctx.translate(
-    centerX,
-    centerY
-  );
+        ctx.stroke();
 
-  ctx.rotate(rotation);
+        ctx.fillStyle = settings.textColor;
 
+        ctx.font = "bold 28px Arial";
 
-  ctx.beginPath();
+        ctx.textAlign = "center";
 
-  ctx.arc(
-    0,
-    0,
-    radius,
-    0,
-    Math.PI * 2
-  );
+        ctx.textBaseline = "middle";
 
-  ctx.fillStyle =
-    settings.wheelBg;
+        ctx.fillText(
+            "Enter your list",
+            cx,
+            cy
+        );
 
-  ctx.fill();
+        return;
+    }
 
+    const segment = Math.PI * 2 / items.length;
 
-  if(items.length === 0){
+    /*
+    Draw background image first.
+    */
+
+    ctx.save();
+
+    ctx.beginPath();
+
+    ctx.arc(cx,cy,radius,0,Math.PI*2);
+
+    ctx.clip();
+
+    ctx.fillStyle = settings.wheelBackground;
+
+    ctx.fill();
+
+    if(wheelImage){
+
+        ctx.globalAlpha = 0.35;
+
+        ctx.drawImage(
+            wheelImage,
+            cx-radius,
+            cy-radius,
+            radius*2,
+            radius*2
+        );
+
+        ctx.globalAlpha = 1;
+
+    }
 
     ctx.restore();
+
+
+    /*
+    Draw segments.
+    */
+
+    for(let i=0;i<items.length;i++){
+
+        const start =
+            rotation + i * segment;
+
+        const end =
+            start + segment;
+
+        ctx.beginPath();
+
+        ctx.moveTo(cx,cy);
+
+        ctx.arc(
+            cx,
+            cy,
+            radius,
+            start,
+            end
+        );
+
+        ctx.closePath();
+
+        ctx.fillStyle =
+            colors[i % colors.length];
+
+        ctx.fill();
+
+        ctx.strokeStyle =
+            settings.borderColor;
+
+        ctx.lineWidth =
+            settings.borderWidth;
+
+        ctx.stroke();
+
+    }
+
+
+    /*
+    Draw text.
+
+    Text is rotated to point toward the outside.
+    It is also shortened based on list size.
+    */
+
+    const fontSize = getDynamicFontSize();
+
+    ctx.fillStyle = settings.textColor;
+
+    ctx.font =
+        "bold " +
+        fontSize +
+        "px Arial";
+
+    ctx.textAlign = "center";
+
+    ctx.textBaseline = "middle";
+
+    for(let i=0;i<items.length;i++){
+
+        const middle =
+            rotation +
+            i * segment +
+            segment / 2;
+
+        const label =
+            visualLabel(items[i],i);
+
+        const textRadius =
+            radius * 0.68;
+
+        const x =
+            cx +
+            Math.cos(middle) * textRadius;
+
+        const y =
+            cy +
+            Math.sin(middle) * textRadius;
+
+        ctx.save();
+
+        ctx.translate(x,y);
+
+        /*
+        Keep text readable around the wheel.
+        */
+
+        let angle = middle;
+
+        while(angle > Math.PI){
+            angle -= Math.PI * 2;
+        }
+
+        while(angle < -Math.PI){
+            angle += Math.PI * 2;
+        }
+
+        if(angle > Math.PI/2 ||
+           angle < -Math.PI/2){
+
+            ctx.rotate(angle + Math.PI);
+
+        }else{
+
+            ctx.rotate(angle);
+
+        }
+
+        ctx.fillText(label,0,0);
+
+        ctx.restore();
+
+    }
+
+
+    /*
+    Outer ring.
+    */
+
+    ctx.beginPath();
+
+    ctx.arc(cx,cy,radius,0,Math.PI*2);
+
+    ctx.strokeStyle = settings.borderColor;
+
+    ctx.lineWidth =
+        Math.max(settings.borderWidth,3);
+
+    ctx.stroke();
+
+
+    /*
+    Center circle.
+    */
 
     ctx.beginPath();
 
     ctx.arc(
-      centerX,
-      centerY,
-      radius,
-      0,
-      Math.PI * 2
+        cx,
+        cy,
+        Math.max(12, radius * 0.055),
+        0,
+        Math.PI*2
     );
 
     ctx.fillStyle =
-      settings.wheelBg;
+        settings.borderColor;
 
     ctx.fill();
 
-    ctx.strokeStyle =
-      settings.borderColor;
+}
 
-    ctx.lineWidth =
-      settings.borderWidth;
 
-    ctx.stroke();
+/* SPIN */
 
-    ctx.fillStyle =
+function spinWheel(){
+
+    if(spinning) return;
+
+    items = parseItems();
+
+    if(items.length < 2){
+
+        result.textContent =
+            "Enter at least 2 items.";
+
+        return;
+
+    }
+
+    spinning = true;
+
+    spinButton.disabled = true;
+
+    result.textContent = "Spinning... 🎡";
+
+
+    if(window.AudioContext ||
+       window.webkitAudioContext){
+
+        startAudio();
+
+    }
+
+
+    /*
+    Choose the winner BEFORE animation.
+    */
+
+    const selectedIndex =
+        Math.floor(Math.random() * items.length);
+
+    const segment =
+        Math.PI * 2 / items.length;
+
+    /*
+    Pointer is at the top.
+    Top = -90 degrees.
+    */
+
+    const pointerAngle =
+        -Math.PI / 2;
+
+    const selectedMiddle =
+        selectedIndex * segment +
+        segment / 2;
+
+    let targetRotation =
+        pointerAngle -
+        selectedMiddle;
+
+
+    /*
+    Make the wheel spin forward many times.
+    */
+
+    const extraSpins =
+        6 + Math.floor(Math.random() * 4);
+
+    while(
+        targetRotation <= rotation
+    ){
+
+        targetRotation += Math.PI * 2;
+
+    }
+
+    targetRotation +=
+        extraSpins * Math.PI * 2;
+
+
+    const startRotation = rotation;
+
+    const change =
+        targetRotation - startRotation;
+
+    const duration =
+        Number(settings.duration) * 1000;
+
+    const startTime =
+        performance.now();
+
+
+    function animate(now){
+
+        const elapsed =
+            now - startTime;
+
+        let progress =
+            Math.min(elapsed / duration,1);
+
+
+        /*
+        Ease out:
+        fast at first,
+        slow near the end.
+        */
+
+        const eased =
+            1 - Math.pow(1-progress,4);
+
+
+        rotation =
+            startRotation +
+            change * eased;
+
+
+        drawWheel();
+
+        tickSound(progress);
+
+
+        if(progress < 1){
+
+            requestAnimationFrame(animate);
+
+        }else{
+
+            rotation =
+                targetRotation;
+
+            drawWheel();
+
+            spinning = false;
+
+            spinButton.disabled = false;
+
+            result.textContent =
+                "🎉 " + items[selectedIndex];
+
+            landingSound();
+
+        }
+
+    }
+
+
+    requestAnimationFrame(animate);
+
+}
+
+
+/* SOUND */
+
+let audioContext = null;
+
+function startAudio(){
+
+    if(!settings.soundEnabled) return;
+
+    if(!audioContext){
+
+        audioContext =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+    }
+
+    if(audioContext.state === "suspended"){
+
+        audioContext.resume();
+
+    }
+
+}
+
+
+function playTone(
+    frequency,
+    duration,
+    volume
+){
+
+    if(!settings.soundEnabled) return;
+
+    if(!audioContext) return;
+
+    const oscillator =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
+
+    oscillator.frequency.value =
+        frequency;
+
+    oscillator.type = "square";
+
+    gain.gain.value =
+        volume *
+        (settings.volume / 100);
+
+    oscillator.connect(gain);
+
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + duration
+    );
+
+    oscillator.stop(
+        audioContext.currentTime + duration
+    );
+
+}
+
+
+let lastTick = 0;
+
+function tickSound(progress){
+
+    if(!settings.soundEnabled) return;
+
+    const now =
+        performance.now();
+
+    /*
+    Faster ticks at the beginning,
+    slower ticks near the end.
+    */
+
+    const interval =
+        35 +
+        progress * 180;
+
+    if(now - lastTick > interval){
+
+        lastTick = now;
+
+        playTone(
+            600,
+            0.035,
+            0.06
+        );
+
+    }
+
+}
+
+
+function landingSound(){
+
+    playTone(
+        900,
+        0.12,
+        0.12
+    );
+
+    setTimeout(
+        () => playTone(
+            1200,
+            0.16,
+            0.12
+        ),
+        100
+    );
+
+}
   
