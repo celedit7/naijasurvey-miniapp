@@ -2,15 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080a0f">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Spin The Wheel</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-<!-- SOCIAL BAR AD -->
-<script src="https://tightslybella.com/7b/7e/f6/7b7ef61df13d8a32a4af12d958d7c561.js"></script>
 
 <style>
 *{
@@ -22,218 +18,221 @@ html,body{
     margin:0;
     padding:0;
     min-height:100%;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#080a0f;
+    background:#080b10;
     color:#fff;
-    transition:background .2s ease;
+    transition:.3s;
 }
 
-.container{
+.app{
     width:100%;
-    max-width:620px;
+    max-width:650px;
     margin:auto;
     padding:15px;
 }
 
 h1{
     text-align:center;
-    font-size:30px;
-    margin:8px 0 5px;
-}
-
-.subtitle{
-    text-align:center;
-    color:#999;
-    font-size:14px;
-    margin-bottom:18px;
+    margin:5px 0 18px;
+    font-size:28px;
 }
 
 .card{
-    background:#11151c;
-    border:1px solid #252b35;
+    background:#111720;
     border-radius:16px;
     padding:15px;
     margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.25);
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:8px;
 }
 
 textarea{
     width:100%;
-    min-height:135px;
+    min-height:150px;
     resize:vertical;
-    padding:13px;
+    border:1px solid #333;
     border-radius:12px;
-    border:1px solid #303743;
-    outline:none;
-    background:#090c11;
+    background:#080c12;
     color:#fff;
-    font-size:14px;
-    font-family:Arial,sans-serif;
+    padding:12px;
+    font-size:15px;
+    outline:none;
 }
 
 textarea:focus{
-    border-color:#666;
+    border-color:#4da3ff;
 }
 
-.button{
-    width:100%;
-    border:none;
-    border-radius:12px;
-    padding:14px;
+.button-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
     margin-top:10px;
-    font-size:16px;
+}
+
+button{
+    border:0;
+    border-radius:11px;
+    padding:12px;
+    font-size:14px;
     font-weight:bold;
     cursor:pointer;
-}
-
-.button:active{
-    transform:scale(.98);
-}
-
-.action-button{
-    background:#292f39;
     color:#fff;
+    background:#252d38;
 }
 
-.spin-button{
-    background:#00d26a;
-    color:#000;
-    font-size:20px;
-    box-shadow:0 5px 20px rgba(0,210,106,.15);
+button:active{
+    transform:scale(.97);
 }
 
-.spin-button:disabled{
-    opacity:.5;
-    cursor:not-allowed;
+.primary{
+    background:#168cff;
+}
+
+.danger{
+    background:#d83b3b;
 }
 
 .settings-button{
-    background:#222832;
-    color:#fff;
-}
-
-.wheel-area{
-    position:relative;
-    width:min(92vw,540px);
-    aspect-ratio:1/1;
-    margin:20px auto;
-}
-
-#wheelCanvas{
     width:100%;
-    height:100%;
-    display:block;
-    border-radius:50%;
-    transform:rotate(0rad);
-    transform-origin:center center;
-    will-change:transform;
+    background:#242c37;
+    font-size:16px;
+    padding:14px;
 }
 
-.pointer{
-    position:absolute;
-    top:-2px;
-    left:50%;
-    transform:translateX(-50%);
-    width:0;
-    height:0;
-    border-left:22px solid transparent;
-    border-right:22px solid transparent;
-    border-top:43px solid #ff3b30;
-    z-index:20;
-    filter:drop-shadow(0 2px 4px rgba(0,0,0,.7));
-}
-
-.result{
-    min-height:32px;
-    padding:0 8px;
-    text-align:center;
-    font-size:20px;
-    font-weight:bold;
-    line-height:1.35;
-    word-break:break-word;
-}
-
-.settings{
+.settings-panel{
     display:none;
+    margin-top:12px;
 }
 
-.settings.open{
+.settings-panel.open{
     display:block;
 }
 
-.settings h3{
-    margin-top:0;
+.setting{
+    margin-bottom:14px;
 }
 
-.setting-row{
-    margin-bottom:16px;
-}
-
-.setting-row label{
-    display:block;
-    color:#ddd;
-    font-size:13px;
+.setting-title{
+    font-size:14px;
     margin-bottom:7px;
+    color:#ddd;
 }
 
-.value{
-    float:right;
-    color:#999;
+.color-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
 }
 
 input[type="color"]{
     width:100%;
     height:42px;
+    border:0;
     padding:2px;
-    border:none;
     border-radius:8px;
-    background:#090c11;
+    background:#222;
 }
 
 input[type="range"]{
     width:100%;
 }
 
+input[type="number"]{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #333;
+    background:#080c12;
+    color:white;
+}
+
 input[type="file"]{
     width:100%;
-    color:#bbb;
-    font-size:12px;
+    color:#ddd;
 }
 
-select{
+.check-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.check-row input{
+    width:20px;
+    height:20px;
+}
+
+.wheel-area{
+    position:relative;
+    width:min(92vw,560px);
+    aspect-ratio:1;
+    margin:10px auto 18px;
+}
+
+#wheel{
     width:100%;
-    padding:11px;
-    border-radius:8px;
-    border:1px solid #303743;
-    background:#090c11;
-    color:#fff;
+    height:100%;
+    display:block;
+    border-radius:50%;
 }
 
-.ad-card{
-    overflow:hidden;
+.pointer{
+    position:absolute;
+    top:-3px;
+    left:50%;
+    transform:translateX(-50%);
+    width:0;
+    height:0;
+    border-left:23px solid transparent;
+    border-right:23px solid transparent;
+    border-top:48px solid #ff3b30;
+    z-index:10;
+    pointer-events:none;
+    filter:drop-shadow(0 3px 5px rgba(0,0,0,.7));
 }
 
-.ad-title{
+.spin-button{
+    display:block;
+    width:100%;
+    max-width:400px;
+    margin:0 auto;
+    padding:17px;
+    font-size:22px;
+    background:#16a34a;
+    border-radius:15px;
+}
+
+.spin-button:disabled{
+    opacity:.5;
+}
+
+.result{
     text-align:center;
-    color:#777;
-    font-size:10px;
-    margin-bottom:8px;
-}
-
-#nativeAd{
-    width:100%;
-    min-height:20px;
+    margin-top:15px;
+    min-height:55px;
+    padding:15px;
+    border-radius:13px;
+    background:#0b1017;
+    font-size:20px;
+    font-weight:bold;
+    word-break:break-word;
 }
 
 .youtube-support{
     margin:15px auto 0;
-    padding:16px;
+    padding:15px;
     max-width:500px;
     border-radius:14px;
     background:#11151c;
-    border:1px solid #252b35;
     text-align:center;
 }
 
@@ -244,8 +243,8 @@ select{
 }
 
 .youtube-text{
-    color:#aaa;
     font-size:13px;
+    color:#aaa;
     margin-bottom:12px;
 }
 
@@ -257,33 +256,37 @@ select{
     background:#ff0000;
     color:#fff;
     text-decoration:none;
-    font-size:15px;
     font-weight:bold;
+    font-size:15px;
 }
 
-.small-note{
+.ad-card{
     text-align:center;
-    color:#666;
-    font-size:11px;
-    margin:14px 0 5px;
 }
 
-@media(max-width:400px){
+.ad-title{
+    font-size:11px;
+    color:#777;
+    margin-bottom:8px;
+}
 
-    .container{
+.small{
+    color:#999;
+    font-size:12px;
+    margin-top:7px;
+}
+
+@media(max-width:420px){
+    h1{
+        font-size:24px;
+    }
+
+    .app{
         padding:10px;
     }
 
-    h1{
-        font-size:26px;
-    }
-
-    .wheel-area{
-        width:94vw;
-    }
-
-    .result{
-        font-size:18px;
+    .card{
+        padding:12px;
     }
 }
 </style>
@@ -291,21 +294,18 @@ select{
 
 <body>
 
-<div class="container">
+<div class="app">
 
     <h1>🎡 Spin The Wheel</h1>
 
-    <div class="subtitle">
-        Enter anything and let the wheel choose randomly.
-    </div>
-
-
-    <!-- LIST INPUT -->
+    <!-- LIST -->
     <div class="card">
 
+        <label>Enter your list</label>
+
         <textarea
-            id="itemsInput"
-            placeholder="Enter one item per line or separate items with commas.
+            id="listInput"
+            placeholder="Enter one name per line...
 
 Example:
 Spider-Man
@@ -316,372 +316,327 @@ Batman
 Superman"
         ></textarea>
 
-        <button
-            class="button action-button"
-            id="saveListButton"
-        >
-            💾 Save List
-        </button>
+        <div class="button-row">
+            <button id="saveListBtn">💾 Save List</button>
+            <button id="loadListBtn">📂 Load List</button>
+            <button id="clearListBtn" class="danger">🗑️ Clear</button>
+        </div>
 
-        <button
-            class="button action-button"
-            id="loadListButton"
-        >
-            📂 Load List
-        </button>
-
-        <button
-            class="button action-button"
-            id="clearButton"
-        >
-            🗑️ Clear
-        </button>
+        <div class="small">
+            You can enter names one per line or separate them with commas.
+        </div>
 
     </div>
 
 
     <!-- WHEEL -->
-    <div class="wheel-area">
+    <div class="card">
 
-        <div
-            class="pointer"
-            id="pointer"
-        ></div>
+        <div class="wheel-area">
 
-        <canvas
-            id="wheelCanvas"
-            width="800"
-            height="800"
-        ></canvas>
+            <canvas id="wheel"></canvas>
+
+            <div class="pointer"></div>
+
+        </div>
+
+        <button id="spinButton" class="spin-button">
+            🎯 SPIN
+        </button>
+
+        <div id="result" class="result">
+            Add names and spin!
+        </div>
 
     </div>
-
-
-    <!-- RESULT -->
-    <div
-        class="result"
-        id="result"
-    >
-        Add items and spin!
-    </div>
-
-
-    <!-- SPIN -->
-    <button
-        class="button spin-button"
-        id="spinButton"
-    >
-        🎡 SPIN
-    </button>
 
 
     <!-- SETTINGS -->
-    <button
-        class="button settings-button"
-        id="settingsButton"
-    >
-        ⚙️ Settings
-    </button>
+    <div class="card">
 
-
-    <div
-        class="card settings"
-        id="settingsPanel"
-    >
-
-        <h3>⚙️ Settings</h3>
-
-
-        <div class="setting-row">
-            <label>Wheel Color 1</label>
-            <input
-                type="color"
-                id="color1"
-                value="#ff3b30"
-            >
-        </div>
-
-        <div class="setting-row">
-            <label>Wheel Color 2</label>
-            <input
-                type="color"
-                id="color2"
-                value="#007aff"
-            >
-        </div>
-
-        <div class="setting-row">
-            <label>Wheel Color 3</label>
-            <input
-                type="color"
-                id="color3"
-                value="#34c759"
-            >
-        </div>
-
-        <div class="setting-row">
-            <label>Wheel Color 4</label>
-            <input
-                type="color"
-                id="color4"
-                value="#ffcc00"
-            >
-        </div>
-
-
-        <div class="setting-row">
-            <label>Wheel Background</label>
-            <input
-                type="color"
-                id="wheelBackground"
-                value="#11151c"
-            >
-        </div>
-
-
-        <div class="setting-row">
-            <label>Page Background</label>
-            <input
-                type="color"
-                id="pageBackground"
-                value="#080a0f"
-            >
-        </div>
-
-
-        <div class="setting-row">
-            <label>Text Color</label>
-            <input
-                type="color"
-                id="textColor"
-                value="#ffffff"
-            >
-        </div>
-
-
-        <div class="setting-row">
-
-            <label>
-                Text Size
-                <span
-                    class="value"
-                    id="textSizeValue"
-                >
-                    14
-                </span>
-            </label>
-
-            <input
-                type="range"
-                id="textSize"
-                min="7"
-                max="24"
-                value="14"
-            >
-
-        </div>
-
-
-        <div class="setting-row">
-
-            <label>
-                Border Width
-                <span
-                    class="value"
-                    id="borderWidthValue"
-                >
-                    3
-                </span>
-            </label>
-
-            <input
-                type="range"
-                id="borderWidth"
-                min="0"
-                max="15"
-                value="3"
-            >
-
-        </div>
-
-
-        <div class="setting-row">
-
-            <label>Border Color</label>
-
-            <input
-                type="color"
-                id="borderColor"
-                value="#ffffff"
-            >
-
-        </div>
-
-
-        <div class="setting-row">
-
-            <label>Pointer Color</label>
-
-            <input
-                type="color"
-                id="pointerColor"
-                value="#ff3b30"
-            >
-
-        </div>
-
-
-        <div class="setting-row">
-
-            <label>
-                Pointer Size
-                <span
-                    class="value"
-                    id="pointerSizeValue"
-                >
-                    43
-                </span>
-            </label>
-
-            <input
-                type="range"
-                id="pointerSize"
-                min="20"
-                max="70"
-                value="43"
-            >
-
-        </div>
-
-
-        <div class="setting-row">
-
-            <label>
-                Upload Wheel Background Image
-            </label>
-
-            <input
-                type="file"
-                id="wheelImage"
-                accept="image/*"
-            >
-
-        </div>
-
-
-        <div class="setting-row">
-
-            <label>
-                Upload Custom Pointer Image
-            </label>
-
-            <input
-                type="file"
-                id="pointerImage"
-                accept="image/*"
-            >
-
-        </div>
-
-
-        <div class="setting-row">
-
-            <label>Sound</label>
-
-            <select id="soundEnabled">
-
-                <option value="on">
-                    🔊 On
-                </option>
-
-                <option value="off">
-                    🔇 Off
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="setting-row">
-
-            <label>
-
-                Sound Volume
-
-                <span
-                    class="value"
-                    id="volumeValue"
-                >
-                    50
-                </span>
-
-            </label>
-
-            <input
-                type="range"
-                id="volume"
-                min="0"
-                max="100"
-                value="50"
-            >
-
-        </div>
-
-
-        <div class="setting-row">
-
-            <label>
-
-                Spin Duration
-
-                <span
-                    class="value"
-                    id="durationValue"
-                >
-                    5s
-                </span>
-
-            </label>
-
-            <input
-                type="range"
-                id="duration"
-                min="2"
-                max="12"
-                value="5"
-            >
-
-        </div>
-
-
-        <button
-            class="button action-button"
-            id="saveSettings"
-        >
-            💾 Save Settings
+        <button id="settingsButton" class="settings-button">
+            ⚙️ Settings
         </button>
 
+        <div id="settingsPanel" class="settings-panel">
 
-        <button
-            class="button action-button"
-            id="loadSettings"
-        >
-            📂 Load Settings
-        </button>
+            <div class="setting">
+
+                <div class="setting-title">
+                    🎨 Wheel Colors
+                </div>
+
+                <div class="color-row">
+
+                    <input
+                        type="color"
+                        id="color1"
+                        value="#ff4757"
+                    >
+
+                    <input
+                        type="color"
+                        id="color2"
+                        value="#3742fa"
+                    >
+
+                    <input
+                        type="color"
+                        id="color3"
+                        value="#2ed573"
+                    >
+
+                    <input
+                        type="color"
+                        id="color4"
+                        value="#ffa502"
+                    >
+
+                </div>
+
+            </div>
 
 
-        <button
-            class="button action-button"
-            id="resetSettings"
-        >
-            🔄 Reset Settings
-        </button>
+            <div class="setting">
+
+                <div class="setting-title">
+                    🌈 Wheel Background
+                </div>
+
+                <input
+                    type="color"
+                    id="wheelBackground"
+                    value="#111111"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    🖥️ Page Background
+                </div>
+
+                <input
+                    type="color"
+                    id="pageBackground"
+                    value="#080b10"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    🔤 Text Color
+                </div>
+
+                <input
+                    type="color"
+                    id="textColor"
+                    value="#ffffff"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    🔠 Text Size
+                </div>
+
+                <input
+                    type="range"
+                    id="textSize"
+                    min="8"
+                    max="24"
+                    value="16"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    🟢 Border Width
+                </div>
+
+                <input
+                    type="range"
+                    id="borderWidth"
+                    min="0"
+                    max="12"
+                    value="3"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    🟢 Border Color
+                </div>
+
+                <input
+                    type="color"
+                    id="borderColor"
+                    value="#ffffff"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    👉 Pointer Color
+                </div>
+
+                <input
+                    type="color"
+                    id="pointerColor"
+                    value="#ff3b30"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    👉 Pointer Size
+                </div>
+
+                <input
+                    type="range"
+                    id="pointerSize"
+                    min="25"
+                    max="70"
+                    value="48"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    🖼️ Wheel Background Image
+                </div>
+
+                <input
+                    type="file"
+                    id="wheelImage"
+                    accept="image/*"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    👉 Custom Pointer Image
+                </div>
+
+                <input
+                    type="file"
+                    id="pointerImage"
+                    accept="image/*"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="check-row">
+
+                    <input
+                        type="checkbox"
+                        id="soundToggle"
+                        checked
+                    >
+
+                    <label
+                        for="soundToggle"
+                        style="margin:0"
+                    >
+                        🔊 Sound
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    🔊 Sound Volume
+                </div>
+
+                <input
+                    type="range"
+                    id="volume"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                    value="0.5"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-title">
+                    ⏱️ Spin Duration
+                </div>
+
+                <input
+                    type="range"
+                    id="spinDuration"
+                    min="2"
+                    max="12"
+                    step="0.5"
+                    value="5"
+                >
+
+                <div class="small">
+                    Shorter = faster spin
+                </div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button id="saveSettingsBtn">
+                    💾 Save
+                </button>
+
+                <button id="loadSettingsBtn">
+                    📂 Load
+                </button>
+
+                <button id="resetSettingsBtn" class="danger">
+                    🔄 Reset
+                </button>
+
+            </div>
+
+        </div>
 
     </div>
 
 
-    <!-- NATIVE AD -->
+    <!-- AD -->
     <div class="card ad-card">
 
         <div class="ad-title">
@@ -693,7 +648,7 @@ Superman"
     </div>
 
 
-    <!-- YOUTUBE SUPPORT -->
+    <!-- YOUTUBE -->
     <div class="youtube-support">
 
         <div class="youtube-title">
@@ -715,419 +670,252 @@ Superman"
 
     </div>
 
-
-    <div class="small-note">
-        Spin The Wheel • ULTRON-S
-    </div>
-
 </div>
+
+
+<!-- SOCIAL BAR -->
+<script src="https://tightslybella.com/7b/7e/f6/7b7ef61df13d8a32a4af12d958d7c561.js"></script>
 
 
 <script>
 
-/* ==========================================
+/* =====================================================
    TELEGRAM
-========================================== */
+===================================================== */
 
-if(
-    window.Telegram &&
-    window.Telegram.WebApp
-){
+try{
 
-    Telegram.WebApp.ready();
+    if(window.Telegram && Telegram.WebApp){
 
-    Telegram.WebApp.expand();
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+
+    }
+
+}catch(e){}
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+
+const listInput = document.getElementById("listInput");
+const spinButton = document.getElementById("spinButton");
+const resultBox = document.getElementById("result");
+
+const settingsButton = document.getElementById("settingsButton");
+const settingsPanel = document.getElementById("settingsPanel");
+
+let items = [];
+let rotation = 0;
+let spinning = false;
+
+let wheelImage = null;
+let pointerImage = null;
+
+let audioContext = null;
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+let settings = {
+
+    colors:[
+        "#ff4757",
+        "#3742fa",
+        "#2ed573",
+        "#ffa502"
+    ],
+
+    wheelBackground:"#111111",
+
+    pageBackground:"#080b10",
+
+    textColor:"#ffffff",
+
+    textSize:16,
+
+    borderWidth:3,
+
+    borderColor:"#ffffff",
+
+    pointerColor:"#ff3b30",
+
+    pointerSize:48,
+
+    sound:true,
+
+    volume:.5,
+
+    spinDuration:5
+
+};
+
+
+/* =====================================================
+   CANVAS SIZE
+===================================================== */
+
+function resizeCanvas(){
+
+    const size = Math.min(
+        window.innerWidth * .92,
+        560
+    );
+
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.style.width = size + "px";
+    canvas.style.height = size + "px";
+
+    canvas.width = Math.floor(size * dpr);
+    canvas.height = Math.floor(size * dpr);
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+    drawWheel();
+
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+
+/* =====================================================
+   GET LIST
+===================================================== */
+
+function getItems(){
+
+    const text = listInput.value.trim();
+
+    if(!text){
+
+        return [];
+
+    }
+
+    const result = text
+        .split(/[\n,]+/)
+        .map(x => x.trim())
+        .filter(x => x.length > 0);
+
+    return [...new Set(result)];
 
 }
 
 
-/* ==========================================
-   ELEMENTS
-========================================== */
+/* =====================================================
+   UPDATE ITEMS
+===================================================== */
 
-const canvas =
-    document.getElementById("wheelCanvas");
+function updateItems(){
 
-const ctx =
-    canvas.getContext("2d");
+    items = getItems();
 
-const input =
-    document.getElementById("itemsInput");
+    drawWheel();
 
-const result =
-    document.getElementById("result");
-
-const spinButton =
-    document.getElementById("spinButton");
-
-const pointer =
-    document.getElementById("pointer");
+}
 
 
-/* ==========================================
-   VARIABLES
-========================================== */
+/* =====================================================
+   SHORTEN DISPLAY TEXT
+===================================================== */
 
-let items = [];
+function shortText(text, count){
 
-let rotation = 0;
+    let max;
 
-let spinning = false;
+    if(count <= 10){
+        max = 18;
+    }
+    else if(count <= 20){
+        max = 14;
+    }
+    else if(count <= 30){
+        max = 11;
+    }
+    else if(count <= 40){
+        max = 9;
+    }
+    else if(count <= 50){
+        max = 8;
+    }
+    else if(count <= 70){
+        max = 7;
+    }
+    else{
+        max = 6;
+    }
 
-let wheelColors = [
-    "#ff3b30",
-    "#007aff",
-    "#34c759",
-    "#ffcc00"
-];
+    if(text.length <= max){
 
-let wheelBackground =
-    "#11151c";
-
-let pageBackground =
-    "#080a0f";
-
-let textColor =
-    "#ffffff";
-
-let borderColor =
-    "#ffffff";
-
-let borderWidth = 3;
-
-let textSize = 14;
-
-let pointerColor =
-    "#ff3b30";
-
-let pointerSize = 43;
-
-let soundEnabled = true;
-
-let volume = .5;
-
-let spinDuration = 5;
-
-let wheelImage = null;
-
-let customPointerImage = null;
-
-
-/* ==========================================
-   SETTINGS OPEN/CLOSE
-========================================== */
-
-document
-.getElementById("settingsButton")
-.addEventListener(
-    "click",
-    function(){
-
-        document
-        .getElementById("settingsPanel")
-        .classList.toggle("open");
+        return text;
 
     }
-);
+
+    return text.substring(0,max-1) + "…";
+
+}
 
 
-/* ==========================================
-   PARSE LIST
-========================================== */
+/* =====================================================
+   FONT SIZE
+===================================================== */
 
-function parseItems(){
+function getFontSize(count){
 
-    const text =
-        input.value.trim();
+    if(count <= 10) return settings.textSize;
 
-    if(!text){
+    if(count <= 20) return Math.min(settings.textSize,17);
 
-        items = [];
+    if(count <= 30) return Math.min(settings.textSize,15);
+
+    if(count <= 40) return Math.min(settings.textSize,13);
+
+    if(count <= 50) return Math.min(settings.textSize,11);
+
+    if(count <= 70) return Math.min(settings.textSize,10);
+
+    return Math.min(settings.textSize,9);
+
+}
+
+
+/* =====================================================
+   DRAW WHEEL
+===================================================== */
+
+function drawWheel(){
+
+    const size = canvas.clientWidth;
+
+    if(!size){
 
         return;
 
     }
 
-    items =
-        text
-        .split(/[\n,]+/)
-        .map(function(item){
+    const center = size / 2;
 
-            return item.trim();
+    const radius = size / 2 - 8;
 
-        })
-        .filter(function(item){
+    ctx.clearRect(0,0,size,size);
 
-            return item.length > 0;
+    ctx.save();
 
-        });
-
-}
-
-
-/* ==========================================
-   INPUT CHANGE
-========================================== */
-
-input.addEventListener(
-    "input",
-    function(){
-
-        parseItems();
-
-        drawWheel();
-
-        if(items.length > 0){
-
-            result.textContent =
-                items.length +
-                " items ready 🎡";
-
-        }else{
-
-            result.textContent =
-                "Add items and spin!";
-
-        }
-
-    }
-);
-
-
-/* ==========================================
-   SAVE LIST
-========================================== */
-
-document
-.getElementById("saveListButton")
-.addEventListener(
-    "click",
-    function(){
-
-        parseItems();
-
-        if(items.length === 0){
-
-            alert(
-                "There is no list to save."
-            );
-
-            return;
-
-        }
-
-        localStorage.setItem(
-            "spinWheelList",
-            JSON.stringify(items)
-        );
-
-        alert(
-            "List saved successfully!"
-        );
-
-    }
-);
-
-
-/* ==========================================
-   LOAD LIST
-========================================== */
-
-document
-.getElementById("loadListButton")
-.addEventListener(
-    "click",
-    function(){
-
-        const saved =
-            localStorage.getItem(
-                "spinWheelList"
-            );
-
-        if(!saved){
-
-            alert(
-                "No saved list found."
-            );
-
-            return;
-
-        }
-
-
-        try{
-
-            const savedItems =
-                JSON.parse(saved);
-
-
-            if(
-                !Array.isArray(savedItems) ||
-                savedItems.length === 0
-            ){
-
-                alert(
-                    "Saved list is empty."
-                );
-
-                return;
-
-            }
-
-
-            items =
-                savedItems;
-
-
-            input.value =
-                items.join("\n");
-
-
-            drawWheel();
-
-
-            result.textContent =
-                items.length +
-                " items loaded 🎡";
-
-
-        }catch(error){
-
-            alert(
-                "Could not load the saved list."
-            );
-
-        }
-
-    }
-);
-
-
-/* ==========================================
-   CLEAR LIST
-========================================== */
-
-document
-.getElementById("clearButton")
-.addEventListener(
-    "click",
-    function(){
-
-        input.value = "";
-
-        items = [];
-
-        result.textContent =
-            "Add items and spin!";
-
-        drawWheel();
-
-    }
-);
-
-
-/* ==========================================
-   FONT SIZE
-========================================== */
-
-function getFontSize(){
-
-    const count =
-        items.length;
-
-    if(count <= 10)
-        return textSize;
-
-    if(count <= 20)
-        return Math.min(textSize,17);
-
-    if(count <= 30)
-        return Math.min(textSize,15);
-
-    if(count <= 40)
-        return Math.min(textSize,13);
-
-    if(count <= 50)
-        return Math.min(textSize,11);
-
-    if(count <= 70)
-        return Math.min(textSize,10);
-
-    return Math.min(textSize,9);
-
-}
-
-
-/* ==========================================
-   SHORTEN WHEEL LABEL
-========================================== */
-
-function shortenText(text){
-
-    const count =
-        items.length;
-
-    let max;
-
-    if(count <= 10)
-        max = 18;
-
-    else if(count <= 20)
-        max = 14;
-
-    else if(count <= 30)
-        max = 11;
-
-    else if(count <= 40)
-        max = 9;
-
-    else if(count <= 50)
-        max = 8;
-
-    else if(count <= 70)
-        max = 7;
-
-    else
-        max = 6;
-
-
-    if(text.length <= max)
-        return text;
-
-
-    return (
-        text.substring(0,max - 1) +
-        "…"
-    );
-
-}
-
-
-/* ==========================================
-   DRAW WHEEL
-========================================== */
-
-function drawWheel(){
-
-    const size =
-        canvas.width;
-
-    const center =
-        size / 2;
-
-    const radius =
-        size / 2 - 10;
-
-
-    ctx.clearRect(
-        0,
-        0,
-        size,
-        size
-    );
-
-
-    /* Base background */
+    /* wheel background */
 
     ctx.beginPath();
 
@@ -1139,15 +927,31 @@ function drawWheel(){
         Math.PI * 2
     );
 
-    ctx.fillStyle =
-        wheelBackground;
+    ctx.fillStyle = settings.wheelBackground;
 
     ctx.fill();
 
+    ctx.clip();
 
-    /* Empty wheel */
+
+    /* custom wheel image */
+
+    if(wheelImage){
+
+        ctx.drawImage(
+            wheelImage,
+            center-radius,
+            center-radius,
+            radius*2,
+            radius*2
+        );
+
+    }
+
 
     if(items.length === 0){
+
+        ctx.restore();
 
         ctx.beginPath();
 
@@ -1156,32 +960,25 @@ function drawWheel(){
             center,
             radius,
             0,
-            Math.PI * 2
+            Math.PI*2
         );
 
-        ctx.strokeStyle =
-            borderColor;
+        ctx.lineWidth = settings.borderWidth;
 
-        ctx.lineWidth =
-            borderWidth;
+        ctx.strokeStyle = settings.borderColor;
 
         ctx.stroke();
 
+        ctx.fillStyle = settings.textColor;
 
-        ctx.fillStyle =
-            textColor;
+        ctx.font = "bold 18px Arial";
 
-        ctx.font =
-            "bold 30px Arial";
+        ctx.textAlign = "center";
 
-        ctx.textAlign =
-            "center";
-
-        ctx.textBaseline =
-            "middle";
+        ctx.textBaseline = "middle";
 
         ctx.fillText(
-            "ADD ITEMS",
+            "Add names",
             center,
             center
         );
@@ -1191,38 +988,102 @@ function drawWheel(){
     }
 
 
-    const slice =
-        Math.PI * 2 /
-        items.length;
+    const slice = Math.PI * 2 / items.length;
+
+    const fontSize = getFontSize(items.length);
 
 
-    /* Background image */
+    for(let i=0; i<items.length; i++){
 
-    if(wheelImage){
+        const start =
+            -Math.PI/2 +
+            rotation +
+            i * slice;
 
-        ctx.save();
+        const end =
+            start +
+            slice;
+
+
+        /* segment */
 
         ctx.beginPath();
+
+        ctx.moveTo(center,center);
 
         ctx.arc(
             center,
             center,
             radius,
-            0,
-            Math.PI * 2
+            start,
+            end
         );
 
-        ctx.clip();
+        ctx.closePath();
 
-        ctx.globalAlpha =
-            .35;
+        if(!wheelImage){
 
-        ctx.drawImage(
-            wheelImage,
+            ctx.fillStyle =
+                settings.colors[
+                    i % settings.colors.length
+                ];
+
+            ctx.fill();
+
+        }
+
+
+        /* segment border */
+
+        ctx.lineWidth = settings.borderWidth;
+
+        ctx.strokeStyle = settings.borderColor;
+
+        ctx.stroke();
+
+
+        /* text */
+
+        const middle =
+            start + slice/2;
+
+        const textRadius =
+            radius * .67;
+
+        const x =
+            center +
+            Math.cos(middle) *
+            textRadius;
+
+        const y =
+            center +
+            Math.sin(middle) *
+            textRadius;
+
+
+        ctx.save();
+
+        ctx.translate(x,y);
+
+        ctx.rotate(middle + Math.PI/2);
+
+
+        ctx.fillStyle =
+            settings.textColor;
+
+        ctx.font =
+            "bold " +
+            fontSize +
+            "px Arial";
+
+        ctx.textAlign = "center";
+
+        ctx.textBaseline = "middle";
+
+        ctx.fillText(
+            shortText(items[i],items.length),
             0,
-            0,
-            size,
-            size
+            0
         );
 
         ctx.restore();
@@ -1230,25 +1091,55 @@ function drawWheel(){
     }
 
 
-    /* Segments */
-
-    for(
-        let i = 0;
-        i < items.length;
-        i++
-    ){
-
-        const start =
-            -Math.PI / 2 +
-            i * slice;
-
-        const end =
-            start + slice;
+    ctx.restore();
 
 
-        ctx.beginPath();
+    /* outer border */
 
-        ctx.moveTo(
-            center,
-            center
-     
+    ctx.beginPath();
+
+    ctx.arc(
+        center,
+        center,
+        radius,
+        0,
+        Math.PI*2
+    );
+
+    ctx.lineWidth =
+        Math.max(2,settings.borderWidth);
+
+    ctx.strokeStyle =
+        settings.borderColor;
+
+    ctx.stroke();
+
+}
+
+
+/* =====================================================
+   POINTER
+===================================================== */
+
+function updatePointer(){
+
+    const pointer =
+        document.querySelector(".pointer");
+
+    pointer.style.borderTopColor =
+        settings.pointerColor;
+
+    pointer.style.borderLeftWidth =
+        (settings.pointerSize * .48) + "px";
+
+    pointer.style.borderRightWidth =
+        (settings.pointerSize * .48) + "px";
+
+    pointer.style.borderTopWidth =
+        settings.pointerSize + "px";
+
+
+    if(pointerImage){
+
+        pointer.style.width =
+       
