@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <title>Spin The Wheel</title>
 
@@ -10,429 +10,617 @@
 
 <style>
 *{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-    margin:0;
-    padding:0;
-    min-height:100%;
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
 }
 
 body{
-    background:#080b10;
-    color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
-    transition:background .2s;
+  background:#111827;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  padding:14px;
 }
 
-.app{
-    width:100%;
-    max-width:600px;
-    margin:auto;
-    padding:15px;
+.container{
+  width:100%;
+  max-width:650px;
+  margin:auto;
 }
 
 h1{
-    text-align:center;
-    margin:5px 0 18px;
-    font-size:28px;
-}
-
-.card{
-    background:#111720;
-    padding:15px;
-    border-radius:16px;
-    margin-bottom:15px;
+  text-align:center;
+  margin:5px 0 15px;
+  font-size:28px;
 }
 
 textarea{
-    width:100%;
-    min-height:150px;
-    padding:12px;
-    border-radius:12px;
-    border:1px solid #333;
-    background:#080c12;
-    color:#fff;
-    font-size:16px;
-    resize:vertical;
-    outline:none;
+  width:100%;
+  min-height:145px;
+  resize:vertical;
+  padding:14px;
+  border-radius:12px;
+  border:2px solid #374151;
+  background:#1f2937;
+  color:#fff;
+  font-size:16px;
+  outline:none;
 }
 
 textarea:focus{
-    border-color:#168cff;
+  border-color:#22c55e;
 }
 
-.button-row{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-    margin-top:10px;
+.buttons{
+  display:flex;
+  gap:7px;
+  margin-top:9px;
 }
 
 button{
-    border:0;
-    border-radius:11px;
-    padding:13px 8px;
-    color:#fff;
-    background:#29313d;
-    font-weight:bold;
-    font-size:14px;
-    cursor:pointer;
+  border:0;
+  border-radius:10px;
+  padding:12px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  touch-action:manipulation;
 }
 
-button:active{
-    transform:scale(.97);
+.small-btn{
+  flex:1;
+  background:#374151;
+  color:#fff;
 }
 
-button:disabled{
-    opacity:.5;
+.example-row{
+  display:flex;
+  gap:7px;
+  margin-top:9px;
 }
 
-.spin{
-    width:100%;
-    margin-top:15px;
-    background:#16a34a;
-    font-size:22px;
-    padding:17px;
+.example-select{
+  flex:1;
+  padding:11px;
+  border-radius:10px;
+  border:1px solid #4b5563;
+  background:#1f2937;
+  color:#fff;
 }
 
-.danger{
-    background:#d83b3b;
+.load-example{
+  background:#2563eb;
+  color:#fff;
 }
 
-.settings{
-    width:100%;
-    font-size:16px;
-}
-
-.settings-panel{
-    display:none;
-    margin-top:12px;
-}
-
-.settings-panel.show{
-    display:block;
-}
-
-.setting{
-    margin-bottom:16px;
-}
-
-.setting label{
-    display:block;
-    margin-bottom:7px;
-    font-weight:bold;
-}
-
-.color-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-}
-
-input[type="color"]{
-    width:100%;
-    height:42px;
-    border:0;
-    border-radius:8px;
-    background:#222;
-}
-
-input[type="range"]{
-    width:100%;
-}
-
-input[type="file"]{
-    width:100%;
-    color:#ddd;
-    font-size:13px;
-}
-
-.check{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.check input{
-    width:20px;
-    height:20px;
-}
-
-#wheelBox{
-    position:relative;
-    width:min(92vw,550px);
-    aspect-ratio:1;
-    margin:auto;
+.spin-area{
+  position:relative;
+  width:min(90vw,420px);
+  aspect-ratio:1;
+  margin:25px auto 10px;
 }
 
 canvas{
-    width:100%;
-    height:100%;
-    display:block;
+  display:block;
+  width:100%;
+  height:100%;
 }
 
 .pointer{
-    position:absolute;
-    top:-2px;
-    left:50%;
-    transform:translateX(-50%);
-    width:0;
-    height:0;
-    border-left:22px solid transparent;
-    border-right:22px solid transparent;
-    border-top:45px solid #ff3b30;
-    z-index:5;
-    pointer-events:none;
-    filter:drop-shadow(0 3px 4px rgba(0,0,0,.6));
+  position:absolute;
+  top:-2px;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;
+  height:0;
+
+  border-left:20px solid transparent;
+  border-right:20px solid transparent;
+  border-top:38px solid #ef4444;
+
+  z-index:10;
+
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));
 }
 
-#result{
-    margin-top:15px;
-    padding:15px;
-    background:#080c12;
-    border-radius:12px;
-    text-align:center;
-    font-size:20px;
-    font-weight:bold;
-    min-height:55px;
-    word-break:break-word;
+#spinBtn{
+  display:block;
+  width:82%;
+  margin:15px auto;
+
+  background:#22c55e;
+  color:#fff;
+
+  font-size:21px;
+  padding:15px;
+
+  border-radius:14px;
+
+  box-shadow:0 4px 15px rgba(34,197,94,.25);
 }
 
-.status{
-    text-align:center;
-    color:#999;
-    font-size:12px;
-    margin-top:8px;
+#spinBtn:active{
+  transform:scale(.98);
 }
 
-.note{
-    color:#999;
-    font-size:12px;
-    line-height:1.4;
+#spinBtn:disabled{
+  opacity:.5;
 }
 
-hr{
-    border:0;
-    border-top:1px solid #2a313b;
-    margin:18px 0;
+.result{
+  text-align:center;
+  min-height:42px;
+  font-size:21px;
+  font-weight:bold;
+  margin:10px 0 20px;
+}
+
+.winner-box{
+  display:none;
+  text-align:center;
+  background:#172554;
+  border:1px solid #3b82f6;
+  border-radius:15px;
+  padding:16px;
+  margin:10px 0 15px;
+}
+
+.winner-box.show{
+  display:block;
+  animation:winnerPop .5s ease;
+}
+
+.winner-emoji{
+  font-size:38px;
+}
+
+.winner-label{
+  font-size:13px;
+  color:#bfdbfe;
+  margin-top:4px;
+}
+
+.winner-name{
+  font-size:25px;
+  font-weight:bold;
+  margin-top:5px;
+  word-break:break-word;
+}
+
+@keyframes winnerPop{
+  0%{
+    transform:scale(.7);
+    opacity:0;
+  }
+  70%{
+    transform:scale(1.05);
+  }
+  100%{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+.settings-btn{
+  width:100%;
+  background:#2563eb;
+  color:#fff;
+  margin-bottom:10px;
+}
+
+.settings{
+  display:none;
+  background:#1f2937;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:15px;
+}
+
+.settings.show{
+  display:block;
+}
+
+.setting{
+  margin-bottom:14px;
+}
+
+.setting label{
+  display:block;
+  margin-bottom:6px;
+  font-size:14px;
+  color:#d1d5db;
+}
+
+.setting input,
+.setting select{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #4b5563;
+  background:#111827;
+  color:#fff;
+}
+
+.color-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.color-box{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.color-box input{
+  width:55px;
+  height:38px;
+  padding:2px;
+}
+
+.range-value{
+  float:right;
+  color:#22c55e;
+  font-weight:bold;
+}
+
+.settings-buttons{
+  display:flex;
+  gap:7px;
+}
+
+.settings-buttons button{
+  flex:1;
+  background:#374151;
+  color:#fff;
+}
+
+.toggle-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#111827;
+  padding:12px;
+  border-radius:10px;
+}
+
+.toggle-row span{
+  font-size:14px;
+}
+
+.toggle{
+  width:48px !important;
+  height:24px;
+  appearance:none;
+  background:#4b5563 !important;
+  border-radius:20px !important;
+  position:relative;
+  padding:0 !important;
+  cursor:pointer;
+}
+
+.toggle:checked{
+  background:#22c55e !important;
+}
+
+.toggle:after{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#fff;
+  top:3px;
+  left:3px;
+  transition:.2s;
+}
+
+.toggle:checked:after{
+  left:27px;
+}
+
+.history{
+  background:#1f2937;
+  border-radius:14px;
+  padding:14px;
+  margin-top:15px;
+}
+
+.history-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.history-title{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.clear-history{
+  background:#374151;
+  color:#fff;
+  padding:8px 11px;
+  font-size:12px;
+}
+
+.history-list{
+  max-height:220px;
+  overflow-y:auto;
+}
+
+.history-item{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:9px 5px;
+  border-bottom:1px solid #374151;
+}
+
+.history-number{
+  min-width:25px;
+  height:25px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#2563eb;
+  font-size:12px;
+}
+
+.history-name{
+  flex:1;
+  word-break:break-word;
+}
+
+.empty-history{
+  text-align:center;
+  color:#9ca3af;
+  padding:10px;
+}
+
+.support-card{
+  margin:22px 0 18px;
+  padding:20px 15px;
+  text-align:center;
+  border-radius:16px;
+  background:#1f2937;
+  border:1px solid #374151;
+}
+
+.support-icon{
+  font-size:42px;
+  margin-bottom:7px;
+}
+
+.support-title{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.support-text{
+  color:#d1d5db;
+  font-size:14px;
+  margin-bottom:15px;
+}
+
+.support-button{
+  display:inline-block;
+  padding:12px 20px;
+  border-radius:10px;
+  background:#ef4444;
+  color:#fff;
+  text-decoration:none;
+  font-size:15px;
+  font-weight:bold;
+}
+
+.ad-area{
+  width:100%;
+  margin-top:15px;
+  text-align:center;
+  overflow:hidden;
+}
+
+.notice{
+  display:none;
+  padding:10px;
+  margin-top:10px;
+  border-radius:10px;
+  background:#3f1d1d;
+  color:#fecaca;
+  text-align:center;
+  font-size:13px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
 <h1>🎡 Spin The Wheel</h1>
 
+<textarea id="items" placeholder="Enter one item per line...">Red
+Blue
+Green
+Yellow</textarea>
 
-<!-- LIST -->
+<div class="buttons">
 
-<div class="card">
+<button class="small-btn" id="saveList">💾 Save</button>
 
-<textarea
-id="listInput"
-placeholder="Enter names here...
+<button class="small-btn" id="loadList">📂 Load</button>
 
-Spider-Man
-Iron Man
-Thor
-Hulk
-Batman
-Superman"
-></textarea>
+<button class="small-btn" id="clearList">🗑️ Clear</button>
 
-<div class="button-row">
+</div>
 
-<button id="saveList">
-💾 Save
-</button>
+<div class="example-row">
 
-<button id="loadList">
-📂 Load
-</button>
+<select class="example-select" id="exampleSelect">
 
-<button id="clearList" class="danger">
-🗑️ Clear
+<option value="">📋 Example Lists</option>
+
+<option value="numbers">Numbers</option>
+
+<option value="football">Football Teams</option>
+
+<option value="superheroes">Superheroes</option>
+
+<option value="countries">Countries</option>
+
+<option value="yesno">Yes / No</option>
+
+</select>
+
+<button class="load-example" id="loadExample">
+Load
 </button>
 
 </div>
 
-<div id="status" class="status">
-0 names loaded
-</div>
 
-</div>
-
-
-<!-- WHEEL -->
-
-<div class="card">
-
-<div id="wheelBox">
+<div class="spin-area">
 
 <canvas id="wheel"></canvas>
 
-<div class="pointer"></div>
+<div class="pointer" id="pointer"></div>
 
 </div>
 
-<button
-id="spin"
-class="spin"
-type="button"
->
+
+<button id="spinBtn">
 🎯 SPIN
 </button>
 
-<div id="result">
-Add names and spin!
+
+<div class="result" id="result"></div>
+
+
+<div class="winner-box" id="winnerBox">
+
+<div class="winner-emoji">🏆</div>
+
+<div class="winner-label">
+WINNER
+</div>
+
+<div class="winner-name" id="winnerName">
+-
 </div>
 
 </div>
 
 
-<!-- SETTINGS -->
-
-<div class="card">
-
-<button
-id="settingsButton"
-class="settings"
-type="button"
->
+<button class="settings-btn" id="settingsBtn">
 ⚙️ Settings
 </button>
 
 
-<div
-id="settingsPanel"
-class="settings-panel"
->
+<div class="settings" id="settings">
 
-
-<!-- COLORS -->
 
 <div class="setting">
 
-<label>🎨 Wheel Colors</label>
+<label>Wheel Colors</label>
 
 <div class="color-grid">
 
-<input
-type="color"
-id="c1"
-value="#ff4757"
->
+<div class="color-box">
+<span>1</span>
+<input type="color" id="color1" value="#ef4444">
+</div>
 
-<input
-type="color"
-id="c2"
-value="#3742fa"
->
+<div class="color-box">
+<span>2</span>
+<input type="color" id="color2" value="#3b82f6">
+</div>
 
-<input
-type="color"
-id="c3"
-value="#2ed573"
->
+<div class="color-box">
+<span>3</span>
+<input type="color" id="color3" value="#22c55e">
+</div>
 
-<input
-type="color"
-id="c4"
-value="#ffa502"
->
+<div class="color-box">
+<span>4</span>
+<input type="color" id="color4" value="#f59e0b">
+</div>
 
 </div>
 
 </div>
 
-
-<!-- WHEEL BACKGROUND -->
 
 <div class="setting">
 
-<label>🌈 Wheel Background Color</label>
+<label>Wheel Background</label>
 
-<input
-type="color"
-id="wheelBackground"
-value="#111111"
->
+<input type="color" id="wheelBg" value="#111827">
 
 </div>
 
 
-<!-- PAGE BACKGROUND -->
-
 <div class="setting">
 
-<label>🖥️ Page Background Color</label>
+<label>Page Background</label>
 
-<input
-type="color"
-id="pageBackground"
-value="#080b10"
->
+<input type="color" id="pageBg" value="#111827">
 
 </div>
 
 
-<!-- TEXT COLOR -->
-
 <div class="setting">
 
-<label>🔤 Text Color</label>
+<label>Text Color</label>
 
-<input
-type="color"
-id="textColor"
-value="#ffffff"
->
+<input type="color" id="textColor" value="#ffffff">
 
 </div>
 
 
-<!-- TEXT SIZE -->
-
 <div class="setting">
 
-<label>🔠 Text Size</label>
+<label>
+Text Size
+<span class="range-value" id="textSizeValue">16</span>
+</label>
 
 <input
 type="range"
 id="textSize"
-min="8"
-max="24"
+min="10"
+max="30"
 value="16"
 >
 
 </div>
 
 
-<!-- BORDER COLOR -->
-
 <div class="setting">
 
-<label>⭕ Border Color</label>
+<label>Border Color</label>
 
-<input
-type="color"
-id="borderColor"
-value="#ffffff"
->
+<input type="color" id="borderColor" value="#ffffff">
 
 </div>
 
 
-<!-- BORDER WIDTH -->
-
 <div class="setting">
 
-<label>⭕ Border Width</label>
+<label>
+Border Width
+<span class="range-value" id="borderWidthValue">3</span>
+</label>
 
 <input
 type="range"
@@ -445,237 +633,216 @@ value="3"
 </div>
 
 
-<hr>
-
-
-<!-- WHEEL IMAGE -->
-
 <div class="setting">
 
-<label>🖼️ Upload Wheel Background</label>
+<label>Pointer Color</label>
 
-<input
-type="file"
-id="wheelImage"
-accept="image/*"
->
-
-<div class="note">
-This image will appear inside the wheel.
-</div>
+<input type="color" id="pointerColor" value="#ef4444">
 
 </div>
 
 
-<!-- REMOVE WHEEL IMAGE -->
-
-<button
-id="removeWheelImage"
-type="button"
-class="danger"
-style="width:100%;"
->
-🗑️ Remove Wheel Image
-</button>
-
-
-<hr>
-
-
-<!-- POINTER COLOR -->
-
 <div class="setting">
 
-<label>👉 Pointer Color</label>
-
-<input
-type="color"
-id="pointerColor"
-value="#ff3b30"
->
-
-</div>
-
-
-<!-- POINTER SIZE -->
-
-<div class="setting">
-
-<label>👉 Pointer Size</label>
+<label>
+Pointer Size
+<span class="range-value" id="pointerSizeValue">38</span>
+</label>
 
 <input
 type="range"
 id="pointerSize"
-min="25"
-max="70"
-value="45"
+min="20"
+max="60"
+value="38"
 >
 
 </div>
 
-
-<!-- POINTER IMAGE -->
 
 <div class="setting">
 
-<label>👉 Upload Custom Pointer</label>
+<label>Sound</label>
 
-<input
-type="file"
-id="pointerImage"
-accept="image/*"
->
+<select id="sound">
 
-<div class="note">
-Upload a transparent PNG if possible for the best result.
-</div>
+<option value="on">On</option>
+
+<option value="off">Off</option>
+
+</select>
 
 </div>
 
-
-<button
-id="removePointerImage"
-type="button"
-class="danger"
-style="width:100%;"
->
-🗑️ Remove Pointer Image
-</button>
-
-
-<hr>
-
-
-<!-- SOUND -->
 
 <div class="setting">
 
-<div class="check">
-
-<input
-type="checkbox"
-id="soundToggle"
-checked
->
-
-<label
-for="soundToggle"
-style="margin:0;"
->
-🔊 Sound On
+<label>
+Volume
+<span class="range-value" id="volumeValue">50</span>
 </label>
-
-</div>
-
-</div>
-
-
-<!-- VOLUME -->
-
-<div class="setting">
-
-<label>🔉 Sound Volume</label>
 
 <input
 type="range"
 id="volume"
 min="0"
-max="1"
-step="0.05"
-value="0.5"
+max="100"
+value="50"
 >
 
 </div>
 
 
-<!-- DURATION -->
-
 <div class="setting">
 
-<label>⏱️ Spin Duration</label>
+<label>
+Spin Duration
+<span class="range-value" id="durationValue">5</span>
+</label>
 
 <input
 type="range"
 id="duration"
 min="2"
 max="10"
-step="0.5"
 value="5"
 >
 
 </div>
 
 
-<hr>
+<div class="setting">
 
+<div class="toggle-row">
 
-<!-- SETTINGS BUTTONS -->
+<span>
+🎁 Giveaway Mode
+<br>
+<small style="color:#9ca3af">
+Remove winner after each spin
+</small>
+</span>
 
-<div class="button-row">
-
-<button
-id="saveSettings"
-type="button"
+<input
+type="checkbox"
+class="toggle"
+id="removeWinner"
 >
+
+</div>
+
+</div>
+
+
+<div class="settings-buttons">
+
+<button id="saveSettings">
 💾 Save
 </button>
 
-<button
-id="loadSettings"
-type="button"
->
+<button id="loadSettings">
 📂 Load
 </button>
 
-<button
-id="resetSettings"
-type="button"
-class="danger"
->
+<button id="resetSettings">
 🔄 Reset
 </button>
 
 </div>
 
+</div>
+
+
+<!-- HISTORY -->
+
+<div class="history">
+
+<div class="history-header">
+
+<div class="history-title">
+🏆 Spin History
+</div>
+
+<button class="clear-history" id="clearHistory">
+Clear
+</button>
 
 </div>
 
+<div class="history-list" id="historyList">
+
+<div class="empty-history">
+No spins yet.
 </div>
+
+</div>
+
+</div>
+
+
+<!-- SUPPORT -->
+
+<div class="support-card">
+
+<div class="support-icon">
+❤️
+</div>
+
+<div class="support-title">
+Enjoying Spin The Wheel?
+</div>
+
+<div class="support-text">
+Subscribe to my YouTube channel to support me!
+</div>
+
+<a
+class="support-button"
+href="https://youtube.com/@ultron-cel?si=Ml33eKON3n2Xc-TT"
+target="_blank"
+rel="noopener noreferrer"
+>
+▶️ Subscribe to Support
+</a>
+
+</div>
+
+
+<!-- ADS -->
+
+<div class="ad-area" id="ads"></div>
+
+<div class="notice" id="notice"></div>
 
 </div>
 
 
 <script>
 
-/* =====================================================
-   TELEGRAM
-===================================================== */
+(function(){
+
+"use strict";
+
+
+/* TELEGRAM */
 
 try{
 
-    if(
-        window.Telegram &&
-        window.Telegram.WebApp
-    ){
+if(
+window.Telegram &&
+window.Telegram.WebApp
+){
 
-        Telegram.WebApp.ready();
+window.Telegram.WebApp.ready();
 
-        Telegram.WebApp.expand();
-
-    }
-
-}catch(error){
-
-    console.log(
-        "Telegram WebApp not available"
-    );
+window.Telegram.WebApp.expand();
 
 }
 
+}catch(e){}
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
+
+/* ELEMENTS */
 
 const canvas =
 document.getElementById("wheel");
@@ -683,832 +850,990 @@ document.getElementById("wheel");
 const ctx =
 canvas.getContext("2d");
 
-const input =
-document.getElementById("listInput");
+const itemsInput =
+document.getElementById("items");
 
-const spinButton =
-document.getElementById("spin");
+const spinBtn =
+document.getElementById("spinBtn");
 
 const result =
 document.getElementById("result");
 
-const status =
-document.getElementById("status");
-
 const pointer =
-document.querySelector(".pointer");
+document.getElementById("pointer");
 
-const settingsButton =
-document.getElementById("settingsButton");
+const winnerBox =
+document.getElementById("winnerBox");
 
-const settingsPanel =
-document.getElementById("settingsPanel");
+const winnerName =
+document.getElementById("winnerName");
 
+const historyList =
+document.getElementById("historyList");
 
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-let settings = {
-
-    colors:[
-        "#ff4757",
-        "#3742fa",
-        "#2ed573",
-        "#ffa502"
-    ],
-
-    wheelBackground:
-        "#111111",
-
-    pageBackground:
-        "#080b10",
-
-    textColor:
-        "#ffffff",
-
-    textSize:
-        16,
-
-    borderColor:
-        "#ffffff",
-
-    borderWidth:
-        3,
-
-    pointerColor:
-        "#ff3b30",
-
-    pointerSize:
-        45,
-
-    sound:
-        true,
-
-    volume:
-        0.5,
-
-    duration:
-        5
-
-};
+const notice =
+document.getElementById("notice");
 
 
-/* =====================================================
-   STATE
-===================================================== */
-
-let items = [];
+/* STATE */
 
 let rotation = 0;
 
 let spinning = false;
 
-let wheelImage = null;
-
-let pointerImage = null;
+let animationFrame = null;
 
 let audioContext = null;
 
+let lastTickIndex = -1;
 
-/* =====================================================
-   CANVAS
-===================================================== */
 
-function resize(){
+/* DEFAULT SETTINGS */
 
-    const size =
-        Math.min(
-            window.innerWidth * .92,
-            550
-        );
+const defaultSettings = {
 
-    const dpr =
-        window.devicePixelRatio || 1;
+colors:[
+"#ef4444",
+"#3b82f6",
+"#22c55e",
+"#f59e0b"
+],
 
-    canvas.width =
-        Math.floor(size * dpr);
+wheelBg:"#111827",
 
-    canvas.height =
-        Math.floor(size * dpr);
+pageBg:"#111827",
 
-    canvas.style.width =
-        size + "px";
+textColor:"#ffffff",
 
-    canvas.style.height =
-        size + "px";
+textSize:16,
 
-    ctx.setTransform(
-        dpr,
-        0,
-        0,
-        dpr,
-        0,
-        0
-    );
+borderColor:"#ffffff",
 
-    draw();
+borderWidth:3,
 
-}
+pointerColor:"#ef4444",
 
-window.addEventListener(
-    "resize",
-    resize
+pointerSize:38,
+
+sound:"on",
+
+volume:50,
+
+duration:5,
+
+removeWinner:false
+
+};
+
+
+let settings =
+JSON.parse(
+JSON.stringify(defaultSettings)
 );
 
 
-/* =====================================================
-   READ NAMES
-===================================================== */
+/* EXAMPLE LISTS */
 
-function readNames(){
+const examples = {
 
-    const text =
-        input.value.trim();
+numbers:
+[
+"1",
+"2",
+"3",
+"4",
+"5",
+"6",
+"7",
+"8",
+"9",
+"10"
+],
 
-    if(!text){
+football:
+[
+"Real Madrid",
+"Barcelona",
+"Manchester United",
+"Liverpool",
+"Arsenal",
+"Chelsea",
+"Manchester City",
+"Bayern Munich"
+],
 
-        items = [];
+superheroes:
+[
+"Spider-Man",
+"Iron Man",
+"Thor",
+"Hulk",
+"Captain America",
+"Batman",
+"Superman",
+"Flash"
+],
 
-        status.textContent =
-            "0 names loaded";
+countries:
+[
+"Nigeria",
+"Ghana",
+"England",
+"Brazil",
+"France",
+"Portugal",
+"Spain",
+"Germany"
+],
 
-        return;
+yesno:
+[
+"YES",
+"NO"
+]
 
-    }
+};
 
-    items =
-        text
-        .split(/[\n,]+/)
-        .map(
-            function(name){
-                return name.trim();
-            }
-        )
-        .filter(
-            function(name){
-                return name.length > 0;
-            }
-        );
 
-    items =
-        [...new Set(items)];
+/* ITEMS */
 
-    status.textContent =
-        items.length +
-        " names loaded";
+function getItems(){
+
+return itemsInput.value
+.split("\n")
+.map(function(item){
+
+return item.trim();
+
+})
+.filter(function(item){
+
+return item.length > 0;
+
+});
 
 }
 
 
-/* =====================================================
-   SHORT NAME
-===================================================== */
+/* NOTICE */
 
-function shortName(
-    name,
-    count
+function showNotice(message){
+
+notice.textContent =
+message;
+
+notice.style.display =
+"block";
+
+setTimeout(function(){
+
+notice.style.display =
+"none";
+
+},2500);
+
+}
+
+
+/* CANVAS */
+
+function resizeCanvas(){
+
+const size =
+canvas.parentElement.clientWidth;
+
+if(!size)
+return;
+
+const dpr =
+Math.min(
+window.devicePixelRatio || 1,
+2
+);
+
+canvas.width =
+Math.floor(size * dpr);
+
+canvas.height =
+Math.floor(size * dpr);
+
+canvas.style.width =
+size + "px";
+
+canvas.style.height =
+size + "px";
+
+ctx.setTransform(
+dpr,
+0,
+0,
+dpr,
+0,
+0
+);
+
+drawWheel();
+
+}
+
+
+/* DRAW WHEEL */
+
+function drawWheel(){
+
+const items =
+getItems();
+
+const size =
+canvas.clientWidth;
+
+if(!size)
+return;
+
+const center =
+size / 2;
+
+const radius =
+Math.max(
+10,
+size / 2 - 8
+);
+
+
+ctx.clearRect(
+0,
+0,
+size,
+size
+);
+
+
+ctx.save();
+
+ctx.translate(
+center,
+center
+);
+
+ctx.rotate(rotation);
+
+
+if(items.length === 0){
+
+ctx.beginPath();
+
+ctx.arc(
+0,
+0,
+radius,
+0,
+Math.PI * 2
+);
+
+ctx.fillStyle =
+settings.wheelBg;
+
+ctx.fill();
+
+ctx.restore();
+
+return;
+
+}
+
+
+const slice =
+Math.PI * 2 / items.length;
+
+
+for(
+let i = 0;
+i < items.length;
+i++
 ){
 
-    let max = 18;
+const start =
+i * slice;
 
-    if(count > 20)
-        max = 13;
+const end =
+start + slice;
 
-    if(count > 30)
-        max = 10;
 
-    if(count > 40)
-        max = 8;
+ctx.beginPath();
 
-    if(count > 50)
-        max = 7;
+ctx.moveTo(0,0);
 
-    if(count > 70)
-        max = 6;
+ctx.arc(
+0,
+0,
+radius,
+start,
+end
+);
 
-    if(name.length <= max){
+ctx.closePath();
 
-        return name;
 
-    }
+ctx.fillStyle =
+settings.colors[
+i % settings.colors.length
+];
 
-    return (
-        name.substring(
-            0,
-            max - 1
-        ) + "…"
-    );
+ctx.fill();
 
-}
 
+ctx.lineWidth =
+settings.borderWidth;
 
-/* =====================================================
-   DRAW WHEEL
-===================================================== */
+ctx.strokeStyle =
+settings.borderColor;
 
-function draw(){
+ctx.stroke();
 
-    const size =
-        canvas.clientWidth;
 
-    if(!size){
+/* TEXT */
 
-        return;
+ctx.save();
 
-    }
+ctx.rotate(
+start + slice / 2
+);
 
-    const center =
-        size / 2;
+ctx.textAlign =
+"right";
 
-    const radius =
-        size / 2 - 8;
+ctx.textBaseline =
+"middle";
 
+ctx.fillStyle =
+settings.textColor;
 
-    ctx.clearRect(
-        0,
-        0,
-        size,
-        size
-    );
+ctx.font =
+"bold " +
+settings.textSize +
+"px Arial";
 
 
-    /* EMPTY */
+let text =
+items[i];
 
-    if(items.length === 0){
 
-        ctx.beginPath();
+const maxChars =
+Math.max(
+6,
+Math.floor(size / 9)
+);
 
-        ctx.arc(
-            center,
-            center,
-            radius,
-            0,
-            Math.PI * 2
-        );
 
-        ctx.fillStyle =
-            settings.wheelBackground;
-
-        ctx.fill();
-
-        ctx.strokeStyle =
-            settings.borderColor;
-
-        ctx.lineWidth =
-            settings.borderWidth;
-
-        ctx.stroke();
-
-        ctx.fillStyle =
-            settings.textColor;
-
-        ctx.font =
-            "bold 18px Arial";
-
-        ctx.textAlign =
-            "center";
-
-        ctx.textBaseline =
-            "middle";
-
-        ctx.fillText(
-            "Add names",
-            center,
-            center
-        );
-
-        return;
-
-    }
-
-
-    const slice =
-        Math.PI * 2 /
-        items.length;
-
-
-    /*
-       Clip the wheel circle
-    */
-
-    ctx.save();
-
-    ctx.beginPath();
-
-    ctx.arc(
-        center,
-        center,
-        radius,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.clip();
-
-
-    /*
-       Wheel background
-    */
-
-    ctx.fillStyle =
-        settings.wheelBackground;
-
-    ctx.fill();
-
-
-    /*
-       Background image
-    */
-
-    if(wheelImage){
-
-        ctx.drawImage(
-            wheelImage,
-            center - radius,
-            center - radius,
-            radius * 2,
-            radius * 2
-        );
-
-    }
-
-
-    /*
-       Segments
-    */
-
-    for(
-        let i = 0;
-        i < items.length;
-        i++
-    ){
-
-        const start =
-            -Math.PI / 2 +
-            rotation +
-            i * slice;
-
-        const end =
-            start + slice;
-
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            center,
-            center
-        );
-
-        ctx.arc(
-            center,
-            center,
-            radius,
-            start,
-            end
-        );
-
-        ctx.closePath();
-
-
-        /*
-           If no background image,
-           use normal colors.
-
-           If image exists, use a
-           transparent tint so image
-           remains visible.
-        */
-
-        if(wheelImage){
-
-            ctx.fillStyle =
-                hexToRGBA(
-                    settings.colors[
-                        i %
-                        settings.colors.length
-                    ],
-                    0.28
-                );
-
-        }
-        else{
-
-            ctx.fillStyle =
-                settings.colors[
-                    i %
-                    settings.colors.length
-                ];
-
-        }
-
-        ctx.fill();
-
-
-        /*
-           Segment border
-        */
-
-        ctx.strokeStyle =
-            settings.borderColor;
-
-        ctx.lineWidth =
-            settings.borderWidth;
-
-        ctx.stroke();
-
-
-        /*
-           Text
-        */
-
-        const middle =
-            start +
-            slice / 2;
-
-        const textRadius =
-            radius * .66;
-
-        const x =
-            center +
-            Math.cos(middle) *
-            textRadius;
-
-        const y =
-            center +
-            Math.sin(middle) *
-            textRadius;
-
-
-        ctx.save();
-
-        ctx.translate(
-            x,
-            y
-        );
-
-        ctx.rotate(
-            middle +
-            Math.PI / 2
-        );
-
-
-        let fontSize =
-            settings.textSize;
-
-
-        if(items.length > 30){
-
-            fontSize =
-                Math.min(
-                    fontSize,
-                    13
-                );
-
-        }
-
-        if(items.length > 50){
-
-            fontSize =
-                Math.min(
-                    fontSize,
-                    10
-                );
-
-        }
-
-        if(items.length > 70){
-
-            fontSize =
-                Math.min(
-                    fontSize,
-                    9
-                );
-
-        }
-
-
-        ctx.fillStyle =
-            settings.textColor;
-
-        ctx.font =
-            "bold " +
-            fontSize +
-            "px Arial";
-
-        ctx.textAlign =
-            "center";
-
-        ctx.textBaseline =
-            "middle";
-
-
-        ctx.fillText(
-            shortName(
-                items[i],
-                items.length
-            ),
-            0,
-            0
-        );
-
-
-        ctx.restore();
-
-    }
-
-
-    ctx.restore();
-
-
-    /*
-       Outer border
-    */
-
-    ctx.beginPath();
-
-    ctx.arc(
-        center,
-        center,
-        radius,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.strokeStyle =
-        settings.borderColor;
-
-    ctx.lineWidth =
-        settings.borderWidth;
-
-    ctx.stroke();
-
-}
-
-
-/* =====================================================
-   HEX TO RGBA
-===================================================== */
-
-function hexToRGBA(
-    hex,
-    alpha
+if(
+text.length > maxChars
 ){
 
-    hex =
-        hex.replace(
-            "#",
-            ""
-        );
-
-    if(hex.length === 3){
-
-        hex =
-            hex[0]+hex[0]+
-            hex[1]+hex[1]+
-            hex[2]+hex[2];
-
-    }
-
-    const r =
-        parseInt(
-            hex.substring(0,2),
-            16
-        );
-
-    const g =
-        parseInt(
-            hex.substring(2,4),
-            16
-        );
-
-    const b =
-        parseInt(
-            hex.substring(4,6),
-            16
-        );
-
-    return (
-        "rgba(" +
-        r + "," +
-        g + "," +
-        b + "," +
-        alpha +
-        ")"
-    );
+text =
+text.substring(
+0,
+maxChars - 3
+) + "...";
 
 }
 
 
-/* =====================================================
-   POINTER
-===================================================== */
+ctx.fillText(
+text,
+radius - 15,
+0
+);
 
-function updatePointer(){
-
-    pointer.style.borderTopColor =
-        settings.pointerColor;
-
-
-    if(pointerImage){
-
-        pointer.style.width =
-            settings.pointerSize +
-            "px";
-
-        pointer.style.height =
-            settings.pointerSize +
-            "px";
-
-        pointer.style.border =
-            "none";
-
-        pointer.style.backgroundImage =
-            "url('" +
-            pointerImage.src +
-            "')";
-
-        pointer.style.backgroundSize =
-            "contain";
-
-        pointer.style.backgroundRepeat =
-            "no-repeat";
-
-        pointer.style.backgroundPosition =
-            "center";
-
-    }
-    else{
-
-        pointer.style.width =
-            "0";
-
-        pointer.style.height =
-            "0";
-
-        pointer.style.backgroundImage =
-            "none";
-
-        pointer.style.borderLeft =
-            (
-                settings.pointerSize *
-                .49
-            ) +
-            "px solid transparent";
-
-        pointer.style.borderRight =
-            (
-                settings.pointerSize *
-                .49
-            ) +
-            "px solid transparent";
-
-        pointer.style.borderTop =
-            settings.pointerSize +
-            "px solid " +
-            settings.pointerColor;
-
-    }
+ctx.restore();
 
 }
 
 
-/* =====================================================
-   AUDIO
-===================================================== */
-
-function getAudio(){
-
-    if(!audioContext){
-
-        const Audio =
-            window.AudioContext ||
-            window.webkitAudioContext;
-
-        if(!Audio){
-
-            return null;
-
-        }
-
-        audioContext =
-            new Audio();
-
-    }
-
-    return audioContext;
+ctx.restore();
 
 }
 
 
-/* =====================================================
-   TICK SOUND
-===================================================== */
+/* APPLY SETTINGS */
 
-function tickSound(){
+function applySettings(){
 
-    if(!settings.sound){
+document.body.style.background =
+settings.pageBg;
 
-        return;
-
-    }
-
-    try{
-
-        const audio =
-            getAudio();
-
-        if(!audio){
-
-            return;
-
-        }
-
-        if(audio.state === "suspended"){
-
-            audio.resume();
-
-        }
+document.body.style.color =
+settings.textColor;
 
 
-        const oscillator =
-            audio.createOscillator();
-
-        const gain =
-            audio.createGain();
+pointer.style.borderTopColor =
+settings.pointerColor;
 
 
-        oscillator.type =
-            "square";
+pointer.style.borderLeftWidth =
+(settings.pointerSize / 2) + "px";
 
-        oscillator.frequency.value =
-            500;
+pointer.style.borderRightWidth =
+(settings.pointerSize / 2) + "px";
 
-
-        gain.gain.setValueAtTime(
-            settings.volume * .08,
-            audio.currentTime
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            audio.currentTime + .04
-        );
+pointer.style.borderTopWidth =
+settings.pointerSize + "px";
 
 
-        oscillator.connect(
-            gain
-        );
-
-        gain.connect(
-            audio.destination
-        );
-
-
-        oscillator.start();
-
-        oscillator.stop(
-            audio.currentTime +
-            .05
-        );
-
-    }
-    catch(error){}
+drawWheel();
 
 }
 
 
-/* =====================================================
-   RESULT SOUND
-===================================================== */
+/* SOUND */
 
-function resultSound(){
+function playTick(){
 
-    if(!settings.sound){
+if(settings.sound !== "on")
+return;
 
-        return;
-
-    }
-
-    try{
-
-        const audio =
-            getAudio();
-
-        if(!audio){
-
-            return;
-
-        }
-
-        if(audio.state === "suspended"){
-
-            audio.resume();
-
-        }
+if(settings.volume <= 0)
+return;
 
 
-        const oscillator =
-            audio.createOscillator();
+try{
 
- 
+const Audio =
+window.AudioContext ||
+window.webkitAudioContext;
+
+if(!Audio)
+return;
+
+
+if(!audioContext){
+
+audioContext =
+new Audio();
+
+}
+
+
+if(
+audioContext.state ===
+"suspended"
+){
+
+audioContext.resume();
+
+}
+
+
+const oscillator =
+audioContext.createOscillator();
+
+const gain =
+audioContext.createGain();
+
+
+oscillator.type =
+"sine";
+
+oscillator.frequency.value =
+650;
+
+
+gain.gain.setValueAtTime(
+(settings.volume / 100) * 0.035,
+audioContext.currentTime
+);
+
+gain.gain.exponentialRampToValueAtTime(
+0.001,
+audioContext.currentTime + 0.05
+);
+
+
+oscillator.connect(gain);
+
+gain.connect(
+audioContext.destination
+);
+
+
+oscillator.start();
+
+oscillator.stop(
+audioContext.currentTime + 0.05
+);
+
+
+}catch(e){}
+
+}
+
+
+/* WINNER SOUND */
+
+function playWinnerSound(){
+
+if(settings.sound !== "on")
+return;
+
+
+try{
+
+const Audio =
+window.AudioContext ||
+window.webkitAudioContext;
+
+if(!Audio)
+return;
+
+
+if(!audioContext){
+
+audioContext =
+new Audio();
+
+}
+
+
+if(
+audioContext.state ===
+"suspended"
+){
+
+audioContext.resume();
+
+}
+
+
+const notes =
+[523,659,784];
+
+
+notes.forEach(function(freq,index){
+
+const oscillator =
+audioContext.createOscillator();
+
+const gain =
+audioContext.createGain();
+
+
+oscillator.frequency.value =
+freq;
+
+oscillator.type =
+"sine";
+
+
+const start =
+audioContext.currentTime +
+index * 0.12;
+
+
+gain.gain.setValueAtTime(
+0,
+start
+);
+
+gain.gain.linearRampToValueAtTime(
+(settings.volume / 100) * 0.07,
+start + 0.02
+);
+
+gain.gain.exponentialRampToValueAtTime(
+0.001,
+start + 0.18
+);
+
+
+oscillator.connect(gain);
+
+gain.connect(
+audioContext.destination
+);
+
+
+oscillator.start(start);
+
+oscillator.stop(
+start + 0.2
+);
+
+});
+
+}catch(e){}
+
+}
+
+
+/* HISTORY */
+
+function getHistory(){
+
+try{
+
+return JSON.parse(
+localStorage.getItem(
+"spinWheelHistory"
+)
+) || [];
+
+}catch(e){
+
+return [];
+
+}
+
+}
+
+
+function saveHistory(history){
+
+localStorage.setItem(
+"spinWheelHistory",
+JSON.stringify(history)
+);
+
+}
+
+
+function addHistory(name){
+
+const history =
+getHistory();
+
+history.unshift({
+name:name,
+time:Date.now()
+});
+
+
+if(history.length > 20){
+
+history.length = 20;
+
+}
+
+
+saveHistory(history);
+
+renderHistory();
+
+}
+
+
+function renderHistory(){
+
+const history =
+getHistory();
+
+
+if(history.length === 0){
+
+historyList.innerHTML =
+'<div class="empty-history">No spins yet.</div>';
+
+return;
+
+}
+
+
+historyList.innerHTML =
+"";
+
+
+history.forEach(
+function(item,index){
+
+const row =
+document.createElement("div");
+
+row.className =
+"history-item";
+
+
+const number =
+document.createElement("div");
+
+number.className =
+"history-number";
+
+number.textContent =
+index + 1;
+
+
+const name =
+document.createElement("div");
+
+name.className =
+"history-name";
+
+name.textContent =
+item.name;
+
+
+row.appendChild(number);
+
+row.appendChild(name);
+
+historyList.appendChild(row);
+
+}
+);
+
+}
+
+
+/* CLEAR HISTORY */
+
+document.getElementById(
+"clearHistory"
+).addEventListener(
+"click",
+function(){
+
+localStorage.removeItem(
+"spinWheelHistory"
+);
+
+renderHistory();
+
+result.textContent =
+"History cleared.";
+
+}
+);
+
+
+/* SHOW WINNER */
+
+function showWinner(name){
+
+winnerName.textContent =
+name;
+
+winnerBox.classList.remove(
+"show"
+);
+
+
+/*
+Force animation restart.
+*/
+
+void winnerBox.offsetWidth;
+
+winnerBox.classList.add(
+"show"
+);
+
+}
+
+
+/* REMOVE WINNER */
+
+function removeWinnerFromList(name){
+
+const items =
+getItems();
+
+const index =
+items.indexOf(name);
+
+if(index === -1)
+return;
+
+items.splice(
+index,
+1
+);
+
+itemsInput.value =
+items.join("\n");
+
+drawWheel();
+
+}
+
+
+/* SPIN */
+
+function spin(){
+
+if(spinning)
+return;
+
+
+const items =
+getItems();
+
+
+if(items.length < 2){
+
+result.textContent =
+"Add at least 2 items.";
+
+return;
+
+}
+
+
+spinning = true;
+
+spinBtn.disabled =
+true;
+
+winnerBox.classList.remove(
+"show"
+);
+
+result.textContent =
+"Spinning...";
+
+
+lastTickIndex =
+-1;
+
+
+const winner =
+Math.floor(
+Math.random() * items.length
+);
+
+
+const slice =
+Math.PI * 2 / items.length;
+
+
+/*
+Pointer is at the top.
+
+Top = -PI/2.
+
+Place the center of the
+winning slice exactly there.
+*/
+
+const targetRotation =
+-Math.PI / 2
+- winner * slice
+- slice / 2;
+
+
+const startRotation =
+rotation;
+
+
+let current =
+rotation %
+(Math.PI * 2);
+
+if(current < 0){
+
+current +=
+Math.PI * 2;
+
+}
+
+
+let target =
+targetRotation;
+
+
+/*
+Move target forward until
+it is ahead of current.
+*/
+
+while(target <= current){
+
+target +=
+Math.PI * 2;
+
+}
+
+
+/*
+Extra rotations.
+*/
+
+target +=
+(5 + Math.floor(
+Math.random() * 3
+)) * Math.PI * 2;
+
+
+const change =
+target - startRotation;
+
+
+const duration =
+settings.duration * 1000;
+
+const startTime =
+performance.now();
+
+
+function animate(now){
+
+const progress =
+Math.min(
+1,
+(now - startTime) /
+duration
+);
+
+
+/*
+Smooth deceleration.
+*/
+
+const eased =
+1 - Math.pow(
+1 - progress,
+4
+);
+
+
+rotation =
+startRotation +
+change * eased;
+
+
+drawWheel();
+
+
+/*
+Tick only when the wheel
+passes another slice.
+*/
+
+if(settings.sound === "on"){
+
+const currentSlice =
+Math.floor(
+(
+rotation +
+Math.PI / 2
+) /
+slice
+);
+
+
+if(
+currentSlice !==
+lastTickIndex
+){
+
+lastTickIndex =
+currentSlice;
+
+playTick();
+
+}
+
+}
+
+
+if(progress < 1){
+
+animationFrame =
+requestAnimatio
