@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Spin The Wheel</title>
 
@@ -14,61 +14,46 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
-    margin:0;
-    padding:0;
-    min-height:100%;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
 body{
+    margin:0;
+    padding:15px;
     background:#080b10;
-    color:#fff;
-    transition:.3s;
+    color:white;
+    font-family:Arial,sans-serif;
 }
 
 .app{
-    width:100%;
-    max-width:650px;
+    max-width:600px;
     margin:auto;
-    padding:15px;
 }
 
 h1{
     text-align:center;
     margin:5px 0 18px;
-    font-size:28px;
 }
 
 .card{
     background:#111720;
-    border-radius:16px;
     padding:15px;
+    border-radius:16px;
     margin-bottom:15px;
-    box-shadow:0 5px 20px rgba(0,0,0,.25);
-}
-
-label{
-    display:block;
-    font-weight:bold;
-    margin-bottom:8px;
 }
 
 textarea{
     width:100%;
     min-height:150px;
-    resize:vertical;
-    border:1px solid #333;
-    border-radius:12px;
-    background:#080c12;
-    color:#fff;
     padding:12px;
-    font-size:15px;
+    border-radius:12px;
+    border:1px solid #333;
+    background:#080c12;
+    color:white;
+    font-size:16px;
+    resize:vertical;
     outline:none;
 }
 
 textarea:focus{
-    border-color:#4da3ff;
+    border-color:#168cff;
 }
 
 .button-row{
@@ -81,31 +66,32 @@ textarea:focus{
 button{
     border:0;
     border-radius:11px;
-    padding:12px;
-    font-size:14px;
+    padding:13px 8px;
+    color:white;
+    background:#29313d;
     font-weight:bold;
-    cursor:pointer;
-    color:#fff;
-    background:#252d38;
+    font-size:14px;
 }
 
 button:active{
     transform:scale(.97);
 }
 
-.primary{
-    background:#168cff;
+.spin{
+    width:100%;
+    margin-top:15px;
+    background:#16a34a;
+    font-size:22px;
+    padding:17px;
 }
 
 .danger{
     background:#d83b3b;
 }
 
-.settings-button{
+.settings{
     width:100%;
-    background:#242c37;
     font-size:16px;
-    padding:14px;
 }
 
 .settings-panel{
@@ -113,181 +99,75 @@ button:active{
     margin-top:12px;
 }
 
-.settings-panel.open{
+.settings-panel.show{
     display:block;
 }
 
 .setting{
-    margin-bottom:14px;
+    margin-bottom:15px;
 }
 
-.setting-title{
-    font-size:14px;
+.setting label{
+    display:block;
     margin-bottom:7px;
-    color:#ddd;
-}
-
-.color-row{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:8px;
+    font-weight:bold;
 }
 
 input[type="color"]{
     width:100%;
     height:42px;
     border:0;
-    padding:2px;
     border-radius:8px;
-    background:#222;
 }
 
 input[type="range"]{
     width:100%;
 }
 
-input[type="number"]{
-    width:100%;
-    padding:10px;
-    border-radius:8px;
-    border:1px solid #333;
-    background:#080c12;
-    color:white;
-}
-
-input[type="file"]{
-    width:100%;
-    color:#ddd;
-}
-
-.check-row{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.check-row input{
-    width:20px;
-    height:20px;
-}
-
-.wheel-area{
+#wheelBox{
     position:relative;
-    width:min(92vw,560px);
+    width:min(92vw,550px);
     aspect-ratio:1;
-    margin:10px auto 18px;
+    margin:auto;
 }
 
-#wheel{
+canvas{
     width:100%;
     height:100%;
     display:block;
-    border-radius:50%;
 }
 
 .pointer{
     position:absolute;
-    top:-3px;
+    top:-2px;
     left:50%;
     transform:translateX(-50%);
     width:0;
     height:0;
-    border-left:23px solid transparent;
-    border-right:23px solid transparent;
-    border-top:48px solid #ff3b30;
-    z-index:10;
+    border-left:22px solid transparent;
+    border-right:22px solid transparent;
+    border-top:45px solid #ff3b30;
+    z-index:5;
     pointer-events:none;
-    filter:drop-shadow(0 3px 5px rgba(0,0,0,.7));
 }
 
-.spin-button{
-    display:block;
-    width:100%;
-    max-width:400px;
-    margin:0 auto;
-    padding:17px;
-    font-size:22px;
-    background:#16a34a;
-    border-radius:15px;
-}
-
-.spin-button:disabled{
-    opacity:.5;
-}
-
-.result{
-    text-align:center;
+#result{
     margin-top:15px;
-    min-height:55px;
     padding:15px;
-    border-radius:13px;
-    background:#0b1017;
+    background:#080c12;
+    border-radius:12px;
+    text-align:center;
     font-size:20px;
     font-weight:bold;
+    min-height:55px;
     word-break:break-word;
 }
 
-.youtube-support{
-    margin:15px auto 0;
-    padding:15px;
-    max-width:500px;
-    border-radius:14px;
-    background:#11151c;
+.status{
     text-align:center;
-}
-
-.youtube-title{
-    font-size:17px;
-    font-weight:bold;
-    margin-bottom:6px;
-}
-
-.youtube-text{
-    font-size:13px;
-    color:#aaa;
-    margin-bottom:12px;
-}
-
-.youtube-button{
-    display:block;
-    width:100%;
-    padding:13px;
-    border-radius:11px;
-    background:#ff0000;
-    color:#fff;
-    text-decoration:none;
-    font-weight:bold;
-    font-size:15px;
-}
-
-.ad-card{
-    text-align:center;
-}
-
-.ad-title{
-    font-size:11px;
-    color:#777;
-    margin-bottom:8px;
-}
-
-.small{
     color:#999;
     font-size:12px;
-    margin-top:7px;
-}
-
-@media(max-width:420px){
-    h1{
-        font-size:24px;
-    }
-
-    .app{
-        padding:10px;
-    }
-
-    .card{
-        padding:12px;
-    }
+    margin-top:8px;
 }
 </style>
 </head>
@@ -296,485 +176,238 @@ input[type="file"]{
 
 <div class="app">
 
-    <h1>🎡 Spin The Wheel</h1>
+<h1>🎡 Spin The Wheel</h1>
 
-    <!-- LIST -->
-    <div class="card">
+<div class="card">
 
-        <label>Enter your list</label>
+<textarea
+id="listInput"
+placeholder="Enter names here...
 
-        <textarea
-            id="listInput"
-            placeholder="Enter one name per line...
-
-Example:
 Spider-Man
 Iron Man
 Thor
 Hulk
 Batman
 Superman"
-        ></textarea>
+></textarea>
 
-        <div class="button-row">
-            <button id="saveListBtn">💾 Save List</button>
-            <button id="loadListBtn">📂 Load List</button>
-            <button id="clearListBtn" class="danger">🗑️ Clear</button>
-        </div>
+<div class="button-row">
 
-        <div class="small">
-            You can enter names one per line or separate them with commas.
-        </div>
+<button id="saveList">
+💾 Save
+</button>
 
-    </div>
+<button id="loadList">
+📂 Load
+</button>
 
+<button id="clearList" class="danger">
+🗑️ Clear
+</button>
 
-    <!-- WHEEL -->
-    <div class="card">
+</div>
 
-        <div class="wheel-area">
-
-            <canvas id="wheel"></canvas>
-
-            <div class="pointer"></div>
-
-        </div>
-
-        <button id="spinButton" class="spin-button">
-            🎯 SPIN
-        </button>
-
-        <div id="result" class="result">
-            Add names and spin!
-        </div>
-
-    </div>
-
-
-    <!-- SETTINGS -->
-    <div class="card">
-
-        <button id="settingsButton" class="settings-button">
-            ⚙️ Settings
-        </button>
-
-        <div id="settingsPanel" class="settings-panel">
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    🎨 Wheel Colors
-                </div>
-
-                <div class="color-row">
-
-                    <input
-                        type="color"
-                        id="color1"
-                        value="#ff4757"
-                    >
-
-                    <input
-                        type="color"
-                        id="color2"
-                        value="#3742fa"
-                    >
-
-                    <input
-                        type="color"
-                        id="color3"
-                        value="#2ed573"
-                    >
-
-                    <input
-                        type="color"
-                        id="color4"
-                        value="#ffa502"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    🌈 Wheel Background
-                </div>
-
-                <input
-                    type="color"
-                    id="wheelBackground"
-                    value="#111111"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    🖥️ Page Background
-                </div>
-
-                <input
-                    type="color"
-                    id="pageBackground"
-                    value="#080b10"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    🔤 Text Color
-                </div>
-
-                <input
-                    type="color"
-                    id="textColor"
-                    value="#ffffff"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    🔠 Text Size
-                </div>
-
-                <input
-                    type="range"
-                    id="textSize"
-                    min="8"
-                    max="24"
-                    value="16"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    🟢 Border Width
-                </div>
-
-                <input
-                    type="range"
-                    id="borderWidth"
-                    min="0"
-                    max="12"
-                    value="3"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    🟢 Border Color
-                </div>
-
-                <input
-                    type="color"
-                    id="borderColor"
-                    value="#ffffff"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    👉 Pointer Color
-                </div>
-
-                <input
-                    type="color"
-                    id="pointerColor"
-                    value="#ff3b30"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    👉 Pointer Size
-                </div>
-
-                <input
-                    type="range"
-                    id="pointerSize"
-                    min="25"
-                    max="70"
-                    value="48"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    🖼️ Wheel Background Image
-                </div>
-
-                <input
-                    type="file"
-                    id="wheelImage"
-                    accept="image/*"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    👉 Custom Pointer Image
-                </div>
-
-                <input
-                    type="file"
-                    id="pointerImage"
-                    accept="image/*"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="check-row">
-
-                    <input
-                        type="checkbox"
-                        id="soundToggle"
-                        checked
-                    >
-
-                    <label
-                        for="soundToggle"
-                        style="margin:0"
-                    >
-                        🔊 Sound
-                    </label>
-
-                </div>
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    🔊 Sound Volume
-                </div>
-
-                <input
-                    type="range"
-                    id="volume"
-                    min="0"
-                    max="1"
-                    step="0.05"
-                    value="0.5"
-                >
-
-            </div>
-
-
-            <div class="setting">
-
-                <div class="setting-title">
-                    ⏱️ Spin Duration
-                </div>
-
-                <input
-                    type="range"
-                    id="spinDuration"
-                    min="2"
-                    max="12"
-                    step="0.5"
-                    value="5"
-                >
-
-                <div class="small">
-                    Shorter = faster spin
-                </div>
-
-            </div>
-
-
-            <div class="button-row">
-
-                <button id="saveSettingsBtn">
-                    💾 Save
-                </button>
-
-                <button id="loadSettingsBtn">
-                    📂 Load
-                </button>
-
-                <button id="resetSettingsBtn" class="danger">
-                    🔄 Reset
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- AD -->
-    <div class="card ad-card">
-
-        <div class="ad-title">
-            ADVERTISEMENT
-        </div>
-
-        <div id="nativeAd"></div>
-
-    </div>
-
-
-    <!-- YOUTUBE -->
-    <div class="youtube-support">
-
-        <div class="youtube-title">
-            ❤️ Enjoying Spin The Wheel?
-        </div>
-
-        <div class="youtube-text">
-            Subscribe to my YouTube channel to support me!
-        </div>
-
-        <a
-            href="https://youtube.com/@ultron-cel?si=Ml33eKON3n2Xc-TT"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="youtube-button"
-        >
-            ▶️ Subscribe to Support
-        </a>
-
-    </div>
+<div id="status" class="status">
+0 names loaded
+</div>
 
 </div>
 
 
-<!-- SOCIAL BAR -->
-<script src="https://tightslybella.com/7b/7e/f6/7b7ef61df13d8a32a4af12d958d7c561.js"></script>
+<div class="card">
+
+<div id="wheelBox">
+
+<canvas id="wheel"></canvas>
+
+<div class="pointer"></div>
+
+</div>
+
+<button id="spin" class="spin">
+🎯 SPIN
+</button>
+
+<div id="result">
+Add names and spin!
+</div>
+
+</div>
+
+
+<div class="card">
+
+<button id="settingsButton" class="settings">
+⚙️ Settings
+</button>
+
+<div id="settingsPanel" class="settings-panel">
+
+<div class="setting">
+<label>Wheel Color 1</label>
+<input type="color" id="c1" value="#ff4757">
+</div>
+
+<div class="setting">
+<label>Wheel Color 2</label>
+<input type="color" id="c2" value="#3742fa">
+</div>
+
+<div class="setting">
+<label>Wheel Color 3</label>
+<input type="color" id="c3" value="#2ed573">
+</div>
+
+<div class="setting">
+<label>Wheel Color 4</label>
+<input type="color" id="c4" value="#ffa502">
+</div>
+
+<div class="setting">
+<label>Wheel Text Color</label>
+<input type="color" id="textColor" value="#ffffff">
+</div>
+
+<div class="setting">
+<label>Border Color</label>
+<input type="color" id="borderColor" value="#ffffff">
+</div>
+
+<div class="setting">
+<label>Border Width</label>
+<input type="range" id="borderWidth" min="0" max="10" value="3">
+</div>
+
+<div class="setting">
+<label>Text Size</label>
+<input type="range" id="textSize" min="8" max="22" value="16">
+</div>
+
+<div class="setting">
+<label>Pointer Color</label>
+<input type="color" id="pointerColor" value="#ff3b30">
+</div>
+
+<div class="setting">
+<label>Spin Duration</label>
+<input type="range" id="duration" min="2" max="10" step=".5" value="5">
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 
 <script>
 
-/* =====================================================
+/* =========================
    TELEGRAM
-===================================================== */
+========================= */
 
-try{
+if(
+    window.Telegram &&
+    window.Telegram.WebApp
+){
 
-    if(window.Telegram && Telegram.WebApp){
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
 
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
-
-    }
-
-}catch(e){}
+}
 
 
-/* =====================================================
+/* =========================
    ELEMENTS
-===================================================== */
+========================= */
 
-const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
+const canvas =
+document.getElementById("wheel");
 
-const listInput = document.getElementById("listInput");
-const spinButton = document.getElementById("spinButton");
-const resultBox = document.getElementById("result");
+const ctx =
+canvas.getContext("2d");
 
-const settingsButton = document.getElementById("settingsButton");
-const settingsPanel = document.getElementById("settingsPanel");
+const input =
+document.getElementById("listInput");
+
+const spinButton =
+document.getElementById("spin");
+
+const result =
+document.getElementById("result");
+
+const status =
+document.getElementById("status");
+
+const settingsButton =
+document.getElementById("settingsButton");
+
+const settingsPanel =
+document.getElementById("settingsPanel");
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+let colors = [
+    "#ff4757",
+    "#3742fa",
+    "#2ed573",
+    "#ffa502"
+];
+
+let textColor = "#ffffff";
+
+let borderColor = "#ffffff";
+
+let borderWidth = 3;
+
+let textSize = 16;
+
+let pointerColor = "#ff3b30";
+
+let duration = 5;
+
+
+/* =========================
+   STATE
+========================= */
 
 let items = [];
+
 let rotation = 0;
+
 let spinning = false;
 
-let wheelImage = null;
-let pointerImage = null;
 
-let audioContext = null;
+/* =========================
+   CANVAS
+========================= */
 
+function resize(){
 
-/* =====================================================
-   SETTINGS
-===================================================== */
+    const size =
+        Math.min(
+            window.innerWidth * .92,
+            550
+        );
 
-let settings = {
+    const dpr =
+        window.devicePixelRatio || 1;
 
-    colors:[
-        "#ff4757",
-        "#3742fa",
-        "#2ed573",
-        "#ffa502"
-    ],
+    canvas.width =
+        size * dpr;
 
-    wheelBackground:"#111111",
+    canvas.height =
+        size * dpr;
 
-    pageBackground:"#080b10",
+    canvas.style.width =
+        size + "px";
 
-    textColor:"#ffffff",
-
-    textSize:16,
-
-    borderWidth:3,
-
-    borderColor:"#ffffff",
-
-    pointerColor:"#ff3b30",
-
-    pointerSize:48,
-
-    sound:true,
-
-    volume:.5,
-
-    spinDuration:5
-
-};
-
-
-/* =====================================================
-   CANVAS SIZE
-===================================================== */
-
-function resizeCanvas(){
-
-    const size = Math.min(
-        window.innerWidth * .92,
-        560
-    );
-
-    const dpr = window.devicePixelRatio || 1;
-
-    canvas.style.width = size + "px";
-    canvas.style.height = size + "px";
-
-    canvas.width = Math.floor(size * dpr);
-    canvas.height = Math.floor(size * dpr);
+    canvas.style.height =
+        size + "px";
 
     ctx.setTransform(
         dpr,
@@ -785,121 +418,85 @@ function resizeCanvas(){
         0
     );
 
-    drawWheel();
+    draw();
 
 }
 
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener(
+    "resize",
+    resize
+);
 
 
-/* =====================================================
-   GET LIST
-===================================================== */
+/* =========================
+   READ NAMES
+========================= */
 
-function getItems(){
+function readNames(){
 
-    const text = listInput.value.trim();
+    const text =
+        input.value.trim();
 
     if(!text){
 
-        return [];
+        items = [];
+
+        status.textContent =
+            "0 names loaded";
+
+        return;
 
     }
 
-    const result = text
+    items =
+        text
         .split(/[\n,]+/)
         .map(x => x.trim())
         .filter(x => x.length > 0);
 
-    return [...new Set(result)];
+    items =
+        [...new Set(items)];
+
+    status.textContent =
+        items.length +
+        " names loaded";
 
 }
 
 
-/* =====================================================
-   UPDATE ITEMS
-===================================================== */
+/* =========================
+   SHORT TEXT
+========================= */
 
-function updateItems(){
+function shortName(name,count){
 
-    items = getItems();
+    let max = 18;
 
-    drawWheel();
+    if(count > 20) max = 13;
+    if(count > 30) max = 10;
+    if(count > 40) max = 8;
+    if(count > 50) max = 7;
+    if(count > 70) max = 6;
+
+    if(name.length <= max){
+
+        return name;
+
+    }
+
+    return name.substring(0,max-1) + "…";
 
 }
 
 
-/* =====================================================
-   SHORTEN DISPLAY TEXT
-===================================================== */
+/* =========================
+   DRAW
+========================= */
 
-function shortText(text, count){
+function draw(){
 
-    let max;
-
-    if(count <= 10){
-        max = 18;
-    }
-    else if(count <= 20){
-        max = 14;
-    }
-    else if(count <= 30){
-        max = 11;
-    }
-    else if(count <= 40){
-        max = 9;
-    }
-    else if(count <= 50){
-        max = 8;
-    }
-    else if(count <= 70){
-        max = 7;
-    }
-    else{
-        max = 6;
-    }
-
-    if(text.length <= max){
-
-        return text;
-
-    }
-
-    return text.substring(0,max-1) + "…";
-
-}
-
-
-/* =====================================================
-   FONT SIZE
-===================================================== */
-
-function getFontSize(count){
-
-    if(count <= 10) return settings.textSize;
-
-    if(count <= 20) return Math.min(settings.textSize,17);
-
-    if(count <= 30) return Math.min(settings.textSize,15);
-
-    if(count <= 40) return Math.min(settings.textSize,13);
-
-    if(count <= 50) return Math.min(settings.textSize,11);
-
-    if(count <= 70) return Math.min(settings.textSize,10);
-
-    return Math.min(settings.textSize,9);
-
-}
-
-
-/* =====================================================
-   DRAW WHEEL
-===================================================== */
-
-function drawWheel(){
-
-    const size = canvas.clientWidth;
+    const size =
+        canvas.clientWidth;
 
     if(!size){
 
@@ -907,51 +504,23 @@ function drawWheel(){
 
     }
 
-    const center = size / 2;
+    const center =
+        size / 2;
 
-    const radius = size / 2 - 8;
+    const radius =
+        size / 2 - 8;
 
-    ctx.clearRect(0,0,size,size);
-
-    ctx.save();
-
-    /* wheel background */
-
-    ctx.beginPath();
-
-    ctx.arc(
-        center,
-        center,
-        radius,
+    ctx.clearRect(
         0,
-        Math.PI * 2
+        0,
+        size,
+        size
     );
 
-    ctx.fillStyle = settings.wheelBackground;
 
-    ctx.fill();
-
-    ctx.clip();
-
-
-    /* custom wheel image */
-
-    if(wheelImage){
-
-        ctx.drawImage(
-            wheelImage,
-            center-radius,
-            center-radius,
-            radius*2,
-            radius*2
-        );
-
-    }
-
+    /* Empty wheel */
 
     if(items.length === 0){
-
-        ctx.restore();
 
         ctx.beginPath();
 
@@ -960,22 +529,33 @@ function drawWheel(){
             center,
             radius,
             0,
-            Math.PI*2
+            Math.PI * 2
         );
 
-        ctx.lineWidth = settings.borderWidth;
+        ctx.fillStyle =
+            "#151b23";
 
-        ctx.strokeStyle = settings.borderColor;
+        ctx.fill();
+
+        ctx.strokeStyle =
+            borderColor;
+
+        ctx.lineWidth =
+            borderWidth;
 
         ctx.stroke();
 
-        ctx.fillStyle = settings.textColor;
+        ctx.fillStyle =
+            textColor;
 
-        ctx.font = "bold 18px Arial";
+        ctx.font =
+            "bold 18px Arial";
 
-        ctx.textAlign = "center";
+        ctx.textAlign =
+            "center";
 
-        ctx.textBaseline = "middle";
+        ctx.textBaseline =
+            "middle";
 
         ctx.fillText(
             "Add names",
@@ -988,12 +568,15 @@ function drawWheel(){
     }
 
 
-    const slice = Math.PI * 2 / items.length;
+    const slice =
+        Math.PI * 2 / items.length;
 
-    const fontSize = getFontSize(items.length);
 
-
-    for(let i=0; i<items.length; i++){
+    for(
+        let i=0;
+        i<items.length;
+        i++
+    ){
 
         const start =
             -Math.PI/2 +
@@ -1001,15 +584,17 @@ function drawWheel(){
             i * slice;
 
         const end =
-            start +
-            slice;
+            start + slice;
 
 
-        /* segment */
+        /* Segment */
 
         ctx.beginPath();
 
-        ctx.moveTo(center,center);
+        ctx.moveTo(
+            center,
+            center
+        );
 
         ctx.arc(
             center,
@@ -1021,34 +606,32 @@ function drawWheel(){
 
         ctx.closePath();
 
-        if(!wheelImage){
+        ctx.fillStyle =
+            colors[
+                i % colors.length
+            ];
 
-            ctx.fillStyle =
-                settings.colors[
-                    i % settings.colors.length
-                ];
-
-            ctx.fill();
-
-        }
+        ctx.fill();
 
 
-        /* segment border */
+        /* Border */
 
-        ctx.lineWidth = settings.borderWidth;
+        ctx.strokeStyle =
+            borderColor;
 
-        ctx.strokeStyle = settings.borderColor;
+        ctx.lineWidth =
+            borderWidth;
 
         ctx.stroke();
 
 
-        /* text */
+        /* Text */
 
         const middle =
             start + slice/2;
 
         const textRadius =
-            radius * .67;
+            radius * .66;
 
         const x =
             center +
@@ -1065,23 +648,41 @@ function drawWheel(){
 
         ctx.translate(x,y);
 
-        ctx.rotate(middle + Math.PI/2);
-
+        ctx.rotate(
+            middle + Math.PI/2
+        );
 
         ctx.fillStyle =
-            settings.textColor;
+            textColor;
+
+        let font =
+            textSize;
+
+        if(items.length > 30)
+            font = Math.min(font,13);
+
+        if(items.length > 50)
+            font = Math.min(font,10);
+
+        if(items.length > 70)
+            font = Math.min(font,9);
 
         ctx.font =
             "bold " +
-            fontSize +
+            font +
             "px Arial";
 
-        ctx.textAlign = "center";
+        ctx.textAlign =
+            "center";
 
-        ctx.textBaseline = "middle";
+        ctx.textBaseline =
+            "middle";
 
         ctx.fillText(
-            shortText(items[i],items.length),
+            shortName(
+                items[i],
+                items.length
+            ),
             0,
             0
         );
@@ -1091,10 +692,7 @@ function drawWheel(){
     }
 
 
-    ctx.restore();
-
-
-    /* outer border */
+    /* Outer border */
 
     ctx.beginPath();
 
@@ -1106,40 +704,481 @@ function drawWheel(){
         Math.PI*2
     );
 
-    ctx.lineWidth =
-        Math.max(2,settings.borderWidth);
-
     ctx.strokeStyle =
-        settings.borderColor;
+        borderColor;
+
+    ctx.lineWidth =
+        borderWidth;
 
     ctx.stroke();
 
 }
 
 
-/* =====================================================
-   POINTER
-===================================================== */
+/* =========================
+   SETTINGS
+========================= */
 
-function updatePointer(){
+settingsButton.addEventListener(
+    "click",
+    function(){
 
-    const pointer =
-        document.querySelector(".pointer");
+        settingsPanel.classList.toggle(
+            "show"
+        );
 
-    pointer.style.borderTopColor =
-        settings.pointerColor;
-
-    pointer.style.borderLeftWidth =
-        (settings.pointerSize * .48) + "px";
-
-    pointer.style.borderRightWidth =
-        (settings.pointerSize * .48) + "px";
-
-    pointer.style.borderTopWidth =
-        settings.pointerSize + "px";
+    }
+);
 
 
-    if(pointerImage){
+/* =========================
+   LIVE INPUT
+========================= */
 
-        pointer.style.width =
-       
+input.addEventListener(
+    "input",
+    function(){
+
+        readNames();
+
+        draw();
+
+        result.textContent =
+            items.length
+            ? items.length + " names ready!"
+            : "Add names and spin!";
+
+    }
+);
+
+
+/* =========================
+   SAVE
+========================= */
+
+document
+.getElementById("saveList")
+.addEventListener(
+    "click",
+    function(){
+
+        localStorage.setItem(
+            "spinWheelList",
+            input.value
+        );
+
+        result.textContent =
+            "✅ List saved";
+
+    }
+);
+
+
+/* =========================
+   LOAD
+========================= */
+
+document
+.getElementById("loadList")
+.addEventListener(
+    "click",
+    function(){
+
+        const saved =
+            localStorage.getItem(
+                "spinWheelList"
+            );
+
+        if(saved){
+
+            input.value =
+                saved;
+
+            readNames();
+
+            draw();
+
+            result.textContent =
+                "📂 List loaded";
+
+        }
+        else{
+
+            result.textContent =
+                "No saved list";
+
+        }
+
+    }
+);
+
+
+/* =========================
+   CLEAR
+========================= */
+
+document
+.getElementById("clearList")
+.addEventListener(
+    "click",
+    function(){
+
+        input.value = "";
+
+        items = [];
+
+        draw();
+
+        status.textContent =
+            "0 names loaded";
+
+        result.textContent =
+            "Add names and spin!";
+
+    }
+);
+
+
+/* =========================
+   SPIN
+========================= */
+
+spinButton.addEventListener(
+    "click",
+    function(){
+
+        if(spinning){
+
+            return;
+
+        }
+
+        readNames();
+
+        if(items.length < 2){
+
+            result.textContent =
+                "⚠️ Add at least 2 names.";
+
+            return;
+
+        }
+
+
+        spinning = true;
+
+        spinButton.disabled =
+            true;
+
+
+        const winner =
+            Math.floor(
+                Math.random() *
+                items.length
+            );
+
+
+        const slice =
+            Math.PI * 2 /
+            items.length;
+
+
+        /*
+           Pointer is at the TOP.
+
+           Put the center of the
+           selected segment exactly
+           under the pointer.
+        */
+
+        const target =
+            -(winner * slice)
+            - slice/2;
+
+
+        const full =
+            Math.PI * 2;
+
+
+        let current =
+            rotation % full;
+
+
+        if(current < 0){
+
+            current += full;
+
+        }
+
+
+        let difference =
+            target - current;
+
+
+        while(
+            difference < 0
+        ){
+
+            difference += full;
+
+        }
+
+
+        const extra =
+            6 +
+            Math.floor(
+                Math.random() * 3
+            );
+
+
+        const finalRotation =
+            rotation +
+            difference +
+            extra * full;
+
+
+        const startRotation =
+            rotation;
+
+
+        const startTime =
+            performance.now();
+
+
+        const totalTime =
+            duration * 1000;
+
+
+        function animate(now){
+
+            const progress =
+                Math.min(
+                    (now-startTime) /
+                    totalTime,
+                    1
+                );
+
+
+            const eased =
+                1 -
+                Math.pow(
+                    1-progress,
+                    4
+                );
+
+
+            rotation =
+                startRotation +
+                (
+                    finalRotation -
+                    startRotation
+                ) * eased;
+
+
+            draw();
+
+
+            if(progress < 1){
+
+                requestAnimationFrame(
+                    animate
+                );
+
+            }
+            else{
+
+                rotation =
+                    finalRotation;
+
+                draw();
+
+
+                result.textContent =
+                    "🎉 " +
+                    items[winner];
+
+
+                spinning =
+                    false;
+
+                spinButton.disabled =
+                    false;
+
+            }
+
+        }
+
+
+        requestAnimationFrame(
+            animate
+        );
+
+    }
+);
+
+
+/* =========================
+   SETTINGS INPUTS
+========================= */
+
+document
+.getElementById("c1")
+.addEventListener(
+    "input",
+    function(){
+
+        colors[0] =
+            this.value;
+
+        draw();
+
+    }
+);
+
+document
+.getElementById("c2")
+.addEventListener(
+    "input",
+    function(){
+
+        colors[1] =
+            this.value;
+
+        draw();
+
+    }
+);
+
+document
+.getElementById("c3")
+.addEventListener(
+    "input",
+    function(){
+
+        colors[2] =
+            this.value;
+
+        draw();
+
+    }
+);
+
+document
+.getElementById("c4")
+.addEventListener(
+    "input",
+    function(){
+
+        colors[3] =
+            this.value;
+
+        draw();
+
+    }
+);
+
+document
+.getElementById("textColor")
+.addEventListener(
+    "input",
+    function(){
+
+        textColor =
+            this.value;
+
+        draw();
+
+    }
+);
+
+document
+.getElementById("borderColor")
+.addEventListener(
+    "input",
+    function(){
+
+        borderColor =
+            this.value;
+
+        draw();
+
+    }
+);
+
+document
+.getElementById("borderWidth")
+.addEventListener(
+    "input",
+    function(){
+
+        borderWidth =
+            Number(this.value);
+
+        draw();
+
+    }
+);
+
+document
+.getElementById("textSize")
+.addEventListener(
+    "input",
+    function(){
+
+        textSize =
+            Number(this.value);
+
+        draw();
+
+    }
+);
+
+document
+.getElementById("pointerColor")
+.addEventListener(
+    "input",
+    function(){
+
+        pointerColor =
+            this.value;
+
+        document
+        .querySelector(".pointer")
+        .style.borderTopColor =
+            pointerColor;
+
+    }
+);
+
+document
+.getElementById("duration")
+.addEventListener(
+    "input",
+    function(){
+
+        duration =
+            Number(this.value);
+
+    }
+);
+
+
+/* =========================
+   START
+========================= */
+
+document
+.querySelector(".pointer")
+.style.borderTopColor =
+pointerColor;
+
+resize();
+
+readNames();
+
+draw();
+
+</script>
+
+</body>
+    </html>
